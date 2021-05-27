@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{{> header}}
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    {{> preloader}}
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {{> topbar}}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {{> navbar}}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Kesimpulan</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Kesimpulan</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                {{!-- Start of Notifikasi --}}
+                {{!-- {{#if sessionFlash.message}}
+                    <div class="alert alert-danger"> 
+                        {{sessionFlash.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{#if sessionFlash2.message}}
+                    <div class="alert alert-success"> 
+                        {{sessionFlash2.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}} --}}
+                {{!-- End of Notifikasi --}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Kesimpulan</h4>
+                            </div>
+                            <div class="card-block">
+                                {{!-- start of form pilih event --}}
+                                <form action="/tamu" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Event</h4>
+                                        <h6 class="card-subtitle"> Pilih event terlebih dahulu untuk menampilkan data kesimpulan/saran assessment</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="pilihevent" name="pilihevent" style="width: 100%" required>
+                                            <option>-- Pilih Event --</option>
+                                            {{!-- {{#each resultsAcara}}
+                                                <option value="{{ id_acara }}" {{#if ../pilihacara}}{{#compare id_acara ../pilihacara operator="=="}}selected{{/compare}}{{/if}}>{{ nama_acara }}</option>
+                                            {{/each}} --}}
+                                            <option value="1">CDC Virtual Expo 2020</option>
+                                            <option value="2">CDC Virtual Expo 2021</option>
+                                            <option value="3">Reguler</option>
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih acara --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Assessment</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- Start of tabel list acara --}}
+                                <h4 class="card-title">List Kesimpulan</h4>
+                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                                <hr>
+                                <div class="table-responsive m-t-40">
+                                    <table id="listacara" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-center">Nama Peserta</th>
+                                                <th class="text-center">Kesimpulan/Saran</th>
+                                                <th class="text-center">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-center">Nama Peserta</th>
+                                                <th class="text-center">Kesimpulan/Saran</th>
+                                                <th class="text-center">Aksi</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Nama 1</td>
+                                                    <td>Kesimpulaan .....</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Nama 2</td>
+                                                    <td>Kesimpulaan .....</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Nama 3</td>
+                                                    <td>Kesimpulaan .....</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Nama 4</td>
+                                                    <td>Kesimpulaan .....</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td>Nama 5</td>
+                                                    <td>Kesimpulaan .....</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6</td>
+                                                    <td>Nama 6</td>
+                                                    <td>Kesimpulaan .....</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>7</td>
+                                                    <td>Nama 7</td>
+                                                    <td>Kesimpulaan .....</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {{!-- end of tabel list acara --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- end of row --}}
+                {{!-- start of modal update acara --}}
+                <form action="/kelolaacara/ubah" method="post">
+                    <div class="modal fade" id="modalEditacara" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel1">Ubah Data Acara</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="modalnamaacara" class="control-label">Nama Acara:</label>
+                                        <input type="text" class="form-control modalnamaacara" id="modalnamaacara" name="modalnamaacara">
+                                        <input type="hidden" class="form-control modalidacara" id="modalidacara" name="modalidacara">
+                                        <input type="hidden" class="form-control modalstatusacara" id="modalstatusacara" name="modalstatusacara">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modaltempatacara" class="control-label">Tempat Acara:</label>
+                                        <input type="text" class="form-control modaltempatacara" id="modaltempatacara" name="modaltempatacara">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modaltanggalacara" class="control-label">Tanggal Acara:</label>
+                                        <input type="date" class="form-control modaltanggalacara" id="modaltanggalacara" name="modaltanggalacara">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modaljammulaiacara" class="control-label">Jam Mulai Acara:</label>
+                                        <input type="time" class="form-control modaljammulaiacara" id="modaljammulaiacara" name="modaljammulaiacara">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modaljamakhiracara" class="control-label">Jam Akhir Acara:</label>
+                                        <input type="time" class="form-control modaljamakhiracara" id="modaljamakhiracara" name="modaljamakhiracara">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="modalketeranganacara" class="control-label">Keterangan Acara:</label>
+                                        <input type="text" class="form-control modalketeranganacara" id="modalketeranganacara" name="modalketeranganacara">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-success">Ubah</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- end of modal update acara -->
+                <!-- start of modal delete acara -->
+                <form action="/kelolaacara/hapus" method="post">
+                    <div class="modal fade" id="modalHapusacara" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Data Acara</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <strong>Anda yakin mau menghapus data acara <label class="font-weight-bold judul"></label>?</strong>
+                                    <input type="hidden" class="form-control modalidacarahapus" id="modalidacarahapus" name="modalidacarahapus">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- end of modal delete acara -->
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-block">
+                                {{!-- start of form tambah data acara --}}
+                                <form action="/kelolaacara/tambah" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Form Input Data Acara</h4>
+                                        <hr>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Nama Acara</label>
+                                                    <input type="text" id="namaacara" name="namaacara" class="form-control" placeholder="Nama Acara" required="required">
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tempat</label>
+                                                    <input type="text" id="tempatacara" name="tempatacara" class="form-control" placeholder="Tempat Acara" required="required">
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!--/row-->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tanggal</label>
+                                                    <input type="date" id="tanggalacara" name="tanggalacara" class="form-control" placeholder="dd/mm/yyyy" required="required">
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Jam Mulai</label>
+                                                    <input type="time" id="jammulaiacara" name="jammulaiacara" class="form-control" placeholder="" required="required">
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!--/row-->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Keterangan Acara</label>
+                                                    <textarea class="form-control" id="keteranganacara" name="keteranganacara" rows="5"></textarea>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Jam Berakhir</label>
+                                                    <input type="time" id="jamakhiracara" name="jamakhiracara" class="form-control" placeholder="" required="required">
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        <!--/row-->
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Simpan</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form tambah data acara --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- end of row --}}
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {{> footer}}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    {{> plugins}}
+</body>
+
+</html>
