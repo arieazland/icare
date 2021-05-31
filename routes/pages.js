@@ -1,4 +1,5 @@
 const Express = require("express");
+const axios = require('axios');
 const Router = Express.Router();
 // const Dotenv = require("dotenv");
 // Set Moment Format engine
@@ -11,7 +12,10 @@ Moment.locale('id');
 
 /** Route for Home */
 Router.get('/', (req, res) => {
-    res.render("index");
+    emailgw = req.session.email
+    res.render("index",{
+        emailgw
+    });
 });
 
 /** Route for Login */
@@ -19,10 +23,20 @@ Router.get('/login', (req, res) => {
     res.render("login");
 });
 
-/** Route for List User */
-Router.get('/users', (req, res) => {
-    res.render("users");
-});
+/** Route for get user list */
+Router.get('/users', async (req, res, next) => { 
+    let res1 = res;
+    axios.get('http://localhost:5023/auth/userlist')
+    .then(function (res) {
+        var users = res.data;
+        res1.render('users', {
+            data: users.data
+        })
+    })
+    .catch(function (err) {
+        console.log(err);
+    })
+})
 
 /** Route for CRUD Event */
 Router.get('/event', (req, res) => {
