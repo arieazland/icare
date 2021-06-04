@@ -4,6 +4,7 @@ const authController = require("../controllers/auth");
 
 /** Router */
 Router.post('/login', authController.login);
+Router.post('/reg', authController.reg);
 // Router.get('/userlist', authController.userList);
 // Router.post('/registeradmin', authController.registerAdmin);
 // Router.post('/registerpesertaevent', authController.registerPesertaevent);

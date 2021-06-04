@@ -44,64 +44,6 @@
 <script src="/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/plugins/multiselect/js/jquery.multi-select.js"></script>
 <!-- For datatables -->
-<script src="/js/client/datatable/master.js"></script>
-<script src="/js/client/datatable/acara.js"></script>
+{{!-- <script src="/js/client/datatable/master.js"></script> --}}
 <!-- For select2 -->
 <script src="/js/client/select2/master.js"></script>
-<script>
-    $(document).ready(function(){
-        //tampilkan data ke modal acara untuk edit
-        $('#listacara').on('click','.edit',function(){
-            var idacara = $(this).data('idacara');
-            var namaacara = $(this).data('namaacara');
-            var tempatacara = $(this).data('tempatacara');
-            var tanggalacara = $(this).data('tanggalacara');
-            var jammulaiacara = $(this).data('jammulaiacara');
-            var jamakhiracara = $(this).data('jamakhiracara');
-            var keteranganacara = $(this).data('keteranganacara');
-            var statusacara = $(this).data('statusacara');
-            $('#modalEditacara').modal('show');
-            $('.modalidacara').val(idacara);
-            $('.modalnamaacara').val(namaacara);
-            $('.modaltempatacara').val(tempatacara);
-            $('.modaltanggalacara').val(tanggalacara);
-            $('.modaljammulaiacara').val(jammulaiacara);
-            $('.modaljamakhiracara').val(jamakhiracara);
-            $('.modalketeranganacara').val(keteranganacara);
-            $('.modalstatusacara').val(statusacara);
-        });
-        //tampilkan modal acara hapus record
-        $('#listacara').on('click','.delete',function(){
-            var idacara = $(this).data('idacara');
-            var namaacara = $(this).data('namaacara');
-            $('#modalHapusacara').modal('show');
-            $('.modalidacarahapus').val(idacara);
-            $('.judul').text(namaacara);
-        });
-
-        //tampilkan data ke modal tamu untuk edit
-        $('#listtamu').on('click','.edit',function(){
-            var idtamu = $(this).data('idtamu');
-            var idacara = $(this).data('idacara');
-            var namatamu = $(this).data('namatamu');
-            var alamattamu = $(this).data('alamattamu');
-            var keterangantamu = $(this).data('keterangantamu');
-            $('#modalEdittamu').modal('show');
-            $('.modalidtamu').val(idtamu);
-            $('.modalidacara').val(idacara);
-            $('.modalnamatamu').val(namatamu);
-            $('.modalalamattamu').val(alamattamu);
-            $('.modalketerangantamu').val(keterangantamu);
-        });
-        //tampilkan modal tamu hapus record
-        $('#listtamu').on('click','.delete',function(){
-            var idtamu = $(this).data('idtamu');
-            var idacara = $(this).data('idacara');
-            var namatamu = $(this).data('namatamu');
-            $('#modalHapustamu').modal('show');
-            $('.modalidtamuhapus').val(idtamu);
-            $('.modalidacarahapus').val(idacara);
-            $('.judul').text(namatamu);
-        });
-    });
-</script>

@@ -1,41 +1,56 @@
 const Express = require("express");
 const axios = require('axios');
 const Router = Express.Router();
-// const Dotenv = require("dotenv");
-// Set Moment Format engine
+const MAIN_URL = require ("../urlconfig.js");
 const Moment = require("moment");
+
 require("moment/locale/id");  // without this line it didn't work
 Moment.locale('id');
 
-// Dotenv.config({ path: './.env' });
-// const Connection = require ("../DBconnection");
-
 /** Route for Home */
 Router.get('/', (req, res) => {
-    emailgw = req.session.email
-    res.render("index",{
-        emailgw
-    });
+    if(req.session.loggedIn){
+        username = req.session.username
+        nama = req.session.nama
+        res.render("index",{
+            username, nama
+        });
+    } else {
+        // req.session.sessionFlash = {
+        //     type: 'error',
+        //     message: 'Silahkan login terlebih dahulu!'
+        // }
+        res.redirect('/login');
+    }
 });
 
 /** Route for Login */
 Router.get('/login', (req, res) => {
-    res.render("login");
+    if(req.session.loggedIn){
+        res.redirect('/');
+    } else {
+        res.render("login");
+    }
 });
 
 /** Route for get user list */
 Router.get('/users', async (req, res, next) => { 
-    let res1 = res;
-    axios.get('http://localhost:5023/auth/userlist')
-    .then(function (res) {
-        var users = res.data;
-        res1.render('users', {
-            data: users.data
+    if(req.session.loggedIn){
+        let res1 = res;
+        url =  MAIN_URL + '/userlist';
+        axios.get(url)
+        .then(function (res) {
+            var users = res.data;
+            res1.render('users', {
+                data: users.data
+            })
         })
-    })
-    .catch(function (err) {
-        console.log(err);
-    })
+        .catch(function (err) {
+            console.log(err);
+        })
+    } else {
+        res.redirect('/login');
+    }
 })
 
 /** Route for CRUD Event */
@@ -57,5 +72,12 @@ Router.get('/assessment', (req, res) => {
 Router.get('/kesimpulan', (req, res) => {
     res.render("kesimpulan");
 });
+
+/** Router for logout */
+Router.get('/logout', (req, res) =>{
+    req.session.destroy((err) => {
+        res.redirect("/login");
+    })
+})
 
 module.exports = Router;

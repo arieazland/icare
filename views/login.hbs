@@ -17,21 +17,22 @@
   <div class="login-box card">
     <div class="card-block">
       <form class="form-horizontal form-material" id="loginform" action="/auth/login" method="POST">
-        <a href="javascript:void(0)" class="text-center db"><img src="/images/favicon2.png" alt="Home" /><br/><img src="/images/logo_ecare2.png" alt="Home" /></a>  
-
+        <a href="javascript:void(0)" class="text-center db"><img src="/images/favicon2.png" alt="Home" /><br/><img src="/images/logo_ecare2.png" alt="Home" /></a>
         {{!-- Start of Notifikasi --}}
-        {{!-- {{#if sessionFlash.message}}
+        {{#if sessionFlash.message}}
+            <br>
             <div class="alert alert-danger"> 
                 {{sessionFlash.message}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>
         {{/if}}
         {{#if sessionFlash2.message}}
+            <br>
             <div class="alert alert-success"> 
                 {{sessionFlash2.message}}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
             </div>
-        {{/if}} --}}
+        {{/if}}
         {{!-- End of Notifikasi --}}
 
         <div class="form-group m-t-40">
