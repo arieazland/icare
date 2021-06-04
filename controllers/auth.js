@@ -33,26 +33,11 @@ exports.login = async (req, res, dataputs) => {
             .catch(function (err) {
                 /** get message from API */
                 var message = err.response.data.message;
-                
-                if(message === 'User anda sudah di nonaktifkan'){
-                    req.session.sessionFlash = {
-                        type: 'error',
-                        message: 'User anda sudah di nonaktifkan!'
-                    }
-                    res1.redirect("/login");
-                } else if(message === 'Email atau password salah'){
-                    req.session.sessionFlash = {
-                        type: 'error',
-                        message: 'Email atau password salah!'
-                    }
-                    res1.redirect("/login");
-                } else {
-                    req.session.sessionFlash = {
-                        type: 'error',
-                        message: 'Error please contact developer!'
-                    }
-                    res1.redirect("/login");
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message
                 }
+                res1.redirect("/login");
                 
             })
         } else {
@@ -61,7 +46,7 @@ exports.login = async (req, res, dataputs) => {
                 type: 'error',
                 message: 'Email atau password tidak boleh kosong!'
             }
-            res1.redirect("/login");
+            res.redirect("/login");
         }
     } catch (error) {
         console.log(error);
@@ -70,7 +55,7 @@ exports.login = async (req, res, dataputs) => {
             type: 'error',
             message: 'Error please contact developer!'
         }
-        res1.redirect("/login");
+        res.redirect("/login");
     }        
 };
 
@@ -78,106 +63,132 @@ exports.reg = async (req, res, dataputs) => {
     try{
         const { nama, email, password, password2, tipeakun } = req.body;
 
-        if(nama && email && password && password2 && tipeakun){
+        if(nama && email && password && password2 && tipeakun != '0'){
             if(password == password2){
                 params = {
                     nama: nama,
                     email: email,
                     password: password,
                     password2: password2,
-                  }
-                var res1 = res;
-                if(tipeakun == 'admin'){
-                    url =  MAIN_URL + '/auth/registeradmin';
-                } else if(tipeakun == 'reguler'){
-                    url =  MAIN_URL + '/auth/registerpesertareguler';
-                } else if(tipeakun == 'event'){
-                    url =  MAIN_URL + '/auth/registerpesertaevent';
-                } else if(tipeakun == 'psikolog'){
-                    url =  MAIN_URL + '/auth/registerpsikolog';
                 }
+                var res1 = res;
+                url =  MAIN_URL + '/auth/register' + tipeakun;
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
+                    var message = res.data.message;
                     req.session.sessionFlash2 = {
                         type: 'success',
-                        message: 'Penginputan Berhasil!'
+                        message: message
                     }
                     var users = res.data;
                     res1.redirect('/users');
                 })
                 .catch(function (err) {
+                    var message = err.response.data.message;
                     req.session.sessionFlash = {
                         type: 'error',
-                        message: 'Penginputan Gagal!'
+                        message: message
                     }
                     res1.redirect("/users");
                 })
-
-
-
             } else {
                 req.session.sessionFlash = {
                     type: 'error',
                     message: 'Password dan konfirmasi password tidak sama'
                 }
-                res1.redirect("/users");
+                res.redirect("/users");
             }
         } else {
             req.session.sessionFlash = {
                 type: 'error',
                 message: 'Field tidak boleh kosong!'
             }
-            res1.redirect("/users");
+            res.redirect("/users");
         }
     } catch(err){
-
+        console.log(err);
     }
 }
 
-/** Reg Psikolog Process */
-exports.regPsikolog = async (req, res, dataputs) => {
+/** Edit User */
+exports.edit = async (req, res, dataputs) => {
     try{
-        const { nama, email, password, password2 } = req.body;
-
-        if(nama && email && password && password2){
-            if(password == password2){
-                params = {
-                    nama: nama,
-                    email: email,
-                    password: password,
-                    password2: password2 
-                  }
-                var res1 = res;
-                url =  MAIN_URL + '/auth/registerpsikolog';
-                var dataputs = await axios.post(url, params)
+        const { modalid, modalnama, modalemail } = req.body;
+        if(modalid && modalemail && modalnama){
+            params = {
+                id: modalid,
+                nama: modalnama,
+                email: modalemail
+            }
+            var res1 = res;
+            url =  MAIN_URL + '/auth/edituser';
+            var dataputs = await axios.put(url, params)
                 .then(function (res) {
-                    var users = res.data;
+                    var message = res.data.message;
+                    req.session.sessionFlash2 = {
+                        type: 'success',
+                        message: message
+                    }
                     res1.redirect('/users');
                 })
                 .catch(function (err) {
+                    var message = err.response.data.message;
                     req.session.sessionFlash = {
                         type: 'error',
-                        message: 'Pengiknputan Gagaln!'
+                        message: message
                     }
                     res1.redirect("/users");
                 })
-            } else {
-                req.session.sessionFlash = {
-                    type: 'error',
-                    message: 'Password dan konfirmasi password tidak sama'
-                }
-                res1.redirect("/users");
-            }
-            
+
         } else {
             req.session.sessionFlash = {
                 type: 'error',
                 message: 'Field tidak boleh kosong!'
             }
-            res1.redirect("/users");
+            res.redirect("/users");
         }
-    } catch (error) {
 
+    } catch(err){
+        console.log(err);
+    }
+}
+
+/** Delete User */
+exports.delete = async (req, res, dataputs) => {
+    try{
+        const { modalidhapus } = req.body;
+        if(modalidhapus){
+            params = {
+                id: modalidhapus
+            }
+            var res1 = res;
+            url =  MAIN_URL + '/auth/deleteuser';
+            var dataputs = await axios.put(url, params)
+                .then(function (res) {
+                    var message = res.data.message
+                    req.session.sessionFlash2 = {
+                        type: 'success',
+                        message: message
+                    }
+                    res1.redirect('/users');
+                })
+                .catch(function (err) {
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message
+                    }
+                    res1.redirect("/users");
+                })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Field tidak boleh kosong!'
+            }
+            res.redirect("/users");
+        }
+    } catch(err){
+        console.log(err);
     }
 }
 

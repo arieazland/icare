@@ -54,8 +54,8 @@ Router.get('/users', async (req, res, next) => {
 })
 
 /** Route for CRUD Event */
-Router.get('/event', (req, res) => {
-    res.render("event");
+Router.get('/konsul', (req, res) => {
+    res.render("konsul");
 });
 
 /** Route for CRUD List Soal */

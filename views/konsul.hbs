@@ -41,10 +41,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Event</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Konsultasi</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Event</li>
+                            <li class="breadcrumb-item active">Konsultasi</li>
                         </ol>
                     </div>
                 </div>
@@ -74,25 +74,20 @@
                     <div class="col-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Form Event</h4>
+                                <h4 class="m-b-0 text-white">Form Konsultasi</h4>
                             </div>
                             <div class="card-block">
-                                {{!-- Start of tabel list acara --}}
-                                <h4 class="card-title">List Event</h4>
+                                {{!-- Start of tabel list konsul --}}
+                                <h4 class="card-title">List Konsultasi</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
                                 <hr>
                                 <div class="table-responsive m-t-40">
-                                    <table id="listacara" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="listkonsul" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
                                                 <th>Nama Acara</th>
-                                                <th>Tempat Acara</th>
                                                 <th>Tanggal Acara</th>
-                                                <th>Jam Mulai Acara</th>
-                                                <th>Jam Berakhir Acara</th>
-                                                <th>Keterangan Acara</th>
-                                                <th>Status Acara</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -100,12 +95,7 @@
                                             <tr>
                                                 <th>No.</th>
                                                 <th>Nama Acara</th>
-                                                <th>Tempat Acara</th>
                                                 <th>Tanggal Acara</th>
-                                                <th>Jam Mulai Acara</th>
-                                                <th>Jam Berakhir Acara</th>
-                                                <th>Keterangan Acara</th>
-                                                <th>Status Acara</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </tfoot>
@@ -113,13 +103,8 @@
                                             {{#each results}}
                                                 <tr>
                                                     <td>{{counter @index}}</td>
-                                                    <td>{{loud nama_acara }}</td>
-                                                    <td>{{ tempat_acara }}</td>
-                                                    <td>{{formatDate tanggal_acara }}</td>
-                                                    <td>{{formatTime waktu1_acara }}</td>
-                                                    <td>{{formatTime waktu2_acara }}</td>
-                                                    <td>{{ keterangan_acara }}</td>
-                                                    <td>{{ status_acara }}</td>
+                                                    <td>{{loud nama }}</td>
+                                                    <td>{{formatDate start }} - {{formatDate end }}</td>
                                                     <td class="text-center">
                                                         <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-idacara="{{ id_acara }}" data-namaacara="{{ nama_acara }}" data-tempatacara="{{ tempat_acara }}" data-tanggalacara="{{formatDateDefault tanggal_acara }}" data-jammulaiacara="{{ waktu1_acara }}" data-jamakhiracara="{{ waktu2_acara }}" data-keteranganacara="{{ keterangan_acara }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                         
@@ -136,47 +121,34 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                {{!-- end of tabel list acara --}}
+                                {{!-- end of tabel list konsul --}}
                             </div>
                         </div>
                     </div>
                 </div>
                 {{!-- end of row --}}
-                {{!-- start of modal update acara --}}
-                <form action="/kelolaacara/ubah" method="post">
-                    <div class="modal fade" id="modalEditacara" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                {{!-- start of modal update konsul --}}
+                <form action="" method="post">
+                    <div class="modal fade" id="modalEditkonsul" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel1">Ubah Data Acara</h4>
+                                    <h4 class="modal-title" id="exampleModalLabel1">Ubah Data konsul</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="modalnamaacara" class="control-label">Nama Acara:</label>
-                                        <input type="text" class="form-control modalnamaacara" id="modalnamaacara" name="modalnamaacara">
-                                        <input type="hidden" class="form-control modalidacara" id="modalidacara" name="modalidacara">
-                                        <input type="hidden" class="form-control modalstatusacara" id="modalstatusacara" name="modalstatusacara">
+                                        <label for="modalnamakonsul" class="control-label">Nama Acara:</label>
+                                        <input type="text" class="form-control modalnamakonsul" id="modalnamakonsul" name="modalnamakonsul">
+                                        <input type="hidden" class="form-control modalidkonsul" id="modalidkonsul" name="modalidkonsul">
                                     </div>
                                     <div class="form-group">
-                                        <label for="modaltempatacara" class="control-label">Tempat Acara:</label>
-                                        <input type="text" class="form-control modaltempatacara" id="modaltempatacara" name="modaltempatacara">
+                                        <label for="modaltanggalmulaikonsul" class="control-label">Tanggal Mulai Acara:</label>
+                                        <input type="date" class="form-control modaltanggalmulaikonsul" id="modaltanggalmulaikonsul" name="modaltanggalmulaikonsul">
                                     </div>
                                     <div class="form-group">
-                                        <label for="modaltanggalacara" class="control-label">Tanggal Acara:</label>
-                                        <input type="date" class="form-control modaltanggalacara" id="modaltanggalacara" name="modaltanggalacara">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="modaljammulaiacara" class="control-label">Jam Mulai Acara:</label>
-                                        <input type="time" class="form-control modaljammulaiacara" id="modaljammulaiacara" name="modaljammulaiacara">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="modaljamakhiracara" class="control-label">Jam Akhir Acara:</label>
-                                        <input type="time" class="form-control modaljamakhiracara" id="modaljamakhiracara" name="modaljamakhiracara">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="modalketeranganacara" class="control-label">Keterangan Acara:</label>
-                                        <input type="text" class="form-control modalketeranganacara" id="modalketeranganacara" name="modalketeranganacara">
+                                        <label for="modaltanggalberakhirkonsul" class="control-label">Tanggal Berakhir Acara:</label>
+                                        <input type="date" class="form-control modaltanggalberakhirkonsul" id="modaltanggalberakhirkonsul" name="modaltanggalberakhirkonsul">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -187,19 +159,19 @@
                         </div>
                     </div>
                 </form>
-                <!-- end of modal update acara -->
-                <!-- start of modal delete acara -->
-                <form action="/kelolaacara/hapus" method="post">
-                    <div class="modal fade" id="modalHapusacara" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                <!-- end of modal update konsul -->
+                <!-- start of modal delete konsul -->
+                <form action="" method="post">
+                    <div class="modal fade" id="modalHapuskonsul" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Data Acara</h4>
+                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Data konsultasi</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <strong>Anda yakin mau menghapus data acara <label class="font-weight-bold judul"></label>?</strong>
-                                    <input type="hidden" class="form-control modalidacarahapus" id="modalidacarahapus" name="modalidacarahapus">
+                                    <strong>Anda yakin mau menghapus data konsultasi <label class="font-weight-bold judul"></label>?</strong>
+                                    <input type="hidden" class="form-control modalidkonsulhapus" id="modalidkonsulhapus" name="modalidkonsulhapus">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
@@ -209,16 +181,16 @@
                         </div>
                     </div>
                 </form>
-                <!-- end of modal delete acara -->
+                <!-- end of modal delete konsul -->
                 {{!-- start of row --}}
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-block">
-                                {{!-- start of form tambah data acara --}}
-                                <form action="/kelolaacara/tambah" method="POST">
+                                {{!-- start of form tambah data konsul --}}
+                                <form action="" method="POST">
                                     <div class="form-body">
-                                        <h4 class="card-title">Form Input Data Acara</h4>
+                                        <h4 class="card-title">Form Input Data Konsultasi</h4>
                                         <hr>
                                         <div class="row p-t-20">
                                             <div class="col-md-6">
@@ -228,44 +200,21 @@
                                                 </div>
                                             </div>
                                             <!--/span-->
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Tempat</label>
-                                                    <input type="text" id="tempatacara" name="tempatacara" class="form-control" placeholder="Tempat Acara" required="required">
-                                                </div>
-                                            </div>
                                             <!--/span-->
                                         </div>
                                         <!--/row-->
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Tanggal</label>
-                                                    <input type="date" id="tanggalacara" name="tanggalacara" class="form-control" placeholder="dd/mm/yyyy" required="required">
+                                                    <label class="control-label">Tanggal Mulai</label>
+                                                    <input type="date" id="tanggalmulai" name="tanggalmulai" class="form-control" placeholder="dd/mm/yyyy" required="required">
                                                 </div>
                                             </div>
                                             <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Jam Mulai</label>
-                                                    <input type="time" id="jammulaiacara" name="jammulaiacara" class="form-control" placeholder="" required="required">
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                        </div>
-                                        <!--/row-->
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Keterangan Acara</label>
-                                                    <textarea class="form-control" id="keteranganacara" name="keteranganacara" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Jam Berakhir</label>
-                                                    <input type="time" id="jamakhiracara" name="jamakhiracara" class="form-control" placeholder="" required="required">
+                                                    <label class="control-label">Tanggal Berakhir</label>
+                                                    <input type="date" id="tanggalberakhir" name="tanggalberakhir" class="form-control" placeholder="dd/mm/yyyy" required="required">
                                                 </div>
                                             </div>
                                             <!--/span-->
@@ -278,7 +227,7 @@
                                         <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
                                     </div>
                                 </form>
-                                {{!-- end of form tambah data acara --}}
+                                {{!-- end of form tambah data konsul --}}
                             </div>
                         </div>
                     </div>
