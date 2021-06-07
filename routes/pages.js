@@ -58,6 +58,10 @@ Router.get('/konsul', (req, res) => {
     res.render("konsul");
 });
 
+Router.get('/partisipant', (req, res) => {
+    res.render("partisipant");
+});
+
 /** Route for CRUD List Soal */
 Router.get('/listsoal', (req, res) => {
     res.render("soal");

@@ -41,10 +41,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Konsultasi</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Partisipant</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Konsultasi</li>
+                            <li class="breadcrumb-item active">Partisipant</li>
                         </ol>
                     </div>
                 </div>
@@ -71,107 +71,125 @@
                 {{!-- End of Notifikasi --}}
                 {{!-- start of row --}}
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-lg-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Form Konsultasi</h4>
+                                <h4 class="m-b-0 text-white">Form Partisipant</h4>
                             </div>
                             <div class="card-block">
-                                {{!-- Start of tabel list konsul --}}
-                                <h4 class="card-title">List Konsultasi</h4>
+                                {{!-- start of form pilih event --}}
+                                <form action="/tamu" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Event</h4>
+                                        <h6 class="card-subtitle"> Pilih event terlebih dahulu untuk menampilkan data psikolog</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="pilihevent" name="pilihevent" style="width: 100%" required>
+                                            <option>-- Pilih Event --</option>
+                                            {{!-- {{#each resultsAcara}}
+                                                <option value="{{ id_acara }}" {{#if ../pilihacara}}{{#compare id_acara ../pilihacara operator="=="}}selected{{/compare}}{{/if}}>{{ nama_acara }}</option>
+                                            {{/each}} --}}
+                                            <option value="1">CDC Virtual Expo 2020</option>
+                                            <option value="2">CDC Virtual Expo 2021</option>
+                                            <option value="3">Reguler</option>
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih acara --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Partisipant</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- Start of tabel list partisipant --}}
+                                <h4 class="card-title">List Partisipant</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
                                 <hr>
                                 <div class="table-responsive m-t-40">
-                                    <table id="listkonsul" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="listacara" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>No.</th>
-                                                <th>Nama Acara</th>
-                                                <th>Tanggal Acara</th>
-                                                <th>Aksi</th>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-center">Nama</th>
+                                                <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
-                                                <th>No.</th>
-                                                <th>Nama Acara</th>
-                                                <th>Tanggal Acara</th>
-                                                <th>Aksi</th>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-center">Nama</th>
+                                                <th class="text-center">Aksi</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            {{#each results}}
                                                 <tr>
-                                                    <td>{{counter @index}}</td>
-                                                    <td>{{loud nama }}</td>
-                                                    <td>{{formatDate start }} - {{formatDate end }}</td>
+                                                    <td>1</td>
+                                                    <td>Amalina Salsabil, M.Psi., Psikolog</td>
                                                     <td class="text-center">
-                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-idacara="{{ id_acara }}" data-namaacara="{{ nama_acara }}" data-tempatacara="{{ tempat_acara }}" data-tanggalacara="{{formatDateDefault tanggal_acara }}" data-jammulaiacara="{{ waktu1_acara }}" data-jamakhiracara="{{ waktu2_acara }}" data-keteranganacara="{{ keterangan_acara }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-                                                        
-                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-idacara="{{ id_acara }}" data-namaacara="{{ nama_acara }}"><i class="fa fa-ban" aria-hidden="true"></i></button></a>
-
-                                                        <a href="/pencariantamu/{{ id_acara }}" target="_blank" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Pencarian Tamu" ><i class="fa fa-search" aria-hidden="true"></i></button></a>
-
-                                                        <a href="/liveattendance/{{ id_acara }}" target="_blank" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Live Attendance" ><i class="fa fa-ticket" aria-hidden="true"></i></button></a>
-
-                                                        <a href="/undian/{{ id_acara }}" target="_blank" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Doorprize" ><i class="fa fa-gift" aria-hidden="true"></i></button></a>
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus Dari Partisipant"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                                                     </td>
                                                 </tr>
-                                            {{/each}}
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Citra Sabrina, M.Psi., Psikolog</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus Dari Partisipant"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Pustika Rucita, B.A., M.Psi., Psikolog</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus Dari Partisipant"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Andi Normadiansyah, M.Psi., Psikolog., C.Ht</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus Dari Partisipant"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td>Cindy Dwi Utami, S.Psi., M.Psi</td>
+                                                    <td class="text-center">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus Dari Partisipant"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                {{!-- end of tabel list konsul --}}
+                                {{!-- end of tabel list partisipant --}}
                             </div>
                         </div>
                     </div>
                 </div>
                 {{!-- end of row --}}
-                {{!-- start of modal update konsul --}}
+                <!-- start of modal delete partisipant -->
                 <form action="" method="post">
-                    <div class="modal fade" id="modalEditkonsul" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                    <div class="modal fade" id="modalHapusacara" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel1">Ubah Data konsul</h4>
+                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Partisipant</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="modalnamakonsul" class="control-label">Nama Acara:</label>
-                                        <input type="text" class="form-control modalnamakonsul" id="modalnamakonsul" name="modalnamakonsul">
-                                        <input type="hidden" class="form-control modalidkonsul" id="modalidkonsul" name="modalidkonsul">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="modaltanggalmulaikonsul" class="control-label">Tanggal Mulai Acara:</label>
-                                        <input type="date" class="form-control modaltanggalmulaikonsul" id="modaltanggalmulaikonsul" name="modaltanggalmulaikonsul">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="modaltanggalberakhirkonsul" class="control-label">Tanggal Berakhir Acara:</label>
-                                        <input type="date" class="form-control modaltanggalberakhirkonsul" id="modaltanggalberakhirkonsul" name="modaltanggalberakhirkonsul">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-success">Ubah</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- end of modal update konsul -->
-                <!-- start of modal delete konsul -->
-                <form action="" method="post">
-                    <div class="modal fade" id="modalHapuskonsul" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Data konsultasi</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                <div class="modal-body">
-                                    <strong>Anda yakin mau menghapus data konsultasi <label class="font-weight-bold judul"></label>?</strong>
-                                    <input type="hidden" class="form-control modalidkonsulhapus" id="modalidkonsulhapus" name="modalidkonsulhapus">
+                                    <strong>Anda yakin mau menghapus partisipant berikut <label class="font-weight-bold judul"></label>?</strong>
+                                    <input type="hidden" class="form-control modalidpartisipanthapus" id="modalidpartisipanthapus" name="modalidpartisipanthapus">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
@@ -181,26 +199,19 @@
                         </div>
                     </div>
                 </form>
-                <!-- end of modal delete konsul -->
+                <!-- end of modal delete partisipant -->
                 {{!-- start of row --}}
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-block">
-                                {{!-- start of form tambah data konsul --}}
+                                {{!-- start of form tambah partisipant --}}
                                 <form action="" method="POST">
                                     <div class="form-body">
-                                        <h4 class="card-title">Form Input Data Konsultasi</h4>
+                                        <h4 class="card-title">Form Input Partisipant</h4>
                                         <hr>
                                         <div class="row p-t-20">
                                             <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">Nama Acara</label>
-                                                    <input type="text" id="namaacara" name="namaacara" class="form-control" placeholder="Nama Acara" required="required">
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                            {{!-- <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Psikolog</label>
                                                     <select class="select2 m-b-10 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder=" Pilih Psikolog">
@@ -219,25 +230,7 @@
                                                         <option value="ND">North Dakota</option>
                                                     </select>
                                                 </div>
-                                            </div> --}}
-                                            <!--/span-->
-                                        </div>
-                                        <!--/row-->
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Tanggal Mulai</label>
-                                                    <input type="date" id="tanggalmulai" name="tanggalmulai" class="form-control" placeholder="dd/mm/yyyy" required="required">
-                                                </div>
                                             </div>
-                                            <!--/span-->
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Tanggal Berakhir</label>
-                                                    <input type="date" id="tanggalberakhir" name="tanggalberakhir" class="form-control" placeholder="dd/mm/yyyy" required="required">
-                                                </div>
-                                            </div>
-                                            <!--/span-->
                                         </div>
                                         <!--/row-->
                                     </div>
@@ -247,7 +240,7 @@
                                         <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
                                     </div>
                                 </form>
-                                {{!-- end of form tambah data konsul --}}
+                                {{!-- end of form tambah partisipant --}}
                             </div>
                         </div>
                     </div>
