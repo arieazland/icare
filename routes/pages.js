@@ -34,7 +34,7 @@ Router.get('/login', (req, res) => {
 });
 
 /** Route for get user list */
-Router.get('/users', async (req, res, next) => { 
+Router.get('/users', async (req, res) => { 
     if(req.session.loggedIn){
         let res1 = res;
         url =  MAIN_URL + '/userlist';
@@ -46,17 +46,47 @@ Router.get('/users', async (req, res, next) => {
             })
         })
         .catch(function (err) {
-            console.log(err);
+            // console.log(err);
+            var message = err.response.data.message;
+            req.session.sessionFlash = {
+                type: 'error',
+                message: message
+            }
+            res1.redirect("/users");
         })
     } else {
         res.redirect('/login');
     }
 })
 
-/** Route for CRUD Event */
-Router.get('/konsul', (req, res) => {
-    res.render("konsul");
-});
+/** Route for get Konsul/Event list*/
+// Router.get('/konsul', (req, res) => {
+//     res.render("konsul");
+// });
+Router.get('/konsul', async (req, res) => { 
+    if(req.session.loggedIn){
+        let res1 = res;
+        url =  MAIN_URL + '/konsullist';
+        axios.get(url)
+        .then(function (res) {
+            var konsul = res.data;
+            res1.render('konsul', {
+                data: konsul.data
+            })
+        })
+        .catch(function (err) {
+            // console.log(err);
+            var message = err.response.data.message;
+            req.session.sessionFlash = {
+                type: 'error',
+                message: message
+            }
+            res1.redirect("/konsul");
+        })
+    } else {
+        res.redirect('/login');
+    }
+})
 
 Router.get('/partisipant', (req, res) => {
     res.render("partisipant");

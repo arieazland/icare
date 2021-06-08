@@ -88,6 +88,7 @@
                                                 <th>No.</th>
                                                 <th>Nama Acara</th>
                                                 <th>Tanggal Acara</th>
+                                                <th>Status</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -96,25 +97,21 @@
                                                 <th>No.</th>
                                                 <th>Nama Acara</th>
                                                 <th>Tanggal Acara</th>
+                                                <th>Status</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            {{#each results}}
+                                            {{#each data}}
                                                 <tr>
                                                     <td>{{counter @index}}</td>
                                                     <td>{{loud nama }}</td>
                                                     <td>{{formatDate start }} - {{formatDate end }}</td>
-                                                    <td class="text-center">
-                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-idacara="{{ id_acara }}" data-namaacara="{{ nama_acara }}" data-tempatacara="{{ tempat_acara }}" data-tanggalacara="{{formatDateDefault tanggal_acara }}" data-jammulaiacara="{{ waktu1_acara }}" data-jamakhiracara="{{ waktu2_acara }}" data-keteranganacara="{{ keterangan_acara }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                    <td>{{loud status_consult }}</td>
+                                                    <td class="">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-id="{{ id }}" data-nama="{{ nama }}" data-tanggal1="{{formatDateDefault start }}" data-tanggal2="{{ end }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                         
-                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-idacara="{{ id_acara }}" data-namaacara="{{ nama_acara }}"><i class="fa fa-ban" aria-hidden="true"></i></button></a>
-
-                                                        <a href="/pencariantamu/{{ id_acara }}" target="_blank" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Pencarian Tamu" ><i class="fa fa-search" aria-hidden="true"></i></button></a>
-
-                                                        <a href="/liveattendance/{{ id_acara }}" target="_blank" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Live Attendance" ><i class="fa fa-ticket" aria-hidden="true"></i></button></a>
-
-                                                        <a href="/undian/{{ id_acara }}" target="_blank" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Doorprize" ><i class="fa fa-gift" aria-hidden="true"></i></button></a>
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ id }}" data-nama="{{ nama }}"><i class="fa fa-ban" aria-hidden="true"></i></button></a>
                                                     </td>
                                                 </tr>
                                             {{/each}}
