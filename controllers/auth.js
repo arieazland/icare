@@ -11,8 +11,6 @@ exports.login = async (req, res, dataputs) => {
         const { email, password } = req.body;
 
         if(email && password){
-            const { email, password } = req.body;
-            
             params = {
                 email: email,
                 password: password

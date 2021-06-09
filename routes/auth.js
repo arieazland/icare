@@ -7,13 +7,5 @@ Router.post('/login', authController.login);
 Router.post('/reg', authController.reg);
 Router.post('/edit', authController.edit);
 Router.post('/delete', authController.delete);
-// Router.get('/userlist', authController.userList);
-// Router.post('/registeradmin', authController.registerAdmin);
-// Router.post('/registerpesertaevent', authController.registerPesertaevent);
-// Router.post('/registerpesertareguler', authController.registerPesertareguler);
-// Router.post('/registerkonsultan', authController.registerKonsultan);
-// Router.post('/registerpsikolog', authController.registerPsikolog);
-// Router.put('/edit', authController.edit);
-// Router.delete('/deleteuser', authController.deleteUser);
 
 module.exports = Router;

@@ -56,7 +56,7 @@
                 <!-- ============================================================== -->
                 <!-- Row -->
                 {{!-- Start of Notifikasi --}}
-                {{!-- {{#if sessionFlash.message}}
+                {{#if sessionFlash.message}}
                     <div class="alert alert-danger"> 
                         {{sessionFlash.message}}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
@@ -67,7 +67,7 @@
                         {{sessionFlash2.message}}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
                     </div>
-                {{/if}} --}}
+                {{/if}}
                 {{!-- End of Notifikasi --}}
                 {{!-- start of row --}}
                 <div class="row">
@@ -82,7 +82,7 @@
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
                                 <hr>
                                 <div class="table-responsive m-t-40">
-                                    <table id="listkonsul" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="listKonsul" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
@@ -109,7 +109,7 @@
                                                     <td>{{formatDate start }} - {{formatDate end }}</td>
                                                     <td>{{loud status_consult }}</td>
                                                     <td class="">
-                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-id="{{ id }}" data-nama="{{ nama }}" data-tanggal1="{{formatDateDefault start }}" data-tanggal2="{{ end }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-id="{{ id }}" data-nama="{{ nama }}" data-tanggalmulai="{{formatDateDefault start }}" data-tanggalberakhir="{{formatDateDefault end }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                         
                                                         <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ id }}" data-nama="{{ nama }}"><i class="fa fa-ban" aria-hidden="true"></i></button></a>
                                                     </td>
@@ -125,7 +125,7 @@
                 </div>
                 {{!-- end of row --}}
                 {{!-- start of modal update konsul --}}
-                <form action="" method="post">
+                <form action="/konsultasi/edit" method="post">
                     <div class="modal fade" id="modalEditkonsul" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -158,7 +158,7 @@
                 </form>
                 <!-- end of modal update konsul -->
                 <!-- start of modal delete konsul -->
-                <form action="" method="post">
+                <form action="/konsultasi/delete" method="post">
                     <div class="modal fade" id="modalHapuskonsul" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -167,7 +167,7 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <strong>Anda yakin mau menghapus data konsultasi <label class="font-weight-bold judul"></label>?</strong>
+                                    <strong>Anda yakin mau menghapus konsultasi <label class="font-weight-bold judul"></label>?</strong>
                                     <input type="hidden" class="form-control modalidkonsulhapus" id="modalidkonsulhapus" name="modalidkonsulhapus">
                                 </div>
                                 <div class="modal-footer">
@@ -185,7 +185,7 @@
                         <div class="card">
                             <div class="card-block">
                                 {{!-- start of form tambah data konsul --}}
-                                <form action="" method="POST">
+                                <form action="/konsultasi/input" method="POST">
                                     <div class="form-body">
                                         <h4 class="card-title">Form Input Data Konsultasi</h4>
                                         <hr>
@@ -193,31 +193,9 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Nama Acara</label>
-                                                    <input type="text" id="namaacara" name="namaacara" class="form-control" placeholder="Nama Acara" required="required">
+                                                    <input type="text" id="namakonsultasi" name="namakonsultasi" class="form-control" placeholder="Nama Acara" required="required">
                                                 </div>
                                             </div>
-                                            <!--/span-->
-                                            {{!-- <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Psikolog</label>
-                                                    <select class="select2 m-b-10 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder=" Pilih Psikolog">
-                                                        <option value="AK">Alaska</option>
-                                                        <option value="HI">Hawaii</option>
-                                                        <option value="CA">California</option>
-                                                        <option value="NV">Nevada</option>
-                                                        <option value="OR">Oregon</option>
-                                                        <option value="WA">Washington</option>
-                                                        <option value="AZ">Arizona</option>
-                                                        <option value="CO">Colorado</option>
-                                                        <option value="ID">Idaho</option>
-                                                        <option value="MT">Montana</option>
-                                                        <option value="NE">Nebraska</option>
-                                                        <option value="NM">New Mexico</option>
-                                                        <option value="ND">North Dakota</option>
-                                                    </select>
-                                                </div>
-                                            </div> --}}
-                                            <!--/span-->
                                         </div>
                                         <!--/row-->
                                         <div class="row">
@@ -231,7 +209,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Tanggal Berakhir</label>
-                                                    <input type="date" id="tanggalberakhir" name="tanggalberakhir" class="form-control" placeholder="dd/mm/yyyy" required="required">
+                                                    <input type="date" id="tanggalakhir" name="tanggalakhir" class="form-control" placeholder="dd/mm/yyyy" required="required">
                                                 </div>
                                             </div>
                                             <!--/span-->
@@ -284,6 +262,8 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     {{> plugins}}
+    <script src="/js/client/datatable/konsul.js"></script>
+    <script src="/js/client/modal/konsul.js"></script>
 </body>
 
 </html>

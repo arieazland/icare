@@ -60,9 +60,6 @@ Router.get('/users', async (req, res) => {
 })
 
 /** Route for get Konsul/Event list*/
-// Router.get('/konsul', (req, res) => {
-//     res.render("konsul");
-// });
 Router.get('/konsul', async (req, res) => { 
     if(req.session.loggedIn){
         let res1 = res;
