@@ -1,3 +1,10 @@
-var MAIN_URL = 'http://localhost:5023';
+var os = require('os');
+var MAIN_URL = null;
+
+if(os.hostname().indexOf("local") > -1){
+    var MAIN_URL = 'http://localhost:5023';
+}else{
+    var MAIN_URL = '';
+}
 
 module.exports = MAIN_URL;
