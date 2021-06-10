@@ -108,6 +108,7 @@ Hbs.registerHelper('compare', function(lvalue, rvalue, options) {
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 app.use('/konsultasi', require('./routes/konsultasi'));
+app.use('/partisipant', require('./routes/partisipant'));
 
 /** router for index */
 // app.get('/', (req, res) => {

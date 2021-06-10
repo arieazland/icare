@@ -86,7 +86,85 @@ Router.get('/konsul', async (req, res) => {
 })
 
 Router.get('/partisipant', (req, res) => {
-    res.render("partisipant");
+    if(req.session.loggedIn){
+        let res1 = res;
+        url =  MAIN_URL + '/konsullist';
+        axios.get(url)
+        .then(function (res) {
+            var konsul = res.data;
+            res1.render('partisipant', {
+                datakonsul: konsul.data
+            })
+        })
+        .catch(function (err) {
+            // console.log(err);
+            var message = err.response.data.message;
+            req.session.sessionFlash = {
+                type: 'error',
+                message: message
+            }
+            res1.redirect("/partisipant");
+        })
+    } else {
+        res.redirect('/login');
+    }
+});
+
+Router.post('/partisipant', async (req, res, dataputs) => {
+    if(req.session.loggedIn){
+        
+        const { selectkonsul } = req.body;
+
+        if( selectkonsul ){
+            if(selectkonsul == "-- Pilih Konsultasi --"){
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
+                }
+                res.redirect("/partisipant");
+            } else {
+                /** get data konsul berdasarkan id yang di pilih */
+                params = {
+                    selectkonsul: selectkonsul,
+                }
+                let res1 = res;
+                url =  MAIN_URL + '/partisipant';
+                var dataputs = await axios.post(url, params)
+                .then(function (res) {
+                    var partisipant = res.data.results;
+                    var datakonsul = res.data.konsul;
+                    var pilihkonsul = res.data.pilihkonsul;
+                    var psikolog = res.data.psikolog;
+                    var selectkonsul = res.data.selectkonsul;
+                    res1.render('partisipant', {
+                        partisipant: partisipant,
+                        datakonsul: datakonsul,
+                        pilihkonsul: pilihkonsul,
+                        psikolog: psikolog,
+                        selectkonsul: selectkonsul
+                    })
+                })
+                .catch(function (err) {
+                    // console.log(err.response.data)
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Error, please contact developer'
+                    }
+                    res1.redirect("/partisipant");
+                })
+            }
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Field tidak boleh kosong'
+            }
+            res1.redirect("/partisipant");
+        }
+
+    } else {
+        res.redirect('/login');
+    }
 });
 
 /** Route for CRUD List Soal */
