@@ -186,17 +186,23 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Psikolog</label>
-                                                    <select class="select2 m-b-10 select2-multiple" id="selectpartisipant[]" name="selectpartisipant[]" style="width: 100%" multiple="multiple" data-placeholder=" Pilih Psikolog">
+                                                    <select class="select2" id="selectpartisipant" name="selectpartisipant" style="width: 100%" required>
+                                                        <option>-- Pilih Psikolog --</option>
                                                         {{#each psikolog}}
                                                             <option value="{{ id }}">{{ nama }}</option>
                                                         {{/each}}
                                                     </select>
+                                                    {{!-- <select class="select2 m-b-10 select2-multiple" id="selectpartisipant[]" name="selectpartisipant[]" style="width: 100%" multiple="multiple" data-placeholder=" Pilih Psikolog">
+                                                        {{#each psikolog}}
+                                                            <option value="{{ id }}">{{ nama }}</option>
+                                                        {{/each}}
+                                                    </select> --}}
                                                 </div>
                                             </div>
                                         </div>
                                         <!--/row-->
                                     </div>
-                                    <hr>
+                                    
                                     <div class="form-actions text-right">
                                         <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Simpan</button>
                                         <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
