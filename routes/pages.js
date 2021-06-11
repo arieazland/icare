@@ -85,26 +85,67 @@ Router.get('/konsul', async (req, res) => {
     }
 })
 
-Router.get('/partisipant', (req, res) => {
+Router.get('/partisipant', async (req, res) => {
     if(req.session.loggedIn){
-        let res1 = res;
-        url =  MAIN_URL + '/konsullist';
-        axios.get(url)
-        .then(function (res) {
-            var konsul = res.data;
-            res1.render('partisipant', {
-                datakonsul: konsul.data
-            })
-        })
-        .catch(function (err) {
-            // console.log(err);
-            var message = err.response.data.message;
-            req.session.sessionFlash = {
-                type: 'error',
-                message: message
+        if(req.session.idkonsulinput != null){
+            /** get data konsul berdasarkan id yang di pilih */
+            params = {
+                selectkonsul: req.session.idkonsulinput,
             }
-            res1.redirect("/partisipant");
-        })
+            let res1 = res;
+            url =  MAIN_URL + '/partisipant';
+            var dataputs = await axios.post(url, params)
+            .then(function (res) {
+                req.session.sessionFlash2 = {
+                    type: 'success',
+                    message: 'User berhasil didaftarkan'
+                }
+                var partisipant = res.data.results;
+                var datakonsul = res.data.konsul;
+                var pilihkonsul = res.data.pilihkonsul;
+                var psikolog = res.data.psikolog;
+                var selectkonsul = res.data.selectkonsul;
+                res1.render('partisipant', {
+                    partisipant: partisipant,
+                    datakonsul: datakonsul,
+                    pilihkonsul: pilihkonsul,
+                    psikolog: psikolog,
+                    selectkonsul: selectkonsul
+                })
+                req.session.idkonsul = null
+            })
+            .catch(function (err) {
+                // console.log(err.response.data)
+                // var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Error, please contact developer'
+                }
+                res1.redirect("/partisipant");
+                req.session.idkonsul = null
+            })
+
+        } else {
+            
+            let res1 = res;
+            url =  MAIN_URL + '/konsullist';
+            axios.get(url)
+            .then(function (res) {
+                var konsul = res.data;
+                res1.render('partisipant', {
+                    datakonsul: konsul.data
+                })
+            })
+            .catch(function (err) {
+                // console.log(err);
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Error, please contact developer'
+                }
+                res1.redirect("/partisipant");
+            })
+
+        }
     } else {
         res.redirect('/login');
     }
@@ -146,7 +187,7 @@ Router.post('/partisipant', async (req, res, dataputs) => {
                 })
                 .catch(function (err) {
                     // console.log(err.response.data)
-                    var message = err.response.data.message;
+                    // var message = err.response.data.message;
                     req.session.sessionFlash = {
                         type: 'error',
                         message: 'Error, please contact developer'

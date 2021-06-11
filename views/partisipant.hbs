@@ -178,7 +178,7 @@
                         <div class="card">
                             <div class="card-block">
                                 {{!-- start of form tambah partisipant --}}
-                                <form action="/partisipant/insert" method="POST">
+                                <form action="/partisipant/input" method="POST">
                                     <div class="form-body">
                                         <h4 class="card-title">Form Input Partisipant</h4>
                                         <hr>
@@ -192,6 +192,7 @@
                                                             <option value="{{ id }}">{{ nama }}</option>
                                                         {{/each}}
                                                     </select>
+                                                    <input type="hidden" class="form-control selectkonsul" id="selectkonsul" name="selectkonsul" value="{{ selectkonsul }}">
                                                     {{!-- <select class="select2 m-b-10 select2-multiple" id="selectpartisipant[]" name="selectpartisipant[]" style="width: 100%" multiple="multiple" data-placeholder=" Pilih Psikolog">
                                                         {{#each psikolog}}
                                                             <option value="{{ id }}">{{ nama }}</option>
