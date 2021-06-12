@@ -85,6 +85,7 @@ Router.get('/konsul', async (req, res) => {
     }
 })
 
+/** Route for get partisipant list*/
 Router.get('/partisipant', async (req, res) => {
     if(req.session.loggedIn){
         if(req.session.idkonsulinput != null){
@@ -151,6 +152,7 @@ Router.get('/partisipant', async (req, res) => {
     }
 });
 
+/** Route for get partisipant list*/
 Router.post('/partisipant', async (req, res, dataputs) => {
     if(req.session.loggedIn){
         
