@@ -366,6 +366,11 @@ Router.post('/soal', async (req, res, dataputs) => {
     }
 });
 
+/** Route for CRUD Jawab */
+Router.get('/jawab', (req, res) => {
+    res.render("jawab");
+});
+
 /** Route for CRUD Assessment */
 Router.get('/assessment', (req, res) => {
     res.render("assessment");
