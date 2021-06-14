@@ -4,6 +4,6 @@ const partisipantController = require("../controllers/partisipant");
 
 /** Router */
 Router.post('/input', partisipantController.input);
-// Router.post('/delete', partisipantController.delete);
+Router.post('/delete', partisipantController.delete);
 
 module.exports = Router;

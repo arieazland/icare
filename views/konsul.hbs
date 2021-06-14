@@ -89,7 +89,7 @@
                                                 <th>Nama Acara</th>
                                                 <th>Tanggal Acara</th>
                                                 <th>Status</th>
-                                                <th>Aksi</th>
+                                                <th class="notexport">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -98,7 +98,7 @@
                                                 <th>Nama Acara</th>
                                                 <th>Tanggal Acara</th>
                                                 <th>Status</th>
-                                                <th>Aksi</th>
+                                                <th class="notexport">Aksi</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -108,7 +108,7 @@
                                                     <td>{{loud nama }}</td>
                                                     <td>{{formatDate start }} - {{formatDate end }}</td>
                                                     <td>{{loud status_consult }}</td>
-                                                    <td class="">
+                                                    <td class="notexport">
                                                         <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-id="{{ id }}" data-nama="{{ nama }}" data-tanggalmulai="{{formatDateDefault start }}" data-tanggalberakhir="{{formatDateDefault end }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                         
                                                         <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ id }}" data-nama="{{ nama }}"><i class="fa fa-ban" aria-hidden="true"></i></button></a>

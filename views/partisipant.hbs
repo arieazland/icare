@@ -116,19 +116,19 @@
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
                                 <hr>
                                 <div class="table-responsive m-t-40">
-                                    <table id="listacara" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="listPartisipant" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No.</th>
                                                 <th class="text-center">Nama</th>
-                                                <th class="text-center">Aksi</th>
+                                                <th class="text-center notexport">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th class="text-center">No.</th>
                                                 <th class="text-center">Nama</th>
-                                                <th class="text-center">Aksi</th>
+                                                <th class="text-center notexport">Aksi</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
@@ -136,8 +136,8 @@
                                                 <tr>
                                                     <td class="text-center">{{counter @index}}</td>
                                                     <td>{{ namauser }}</td>
-                                                    <td class="text-center">
-                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus Dari Partisipant"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    <td class="text-center notexport">
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus Dari Partisipant" data-id="{{ idca }}" data-nama="{{ namauser }}"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                                                     </td>
                                                 </tr>
                                             {{/each}}
@@ -151,8 +151,8 @@
                 </div>
                 {{!-- end of row --}}
                 <!-- start of modal delete partisipant -->
-                <form action="" method="post">
-                    <div class="modal fade" id="modalHapusacara" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                <form action="/partisipant/delete" method="post">
+                    <div class="modal fade" id="modalHapuspartisipant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -162,6 +162,7 @@
                                 <div class="modal-body">
                                     <strong>Anda yakin mau menghapus partisipant berikut <label class="font-weight-bold judul"></label>?</strong>
                                     <input type="hidden" class="form-control modalidpartisipanthapus" id="modalidpartisipanthapus" name="modalidpartisipanthapus">
+                                    <input type="hidden" class="form-control selectkonsul" id="selectkonsul" name="selectkonsul" value="{{ selectkonsul }}">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
@@ -250,6 +251,8 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     {{> plugins}}
+    <script src="/js/client/datatable/partisipant.js"></script>
+    <script src="/js/client/modal/partisipant.js"></script>
 </body>
 
 </html>
