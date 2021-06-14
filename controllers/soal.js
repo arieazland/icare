@@ -15,7 +15,7 @@ exports.input = async (req, res, dataputs) => {
                 idkonsul: selectkonsul
             }
             var res1 = res;
-            url =  MAIN_URL + '/soal/registersoal';
+            url =  MAIN_URL + '/soal/registersoalmultiple';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 req.session.idkonsulinput = res.data.idkonsul;
