@@ -7,14 +7,47 @@ const Moment = require("moment");
 require("moment/locale/id");  // without this line it didn't work
 Moment.locale('id');
 
+/** temp */
+Router.get('/assessmentuser', (req, res) => {
+    res.render("assessmentuser");
+});
+
+Router.get('/assessmentpsikolog', (req, res) => {
+    res.render("assessmentpsikolog");
+});
+
+Router.get('/kesimpulanpsikolog', (req, res) => {
+    res.render("kesimpulanpsikolog");
+});
+
+Router.get('/hasilaseessment', (req, res) => {
+    res.render("hasilassessment");
+});
+/** end of temp */
+
 /** Route for Home */
 Router.get('/', (req, res) => {
     if(req.session.loggedIn){
         username = req.session.username
         nama = req.session.nama
-        res.render("index",{
-            username, nama
-        });
+        tipe = req.session.type
+        if(tipe === 'peserta' || tipe === 'peserta_event'){
+            /** login page di arhkan ke page user */
+            res.render("assessmentuser",{
+                username, nama
+            });
+        } else if(tipe === 'psikologis'){
+            /** login page di arhkan ke page psikolog */
+            res.render("listsoalpsikolog",{
+                username, nama
+            });
+        } else if(tipe === 'admin'){
+            /** login page di arhkan ke page admin */
+            res.render("index",{
+                username, nama
+            });
+        }
+        
     } else {
         // req.session.sessionFlash = {
         //     type: 'error',
@@ -202,7 +235,7 @@ Router.post('/partisipant', async (req, res, dataputs) => {
                 type: 'error',
                 message: 'Field tidak boleh kosong'
             }
-            res1.redirect("/partisipant");
+            res.redirect("/partisipant");
         }
 
     } else {
@@ -210,9 +243,127 @@ Router.post('/partisipant', async (req, res, dataputs) => {
     }
 });
 
+
+
 /** Route for CRUD List Soal */
-Router.get('/listsoal', (req, res) => {
-    res.render("soal");
+Router.get('/soal', async (req, res) => {
+    if(req.session.loggedIn){
+        if(req.session.idkonsulinput != null){
+            /** get data konsul berdasarkan id yang di pilih */
+            params = {
+                selectkonsul: req.session.idkonsulinput,
+            }
+            let res1 = res;
+            url =  MAIN_URL + '/listsoal';
+            var dataputs = await axios.post(url, params)
+            .then(function (res) {
+                req.session.sessionFlash2 = {
+                    type: 'success',
+                    message: 'Pertanyaan berhasil dibuat'
+                }
+                var pertanyaan = res.data.results;
+                var datakonsul = res.data.konsul;
+                var pilihkonsul = res.data.pilihkonsul;
+                var selectkonsul = res.data.selectkonsul;
+                res1.render('soal', {
+                    pertanyaan: pertanyaan,
+                    datakonsul: datakonsul,
+                    pilihkonsul: pilihkonsul,
+                    selectkonsul: selectkonsul
+                })
+                req.session.idkonsul = null
+            })
+            .catch(function (err) {
+                // console.log(err.response.data)
+                // var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Error, please contact developer'
+                }
+                res1.redirect("/soal");
+                req.session.idkonsul = null
+            })
+
+        } else {
+            
+            let res1 = res;
+            url =  MAIN_URL + '/konsullist';
+            axios.get(url)
+            .then(function (res) {
+                var konsul = res.data;
+                res1.render('soal', {
+                    datakonsul: konsul.data
+                })
+            })
+            .catch(function (err) {
+                // console.log(err);
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Error, please contact developer'
+                }
+                res.redirect("/soal");
+            })
+
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
+
+/** Route for CRUD List Soal */
+Router.post('/soal', async (req, res, dataputs) => {
+    if(req.session.loggedIn){
+        
+        const { selectkonsul } = req.body;
+
+        if( selectkonsul ){
+            if(selectkonsul == "-- Pilih Konsultasi --"){
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
+                }
+                res.redirect("/soal");
+            } else {
+                /** get data konsul berdasarkan id yang di pilih */
+                params = {
+                    selectkonsul: selectkonsul,
+                }
+                let res1 = res;
+                url =  MAIN_URL + '/listsoal';
+                var dataputs = await axios.post(url, params)
+                .then(function (res) {
+                    var pertanyaan = res.data.results;
+                    var datakonsul = res.data.konsul;
+                    var pilihkonsul = res.data.pilihkonsul;
+                    var selectkonsul = res.data.selectkonsul;
+                    res1.render('soal', {
+                        pertanyaan: pertanyaan,
+                        datakonsul: datakonsul,
+                        pilihkonsul: pilihkonsul,
+                        selectkonsul: selectkonsul
+                    })
+                })
+                .catch(function (err) {
+                    // console.log(err.response.data)
+                    // var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Error, please contact developer'
+                    }
+                    res1.redirect("/soal");
+                })
+            }
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
+            }
+            res.redirect("/soal");
+        }
+
+    } else {
+        res.redirect('/login');
+    }
 });
 
 /** Route for CRUD Assessment */

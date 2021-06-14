@@ -25,6 +25,7 @@ exports.login = async (req, res, dataputs) => {
                 req.session.userdata = res.data.data;
                 req.session.nama = res.data.data[0].nama;
                 req.session.username = res.data.data[0].username;
+                req.session.type = res.data.data[0].account_type;
                 var users = res.data;
                 res1.redirect('/');
             })

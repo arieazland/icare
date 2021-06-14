@@ -109,6 +109,7 @@ app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/partisipant', require('./routes/partisipant'));
+app.use('/soal', require('./routes/soal'));
 
 /** router for index */
 // app.get('/', (req, res) => {
