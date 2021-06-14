@@ -213,17 +213,16 @@
                                         <hr>
                                         <div class="row p-t-20">
                                             <div class="col-md-12">
-                                                <div class="form-group">
+                                                <div class="form-group" id="form-group">
                                                     <label class="control-label">Pertanyaan:</label>
-                                                    <input type="text" id="pertanyaan" name="pertanyaan" class="form-control" placeholder="Pertanyaan" required="required">
-                                                    <input type="text" id="pertanyaan" name="pertanyaan" class="form-control" placeholder="Pertanyaan" required="required">
-                                                    <input type="text" id="pertanyaan" name="pertanyaan" class="form-control" placeholder="Pertanyaan" required="required">
-                                                    <input type="text" id="pertanyaan" name="pertanyaan" class="form-control" placeholder="Pertanyaan" required="required">
-                                                    <input type="text" id="pertanyaan" name="pertanyaan" class="form-control" placeholder="Pertanyaan" required="required">
+                                                    <div class="form-group" id="pertanyaan">
+                                                        <input type="text" id="pertanyaan" name="pertanyaan" class="form-control" placeholder="Pertanyaan" required="required">
+                                                    </div>
                                                     <input type="hidden" id="selectkonsul" name="selectkonsul" class="form-control" value="{{selectkonsul}}" required="required">
                                                 </div>
                                             </div>
                                         </div>
+                                        <button type="button" class="btn btn-outline-primary" id="tambahpertanyaan" name="tambahpertanyaan">Tambah Pertanyaan</button>
                                         <!--/row-->
                                     </div>
                                     <hr>
@@ -274,7 +273,8 @@
     <!-- ============================================================== -->
     {{> plugins}}
     <script src="/js/client/datatable/pertanyaan.js"></script>
-    <script src="/js/client/modal/soal.js"></script>
+    <script src="/js/client/modal/soal.js"></script>\
+    <script src="/js/client/adddiv/soal.js"></script>
 </body>
 
 </html>
