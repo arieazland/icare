@@ -123,9 +123,16 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="control-label">Jawaban:</label>
-                                                        <textarea class="form-control" name="jawaban" id="jawaban" rows="10">{{jawaban}}</textarea>
+                                                        <div class="form-group" id="pertanyaan">
+                                                        {{#if jawaban}}
+                                                            {{jawaban}}
+                                                        {{else}}
+                                                            <textarea class="form-control" name="jawaban" id="jawaban" rows="10"></textarea>
+                                                        {{/if}}
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <hr>
                                                 {{/each}}
                                             </div>
                                         </div>
