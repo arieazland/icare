@@ -41,10 +41,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Soal Assessment</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Jawab Assessment</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Soal Assessment</li>
+                            <li class="breadcrumb-item active">Jawab Assessment</li>
                         </ol>
                     </div>
                 </div>
@@ -56,73 +56,78 @@
                 <!-- ============================================================== -->
                 <!-- Row -->
                 {{!-- Start of Notifikasi --}}
-                
+                {{#if sessionFlash.message}}
+                    <div class="alert alert-danger"> 
+                        {{sessionFlash.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{#if sessionFlash2.message}}
+                    <div class="alert alert-success"> 
+                        {{sessionFlash2.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
                 {{!-- End of Notifikasi --}}
-                {{!-- start of row --}}
-                
-                
-                {{!-- start of row --}}
-                
-                {{!-- end of row --}}
-                {{!-- start of modal update acara --}}
-                
-                <!-- end of modal delete acara -->
                 {{!-- start of row --}}
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Assesment Awal</h4>
+                                <h4 class="m-b-0 text-white">Form Jawab Assessment</h4>
                             </div>
+                            <div class="card-block">
+                                {{!-- start of form pilih event --}}
+                                <form action="/assessmentuser" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Konsul</h4>
+                                        <h6 class="card-subtitle"> Pilih konsultasi terlebih dahulu untuk bisa menjawab pertanyaan assessment</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="selectkonsul" name="selectkonsul" style="width: 100%" required>
+                                            <option>-- Pilih Konsultasi --</option>
+                                            {{#each datakonsul}}
+                                                <option value="{{ id }}" {{#if ../selectkonsul}}{{#compare id ../selectkonsul operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#if selectkonsul}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
                         <div class="card">
                             <div class="card-block">
-                                {{!-- start of form tambah data acara --}}
-                                <form action="/kelolaacara/tambah" method="POST">
+                                {{!-- start of form tambah data soal --}}
+                                <form action="" method="POST">
                                     <div class="form-body">
-                                        <h4 class="card-title">Assessment Awal</h4>
+                                        <h4 class="card-title">Form Input Jawaban</h4>
                                         <hr>
                                         <div class="row p-t-20">
                                             <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">1. Apakah ..... ?</label>
-                                                    <textarea class="form-control" id="keteranganacara" name="keteranganacara" rows="5"></textarea>
+                                                {{#each jawaban}}
+                                                <div class="form-group" id="form-group">
+                                                    <label class="control-label">Pertanyaan:</label>
+                                                    <div class="form-group" id="pertanyaan">
+                                                        {{pertanyaan}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label">Jawaban:</label>
+                                                        <textarea class="form-control" name="jawaban" id="jawaban" rows="10">{{jawaban}}</textarea>
+                                                    </div>
                                                 </div>
+                                                {{/each}}
                                             </div>
-                                            <!--/span-->
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">2. Apakah ..... ?</label>
-                                                    <textarea class="form-control" id="keteranganacara" name="keteranganacara" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                        </div>
-                                        <!--/row-->
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">3. Apakah ..... ?</label>
-                                                    <textarea class="form-control" id="keteranganacara" name="keteranganacara" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">4. Apakah ..... ?</label>
-                                                    <textarea class="form-control" id="keteranganacara" name="keteranganacara" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                        </div>
-                                        <!--/row-->
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="control-label">5. Apakah ..... ?</label>
-                                                    <textarea class="form-control" id="keteranganacara" name="keteranganacara" rows="5"></textarea>
-                                                </div>
-                                            </div>
-                                            <!--/span-->
                                         </div>
                                         <!--/row-->
                                     </div>
@@ -132,13 +137,12 @@
                                         <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
                                     </div>
                                 </form>
-                                {{!-- end of form tambah data acara --}}
+                                {{!-- end of form tambah data soal --}}
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
-                
+                {{/if}}
                 {{!-- end of row --}}
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
@@ -174,6 +178,9 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     {{> plugins}}
+    {{!-- <script src="/js/client/datatable/pertanyaan.js"></script>
+    <script src="/js/client/modal/soal.js"></script>
+    <script src="/js/client/adddiv/soal.js"></script> --}}
 </body>
 
 </html>

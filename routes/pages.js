@@ -8,10 +8,6 @@ require("moment/locale/id");  // without this line it didn't work
 Moment.locale('id');
 
 /** temp */
-Router.get('/assessmentuser', (req, res) => {
-    res.render("assessmentuser");
-});
-
 Router.get('/assessmentpsikolog', (req, res) => {
     res.render("assessmentpsikolog");
 });
@@ -33,7 +29,7 @@ Router.get('/', (req, res) => {
         tipe = req.session.type
         if(tipe === 'peserta' || tipe === 'peserta_event'){
             /** login page di arhkan ke page user */
-            res.render("assessmentuser",{
+            res.render("indexuser",{
                 username, nama
             });
         } else if(tipe === 'psikologis'){
@@ -245,7 +241,7 @@ Router.post('/partisipant', async (req, res, dataputs) => {
 
 
 
-/** Route for CRUD List Soal */
+/** Route for CRUD Soal */
 Router.get('/soal', async (req, res) => {
     if(req.session.loggedIn){
         if(req.session.idkonsulinput != null){
@@ -310,7 +306,7 @@ Router.get('/soal', async (req, res) => {
     }
 });
 
-/** Route for CRUD List Soal */
+/** Route for CRUD Soal */
 Router.post('/soal', async (req, res, dataputs) => {
     if(req.session.loggedIn){
         
@@ -367,8 +363,257 @@ Router.post('/soal', async (req, res, dataputs) => {
 });
 
 /** Route for CRUD Jawab */
-Router.get('/jawab', (req, res) => {
-    res.render("jawab");
+Router.get('/jawab', async (req, res) => {
+    if(req.session.loggedIn){
+        if(req.session.idkonsulinput != null){
+            /** get data konsul berdasarkan id yang di pilih */
+            params = {
+                selectkonsul: req.session.idkonsulinput,
+            }
+            let res1 = res;
+            url =  MAIN_URL + '/listjawaban';
+            var dataputs = await axios.post(url, params)
+            .then(function (res) {
+                req.session.sessionFlash2 = {
+                    type: 'success',
+                    message: 'Jawaban berhasil dibuat'
+                }
+                var jawaban = res.data.results;
+                var datakonsul = res.data.konsul;
+                var pilihkonsul = res.data.pilihkonsul;
+                var selectkonsul = res.data.selectkonsul;
+                res1.render('jawab', {
+                    jawaban: jawaban,
+                    datakonsul: datakonsul,
+                    pilihkonsul: pilihkonsul,
+                    selectkonsul: selectkonsul
+                })
+                req.session.idkonsul = null
+            })
+            .catch(function (err) {
+                // console.log(err.response.data)
+                // var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Error, please contact developer'
+                }
+                res1.redirect("/jawab");
+                req.session.idkonsul = null
+            })
+
+        } else {
+            
+            let res1 = res;
+            url =  MAIN_URL + '/konsullist';
+            axios.get(url)
+            .then(function (res) {
+                var konsul = res.data;
+                res1.render('jawab', {
+                    datakonsul: konsul.data
+                })
+            })
+            .catch(function (err) {
+                // console.log(err);
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Error, please contact developer'
+                }
+                res.redirect("/jawab");
+            })
+
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
+
+/** Route for CRUD Jawab */
+Router.post('/jawab', async (req, res) => {
+    if(req.session.loggedIn){
+        
+        const { selectkonsul } = req.body;
+
+        if( selectkonsul ){
+            if(selectkonsul == "-- Pilih Konsultasi --"){
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
+                }
+                res.redirect("/jawab");
+            } else {
+                /** get data konsul berdasarkan id yang di pilih */
+                params = {
+                    selectkonsul: selectkonsul,
+                }
+                let res1 = res;
+                url =  MAIN_URL + '/listjawaban';
+                var dataputs = await axios.post(url, params)
+                .then(function (res) {
+                    var jawaban = res.data.results;
+                    var datakonsul = res.data.konsul;
+                    var pilihkonsul = res.data.pilihkonsul;
+                    var selectkonsul = res.data.selectkonsul;
+                    res1.render('jawab', {
+                        jawaban: jawaban,
+                        datakonsul: datakonsul,
+                        pilihkonsul: pilihkonsul,
+                        selectkonsul: selectkonsul
+                    })
+                })
+                .catch(function (err) {
+                    // console.log(err.response.data)
+                    // var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Error, please contact developer'
+                    }
+                    res1.redirect("/jawab");
+                })
+            }
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
+            }
+            res.redirect("/jawab");
+        }
+
+    } else {
+        res.redirect('/login');
+    }
+});
+
+/** Route for assessmentuser */
+Router.get('/assessmentuser', async (req, res) => {
+    if(req.session.loggedIn){
+        tipe = req.session.type
+        if(tipe === 'peserta' || tipe === 'peserta_event'){
+            if(req.session.loggedIn){
+                if(req.session.idkonsulinput != null){
+                    /** get data konsul berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: req.session.idkonsulinput,
+                    }
+                    let res1 = res;
+                    url =  MAIN_URL + '/listjawaban';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: 'Jawaban berhasil dibuat'
+                        }
+                        var jawaban = res.data.results;
+                        var datakonsul = res.data.konsul;
+                        var pilihkonsul = res.data.pilihkonsul;
+                        var selectkonsul = res.data.selectkonsul;
+                        res1.render('assessmentuser', {
+                            jawaban: jawaban,
+                            datakonsul: datakonsul,
+                            pilihkonsul: pilihkonsul,
+                            selectkonsul: selectkonsul
+                        })
+                        req.session.idkonsul = null
+                    })
+                    .catch(function (err) {
+                        // console.log(err.response.data)
+                        // var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'Error, please contact developer'
+                        }
+                        res1.redirect("/assessmentuser");
+                        req.session.idkonsul = null
+                    })
+        
+                } else {
+                    
+                    let res1 = res;
+                    url =  MAIN_URL + '/konsullist';
+                    axios.get(url)
+                    .then(function (res) {
+                        var konsul = res.data;
+                        res1.render('assessmentuser', {
+                            datakonsul: konsul.data
+                        })
+                    })
+                    .catch(function (err) {
+                        // console.log(err);
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'Error, please contact developer'
+                        }
+                        res.redirect("/assessmentuser");
+                    })
+        
+                }
+            } else {
+                res.redirect('/login');
+            }
+        } else {
+            res.redirect('/login');    
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
+
+/** Route for assessmentuser */
+Router.post('/assessmentuser', async (req, res) => {
+    if(req.session.loggedIn){
+        tipe = req.session.type
+        if(tipe === 'peserta' || tipe === 'peserta_event'){
+            const { selectkonsul } = req.body;
+
+            if( selectkonsul ){
+                if(selectkonsul == "-- Pilih Konsultasi --"){
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
+                    }
+                    res.redirect("/assessmentuser");
+                } else {
+                    /** get data konsul berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: selectkonsul,
+                    }
+                    let res1 = res;
+                    url =  MAIN_URL + '/listjawaban';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var jawaban = res.data.results;
+                        var datakonsul = res.data.konsul;
+                        var pilihkonsul = res.data.pilihkonsul;
+                        var selectkonsul = res.data.selectkonsul;
+                        res1.render('assessmentuser', {
+                            jawaban: jawaban,
+                            datakonsul: datakonsul,
+                            pilihkonsul: pilihkonsul,
+                            selectkonsul: selectkonsul
+                        })
+                    })
+                    .catch(function (err) {
+                        // console.log(err.response.data)
+                        // var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'Error, please contact developer'
+                        }
+                        res1.redirect("/assessmentuser");
+                    })
+                }
+            } else {
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
+                }
+                res.redirect("/assessmentuser");
+            }
+        } else {
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
 });
 
 /** Route for CRUD Assessment */
