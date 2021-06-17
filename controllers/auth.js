@@ -52,7 +52,7 @@ exports.login = async (req, res, dataputs) => {
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: 'Error please contact developer!'
+            message: 'Error please contact developer!!!'
         }
         res.redirect("/login");
     }        

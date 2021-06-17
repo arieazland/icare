@@ -103,52 +103,81 @@
                     </div>
                 </div>
                 {{#if selectkonsul}}
-                {{!-- start of row --}}
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-block">
-                                {{!-- start of form tambah data soal --}}
-                                <form action="" method="POST">
+                    {{#if jawaban}}
+                    {{!-- start of row --}}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-block">
+                                    {{!-- start of form tampil pertanyaan dan jawaban --}}
                                     <div class="form-body">
-                                        <h4 class="card-title">Form Input Jawaban</h4>
+                                        <h4 class="card-title">Form Jawaban</h4>
                                         <hr>
                                         <div class="row p-t-20">
                                             <div class="col-md-12">
                                                 {{#each jawaban}}
                                                 <div class="form-group" id="form-group">
-                                                    <label class="control-label">Pertanyaan:</label>
-                                                    <div class="form-group" id="pertanyaan">
+                                                    {{!-- pertanyaan --}}
+                                                    <label class="control-label">Pertanyaan {{counter @index}}:</label>
+                                                    <div class="form-group">
                                                         {{pertanyaan}}
                                                     </div>
+                                                    {{!-- jawaban --}}
+                                                    <label class="control-label">Jawaban:</label>
                                                     <div class="form-group">
-                                                        <label class="control-label">Jawaban:</label>
-                                                        <div class="form-group" id="pertanyaan">
-                                                        {{#if jawaban}}
-                                                            {{jawaban}}
-                                                        {{else}}
-                                                            <textarea class="form-control" name="jawaban" id="jawaban" rows="10"></textarea>
-                                                        {{/if}}
-                                                        </div>
+                                                        {{jawaban}}
                                                     </div>
                                                 </div>
                                                 <hr>
                                                 {{/each}}
                                             </div>
                                         </div>
-                                        <!--/row-->
                                     </div>
-                                    <hr>
+                                    {{!-- end of form tampil pertanyaan dan jawaban --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-block">
+                                    {{!-- start of form jawab --}}
+                                    <form action="" method="POST"></form>
+                                    <div class="form-body">
+                                        <h4 class="card-title">Form Jawab Pertanyaan</h4>
+                                        <hr>
+                                        <div class="row p-t-5">
+                                            <div class="col-md-12">
+                                                <div class="form-group" id="form-group">
+                                                    {{!-- pertanyaan --}}
+                                                    <label class="control-label">Pertanyaan:</label>
+                                                    <div class="form-group">
+                                                        Apakah anda.....
+                                                    </div>
+                                                    {{!-- jawaban --}}
+                                                    <label class="control-label">Jawaban:</label>
+                                                    <div class="form-group">
+                                                        <textarea class="form-control" name="jawaban" id="jawaban" rows="10"></textarea>
+                                                    </div>
+                                                </div>
+                                                <hr>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-actions text-right">
                                         <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Simpan</button>
                                         <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
                                     </div>
-                                </form>
-                                {{!-- end of form tambah data soal --}}
+                                    </form>
+                                    {{!-- end of form jawab --}}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    {{/if}}
                 {{/if}}
                 {{!-- end of row --}}
                 <!-- ============================================================== -->
