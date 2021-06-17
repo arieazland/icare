@@ -102,7 +102,6 @@
                         </div>
                     </div>
                 </div>
-                {{idu}}
                 {{#if selectkonsul}}
                     {{#if jawaban}}
                     {{!-- start of row --}}
@@ -145,7 +144,7 @@
                             <div class="card">
                                 <div class="card-block">
                                     {{!-- start of form jawab --}}
-                                    <form action="" method="POST"></form>
+                                    <form action="/jawab/input" method="POST">
                                         <div class="form-body">
                                             <h4 class="card-title">Form Jawab Pertanyaan</h4>
                                             <hr>
@@ -161,13 +160,14 @@
                                                         {{!-- jawaban --}}
                                                         <label class="control-label">Jawaban:</label>
                                                         <div class="form-group">
-                                                            <textarea class="form-control" name="jawaban" id="jawaban" rows="10"></textarea>
-                                                            <input type="text" id="peserta" name="peserta" value="{{../../../../idu}}">
-                                                            <input type="text" id="idpertanyaan" name="idpertanyaan" value="{{idp}}">
+                                                            <textarea class="form-control" name="jawaban" id="jawaban" rows="10" required></textarea>
+                                                            <input type="hidden" id="pertanyaan" name="pertanyaan" value="{{idp}}" required>
                                                         </div>
                                                     </div>
                                                     <hr>
                                                     {{/each}}
+                                                    <input type="hidden" id="peserta" name="peserta" value="{{idu}}" required>
+                                                    <input type="hidden" id="selectkonsul" name="selectkonsul" value="{{selectkonsul}}" required>
                                                 </div>
                                             </div>
                                         </div>
