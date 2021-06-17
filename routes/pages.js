@@ -24,23 +24,24 @@ Router.get('/hasilaseessment', (req, res) => {
 /** Route for Home */
 Router.get('/', (req, res) => {
     if(req.session.loggedIn){
+        idu = req.session.iduser
         username = req.session.username
         nama = req.session.nama
         tipe = req.session.type
         if(tipe === 'peserta' || tipe === 'peserta_event'){
             /** login page di arhkan ke page user */
             res.render("indexuser",{
-                username, nama
+                username, nama, idu
             });
         } else if(tipe === 'psikologis'){
             /** login page di arhkan ke page psikolog */
             res.render("listsoalpsikolog",{
-                username, nama
+                username, nama, idu
             });
         } else if(tipe === 'admin'){
             /** login page di arhkan ke page admin */
             res.render("index",{
-                username, nama
+                username, nama, idu
             });
         }
         
@@ -505,11 +506,14 @@ Router.get('/assessmentuser', async (req, res) => {
                         var jawaban = res.data.results;
                         var datakonsul = res.data.konsul;
                         var pilihkonsul = res.data.pilihkonsul;
+                        var pertanyaan = res.data.pertanyaan;
                         var selectkonsul = res.data.selectkonsul;
+                        // console.log(pertanyaan);
                         res1.render('assessmentuser', {
                             jawaban: jawaban,
                             datakonsul: datakonsul,
                             pilihkonsul: pilihkonsul,
+                            pertanyaan: pertanyaan,
                             selectkonsul: selectkonsul
                         })
                         req.session.idkonsul = null
@@ -583,11 +587,13 @@ Router.post('/assessmentuser', async (req, res) => {
                         var jawaban = res.data.results;
                         var datakonsul = res.data.konsul;
                         var pilihkonsul = res.data.pilihkonsul;
+                        var pertanyaan = res.data.pertanyaan;
                         var selectkonsul = res.data.selectkonsul;
                         res1.render('assessmentuser', {
                             jawaban: jawaban,
                             datakonsul: datakonsul,
                             pilihkonsul: pilihkonsul,
+                            pertanyaan: pertanyaan,
                             selectkonsul: selectkonsul
                         })
                     })

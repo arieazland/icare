@@ -23,6 +23,7 @@ exports.login = async (req, res, dataputs) => {
                 // console.log(message)
                 req.session.loggedIn = true;
                 req.session.userdata = res.data.data;
+                req.session.iduser = res.data.data[0].id;
                 req.session.nama = res.data.data[0].nama;
                 req.session.username = res.data.data[0].username;
                 req.session.type = res.data.data[0].account_type;
