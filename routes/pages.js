@@ -21,7 +21,7 @@ Router.get('/', (req, res) => {
             });
         } else if(tipe === 'psikologis'){
             /** login page di arhkan ke page psikolog */
-            res.render("listsoalpsikolog",{
+            res.render("index",{
                 username, nama, idu, tipe,
             });
         } else if(tipe === 'admin'){
