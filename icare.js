@@ -1,8 +1,5 @@
 const Express = require("express");
-// const Mysql = require("mysql");
-// const Bcrypt = require("bcrypt");
 const Path = require("path");
-// const Dotenv = require("dotenv");
 const Hbs = require("hbs");
 // Set Moment Format engine
 const Moment = require("moment");
@@ -111,6 +108,7 @@ app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/partisipant', require('./routes/partisipant'));
 app.use('/soal', require('./routes/soal'));
 app.use('/jawab', require('./routes/jawab'));
+app.use('/kesimpulan', require('./routes/kesimpulan'));
 
 /** router for index */
 // app.get('/', (req, res) => {
