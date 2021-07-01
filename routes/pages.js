@@ -892,21 +892,6 @@ Router.post('/hasilassessmentpeserta', async (req, res, dataputs) => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /** kesimpulan assessment */
 Router.get('/kesimpulanassessment', async (req, res) => {
     if(req.session.loggedIn){
@@ -1174,13 +1159,6 @@ Router.post('/kesimpulanassessmentpeserta', async (req, res, dataputs) => {
         res.redirect('/login');
     }
 });
-
-
-
-
-
-
-
 
 /** Route for CRUD Kesimpulan */
 Router.get('/kesimpulan', (req, res) => {
