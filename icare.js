@@ -115,7 +115,7 @@ app.use('/kesimpulan', require('./routes/kesimpulan'));
 //     res.render('index');
 // });
 
-let port = 5024 || 8080;
+let port = 5024;
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
