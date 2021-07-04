@@ -24,6 +24,7 @@ exports.login = async (req, res, dataputs) => {
                 req.session.userdata = res.data.data;
                 req.session.iduser = res.data.data[0].id;
                 req.session.nama = res.data.data[0].nama;
+                req.session.email = res.data.data[0].email;
                 req.session.username = res.data.data[0].username;
                 req.session.type = res.data.data[0].account_type;
                 var users = res.data;
@@ -191,3 +192,44 @@ exports.delete = async (req, res, dataputs) => {
     }
 }
 
+/** Ganti password User */
+exports.gantiPassword = async (req, res, dataputs) => {
+    try{
+        const { idakun, passwordlama, password, password2 } = req.body;
+        if(idakun && passwordlama && password && password2){
+            params = {
+                id: idakun,
+                passwordlama: passwordlama,
+                password: password,
+                password2: password2,
+            }
+            var res1 = res;
+            url =  MAIN_URL + '/auth/gantipassword';
+            var dataputs = await axios.put(url, params)
+                .then(function (res) {
+                    var message = res.data.message
+                    req.session.sessionFlash2 = {
+                        type: 'success',
+                        message: message
+                    }
+                    res1.redirect('/accountsetting');
+                })
+                .catch(function (err) {
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message
+                    }
+                    res1.redirect("/accountsetting");
+                })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Field tidak boleh kosong!'
+            }
+            res.redirect("/accountsetting");
+        }
+    } catch(err){
+        console.log(err);
+    }
+}

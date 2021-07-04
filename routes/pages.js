@@ -705,59 +705,67 @@ Router.get('/hasilassessment', async (req, res) => {
         username = req.session.username
         nama = req.session.nama
         tipe = req.session.type
-        if(req.session.idkonsulinput != null){
-            /** get data konsul berdasarkan id yang di pilih */
-            params = {
-                selectkonsul: req.session.idkonsulinput,
-            }
-            let res1 = res;
-            url =  MAIN_URL + '/listhasil';
-                var dataputs = await axios.post(url, params)
+        if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan'){
+            if(req.session.idkonsulinput != null){
+                /** get data konsul berdasarkan id yang di pilih */
+                params = {
+                    selectkonsul: req.session.idkonsulinput,
+                }
+                let res1 = res;
+                url =  MAIN_URL + '/listhasil';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var peserta = res.data.results;
+                        var datakonsul = res.data.konsul;
+                        var selectkonsul = res.data.selectkonsul;
+                        res1.render('hasilassessment', {
+                            idu, username, nama, tipe,
+                            datapeserta: peserta,
+                            datakonsul: datakonsul,
+                            selectkonsul: selectkonsul
+                        })
+                        req.session.idkonsulinput = null
+                    })
+                    .catch(function (err) {
+                        // console.log(err.response.data)
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe,
+                        }
+                        req.session.idkonsulinput = null
+                        res1.redirect("/hasilassessment");
+                    })
+            } else {
+                let res1 = res;
+                url =  MAIN_URL + '/konsullist';
+                axios.get(url)
                 .then(function (res) {
-                    var peserta = res.data.results;
-                    var datakonsul = res.data.konsul;
-                    var selectkonsul = res.data.selectkonsul;
+                    var konsul = res.data;
                     res1.render('hasilassessment', {
                         idu, username, nama, tipe,
-                        datapeserta: peserta,
-                        datakonsul: datakonsul,
-                        selectkonsul: selectkonsul
+                        datakonsul: konsul.data
                     })
-                    req.session.idkonsulinput = null
                 })
                 .catch(function (err) {
-                    // console.log(err.response.data)
+                    // console.log(err);
                     var message = err.response.data.message;
                     req.session.sessionFlash = {
                         type: 'error',
                         message: message,
                         idu, username, nama, tipe,
                     }
-                    req.session.idkonsulinput = null
-                    res1.redirect("/hasilassessment");
+                    res.redirect("/hasilassessment");
                 })
+    
+            }
         } else {
-            let res1 = res;
-            url =  MAIN_URL + '/konsullist';
-            axios.get(url)
-            .then(function (res) {
-                var konsul = res.data;
-                res1.render('hasilassessment', {
-                    idu, username, nama, tipe,
-                    datakonsul: konsul.data
-                })
-            })
-            .catch(function (err) {
-                // console.log(err);
-                var message = err.response.data.message;
-                req.session.sessionFlash = {
-                    type: 'error',
-                    message: message,
-                    idu, username, nama, tipe,
-                }
-                res.redirect("/hasilassessment");
-            })
-
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
         }
     } else {
         res.redirect('/login');
@@ -899,59 +907,67 @@ Router.get('/kesimpulanassessment', async (req, res) => {
         username = req.session.username
         nama = req.session.nama
         tipe = req.session.type
-        if(req.session.idkonsulinput != null){
-            /** get data konsul berdasarkan id yang di pilih */
-            params = {
-                selectkonsul: req.session.idkonsulinput,
-            }
-            let res1 = res;
-            url =  MAIN_URL + '/listkesimpulan';
-                var dataputs = await axios.post(url, params)
+        if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan'){
+            if(req.session.idkonsulinput != null){
+                /** get data konsul berdasarkan id yang di pilih */
+                params = {
+                    selectkonsul: req.session.idkonsulinput,
+                }
+                let res1 = res;
+                url =  MAIN_URL + '/listkesimpulan';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var peserta = res.data.results;
+                        var datakonsul = res.data.konsul;
+                        var selectkonsul = res.data.selectkonsul;
+                        res1.render('kesimpulanassessment', {
+                            idu, username, nama, tipe,
+                            datapeserta: peserta,
+                            datakonsul: datakonsul,
+                            selectkonsul: selectkonsul
+                        })
+                        req.session.idkonsulinput = null
+                    })
+                    .catch(function (err) {
+                        // console.log(err.response.data)
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe,
+                        }
+                        req.session.idkonsulinput = null
+                        res1.redirect("/kesimpulanassessment");
+                    })
+            } else {
+                let res1 = res;
+                url =  MAIN_URL + '/konsullist';
+                axios.get(url)
                 .then(function (res) {
-                    var peserta = res.data.results;
-                    var datakonsul = res.data.konsul;
-                    var selectkonsul = res.data.selectkonsul;
+                    var konsul = res.data;
                     res1.render('kesimpulanassessment', {
                         idu, username, nama, tipe,
-                        datapeserta: peserta,
-                        datakonsul: datakonsul,
-                        selectkonsul: selectkonsul
+                        datakonsul: konsul.data
                     })
-                    req.session.idkonsulinput = null
                 })
                 .catch(function (err) {
-                    // console.log(err.response.data)
+                    // console.log(err);
                     var message = err.response.data.message;
                     req.session.sessionFlash = {
                         type: 'error',
                         message: message,
                         idu, username, nama, tipe,
                     }
-                    req.session.idkonsulinput = null
-                    res1.redirect("/kesimpulanassessment");
+                    res.redirect("/kesimpulanassessment");
                 })
+    
+            }
         } else {
-            let res1 = res;
-            url =  MAIN_URL + '/konsullist';
-            axios.get(url)
-            .then(function (res) {
-                var konsul = res.data;
-                res1.render('kesimpulanassessment', {
-                    idu, username, nama, tipe,
-                    datakonsul: konsul.data
-                })
-            })
-            .catch(function (err) {
-                // console.log(err);
-                var message = err.response.data.message;
-                req.session.sessionFlash = {
-                    type: 'error',
-                    message: message,
-                    idu, username, nama, tipe,
-                }
-                res.redirect("/kesimpulanassessment");
-            })
-
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
         }
     } else {
         res.redirect('/login');
@@ -1160,9 +1176,28 @@ Router.post('/kesimpulanassessmentpeserta', async (req, res, dataputs) => {
     }
 });
 
-/** Route for CRUD Kesimpulan */
-Router.get('/kesimpulan', (req, res) => {
-    res.render("kesimpulan");
+/** Route for profile */
+Router.get('/accountsetting', (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        email = req.session.email
+        if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan' || tipe === 'peserta' || tipe === 'peserta_event'){
+            res.render("profile",{
+                idu, username, nama, tipe, email
+            });
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
 });
 
 /** Router for logout */
