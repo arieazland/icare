@@ -207,7 +207,7 @@
                         <div class="card">
                             <div class="card-block">
                                 {{!-- start of form tambah data soal --}}
-                                <form action="/soal/input" method="POST">
+                                <form id="formaksi" action="/soal/input" method="POST">
                                     <div class="form-body">
                                         <h4 class="card-title">Form Input Pertanyaan</h4>
                                         <hr>
@@ -223,9 +223,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-outline-info" id="tambahpertanyaan" name="tambahpertanyaan">Tambah Pertanyaan</button>
-                                        <button type="button" class="btn btn-outline-primary" id="hapuspertanyaan" name="hapuspertanyaan" style="display: none;">Hapus Pertanyaan</button>
-                                        <!--/row-->
+                                        {{!-- <button type="button" class="btn btn-outline-info" id="tambahpertanyaan" name="tambahpertanyaan">Tambah Pertanyaan</button>
+                                        <button type="button" class="btn btn-outline-primary" id="hapuspertanyaan" name="hapuspertanyaan" style="display: none;">Hapus Pertanyaan</button> --}}
                                     </div>
                                     <hr>
                                     <div class="form-actions text-right">
@@ -275,8 +274,8 @@
     <!-- ============================================================== -->
     {{> plugins}}
     <script src="/js/client/datatable/pertanyaan.js"></script>
-    <script src="/js/client/modal/soal.js"></script>\
-    <script src="/js/client/adddiv/soal.js"></script>
+    <script src="/js/client/modal/soal.js"></script>
+    {{!-- <script src="/js/client/adddiv/soal.js"></script> --}}
 </body>
 
 </html>

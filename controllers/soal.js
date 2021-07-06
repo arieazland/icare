@@ -1,8 +1,9 @@
 const Mysql = require("mysql");
 const Path = require("path");
-const Dotenv = require("dotenv");
 const axios = require('axios');
-const MAIN_URL = require ("../urlconfig.js");
+const Dotenv = require("dotenv");
+Dotenv.config({ path: './.env' });
+// process.env.MAIN_URL
 
 exports.input = async (req, res, dataputs) => {
     try{
@@ -14,7 +15,7 @@ exports.input = async (req, res, dataputs) => {
                 idkonsul: selectkonsul
             }
             var res1 = res;
-            url =  MAIN_URL + '/soal/registersoalmultiple';
+            url =  process.env.MAIN_URL + '/soal/registersoal';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 req.session.idkonsulinput = res.data.idkonsul;
@@ -64,7 +65,7 @@ exports.edit = async (req, res, dataputs) => {
                 idkonsul: selectkonsul
             }
             var res1 = res;
-            url =  MAIN_URL + '/soal/editsoal';
+            url =  process.env.MAIN_URL + '/soal/editsoal';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 req.session.idkonsulinput = res.data.idkonsul;
@@ -112,7 +113,7 @@ exports.delete = async (req, res, dataputs) => {
                 idkonsul: selectkonsul
             }
             var res1 = res;
-            url =  MAIN_URL + '/soal/deletesoal';
+            url =  process.env.MAIN_URL + '/soal/deletesoal';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 req.session.idkonsulinput = res.data.idkonsul;
