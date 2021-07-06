@@ -1,8 +1,9 @@
 const Mysql = require("mysql");
 const Path = require("path");
-const Dotenv = require("dotenv");
 const axios = require('axios');
-const MAIN_URL = require ("../urlconfig.js");
+const Dotenv = require("dotenv");
+Dotenv.config({ path: './.env' });
+// process.env.MAIN_URL
 
 exports.input = async (req, res, dataputs) => {
     try{
@@ -15,7 +16,7 @@ exports.input = async (req, res, dataputs) => {
             idkonsul: selectkonsul
         }
         var res1 = res;
-        url =  MAIN_URL + '/partisipant/registerpartisipant';
+        url =  process.env.MAIN_URL + '/partisipant/registerpartisipant';
         var dataputs = await axios.post(url, params)
         .then(function (res) {
             var message = res.data.message;
@@ -44,14 +45,14 @@ exports.input = async (req, res, dataputs) => {
           res.redirect("/partisipant");
         }
         
-    } catch (err){
-        console.log(err);
+    } catch (error){
+        // console.log(err);
         /** catch */
-        // req.session.sessionFlash = {
-        //     type: 'error',
-        //     message: 'Error please contact developer!'
-        // }
-        // res.redirect("/konsul");
+        req.session.sessionFlash = {
+            type: 'error',
+            message: error
+        }
+        res.redirect("/partisipant");
     }
 }
 
@@ -65,7 +66,7 @@ exports.delete = async (req, res, dataputs) => {
             idkonsul: selectkonsul
         }
         var res1 = res;
-        url =  MAIN_URL + '/partisipant/deletepartisipant';
+        url =  process.env.MAIN_URL + '/partisipant/deletepartisipant';
         var dataputs = await axios.put(url, params)
         .then(function (res) {
             var message = res.data.message;
@@ -94,13 +95,13 @@ exports.delete = async (req, res, dataputs) => {
           res.redirect("/partisipant");
         }
         
-    } catch (err){
-        console.log(err);
+    } catch (error){
+        // console.log(err);
         /** catch */
-        // req.session.sessionFlash = {
-        //     type: 'error',
-        //     message: 'Error please contact developer!'
-        // }
-        // res.redirect("/konsul");
+        req.session.sessionFlash = {
+            type: 'error',
+            message: error
+        }
+        res.redirect("/partisipant");
     }
 }

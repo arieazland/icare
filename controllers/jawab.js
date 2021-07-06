@@ -1,8 +1,9 @@
 const Mysql = require("mysql");
 const Path = require("path");
-const Dotenv = require("dotenv");
 const axios = require('axios');
-const MAIN_URL = require ("../urlconfig.js");
+const Dotenv = require("dotenv");
+Dotenv.config({ path: './.env' });
+// process.env.MAIN_URL
 
 exports.input = async (req, res, dataputs) => {
     try{
@@ -16,7 +17,7 @@ exports.input = async (req, res, dataputs) => {
                 idkonsul: selectkonsul
             }
             var res1 = res;
-            url =  MAIN_URL + '/jawab/registerjawab';
+            url =  process.env.MAIN_URL + '/jawab/registerjawab';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 req.session.idkonsulinput = res.data.idkonsul;
@@ -44,12 +45,12 @@ exports.input = async (req, res, dataputs) => {
             }
             res.redirect("/assessmentuser");
         }
-    } catch(err){
+    } catch(error){
         // console.log(err);
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: 'Error please contact developer!'
+            message: error
         }
         res.redirect("/assessmentuser");
     }

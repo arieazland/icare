@@ -1,8 +1,9 @@
 const Mysql = require("mysql");
 const Path = require("path");
-const Dotenv = require("dotenv");
 const axios = require('axios');
-const MAIN_URL = require ("../urlconfig.js");
+const Dotenv = require("dotenv");
+Dotenv.config({ path: './.env' });
+// process.env.MAIN_URL
 
 /** Login Process */
 exports.login = async (req, res, dataputs) => {
@@ -15,7 +16,7 @@ exports.login = async (req, res, dataputs) => {
                 password: password
               }
             var res1 = res;
-            url =  MAIN_URL + '/auth/login';
+            url = process.env.MAIN_URL + '/auth/login';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 // var message = res.data.message;
@@ -49,11 +50,11 @@ exports.login = async (req, res, dataputs) => {
             res.redirect("/login");
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: 'Error please contact developer!!!'
+            message: error
         }
         res.redirect("/login");
     }        
@@ -72,7 +73,7 @@ exports.reg = async (req, res, dataputs) => {
                     password2: password2,
                 }
                 var res1 = res;
-                url =  MAIN_URL + '/auth/register' + tipeakun;
+                url = process.env.MAIN_URL + '/auth/register' + tipeakun;
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var message = res.data.message;
@@ -105,8 +106,13 @@ exports.reg = async (req, res, dataputs) => {
             }
             res.redirect("/users");
         }
-    } catch(err){
-        console.log(err);
+    } catch(error){
+        // console.log(error);
+        req.session.sessionFlash = {
+            type: 'error',
+            message: error
+        }
+        res.redirect("/users");
     }
 }
 
@@ -121,7 +127,7 @@ exports.edit = async (req, res, dataputs) => {
                 email: modalemail
             }
             var res1 = res;
-            url =  MAIN_URL + '/auth/edituser';
+            url = process.env.MAIN_URL + '/auth/edituser';
             var dataputs = await axios.put(url, params)
                 .then(function (res) {
                     var message = res.data.message;
@@ -148,8 +154,13 @@ exports.edit = async (req, res, dataputs) => {
             res.redirect("/users");
         }
 
-    } catch(err){
-        console.log(err);
+    } catch(error){
+        // console.log(error);
+        req.session.sessionFlash = {
+            type: 'error',
+            message: error
+        }
+        res.redirect("/users");
     }
 }
 
@@ -162,7 +173,7 @@ exports.delete = async (req, res, dataputs) => {
                 id: modalidhapus
             }
             var res1 = res;
-            url =  MAIN_URL + '/auth/deleteuser';
+            url = process.env.MAIN_URL + '/auth/deleteuser';
             var dataputs = await axios.put(url, params)
                 .then(function (res) {
                     var message = res.data.message
@@ -187,8 +198,13 @@ exports.delete = async (req, res, dataputs) => {
             }
             res.redirect("/users");
         }
-    } catch(err){
-        console.log(err);
+    } catch(error){
+        // console.log(error);
+        req.session.sessionFlash = {
+            type: 'error',
+            message: error
+        }
+        res.redirect("/users");
     }
 }
 
@@ -204,7 +220,7 @@ exports.gantiPassword = async (req, res, dataputs) => {
                 password2: password2,
             }
             var res1 = res;
-            url =  MAIN_URL + '/auth/gantipassword';
+            url = process.env.MAIN_URL + '/auth/gantipassword';
             var dataputs = await axios.put(url, params)
                 .then(function (res) {
                     var message = res.data.message
@@ -229,7 +245,11 @@ exports.gantiPassword = async (req, res, dataputs) => {
             }
             res.redirect("/accountsetting");
         }
-    } catch(err){
-        console.log(err);
+    } catch(error){
+        req.session.sessionFlash = {
+            type: 'error',
+            message: error
+        }
+        res.redirect("/accountsetting");
     }
 }

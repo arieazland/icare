@@ -1,8 +1,9 @@
 const Mysql = require("mysql");
 const Path = require("path");
-const Dotenv = require("dotenv");
 const axios = require('axios');
-const MAIN_URL = require ("../urlconfig.js");
+const Dotenv = require("dotenv");
+Dotenv.config({ path: './.env' });
+// process.env.MAIN_URL
 
 exports.input = async (req, res, dataputs) => {
     try{
@@ -16,7 +17,7 @@ exports.input = async (req, res, dataputs) => {
                 kesimpulan: kesimpulan
             }
             var res1 = res;
-            url =  MAIN_URL + '/kesimpulan/registerkesimpulan';
+            url =  process.env.MAIN_URL + '/kesimpulan/registerkesimpulan';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 req.session.idkonsulinput = res.data.selectkonsul;
@@ -43,12 +44,12 @@ exports.input = async (req, res, dataputs) => {
             }
             res.redirect("/hasilassessment");
         }
-    } catch(err){
+    } catch(error){
         // console.log(err);
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: 'Error please contact developer!'
+            message: error
         }
         res.redirect("/hasilassessment");
     }
@@ -67,7 +68,7 @@ exports.edit = async (req, res, dataputs) => {
                 kesimpulan: modalkesimpulan
             }
             var res1 = res;
-            url =  MAIN_URL + '/kesimpulan/editkesimpulan';
+            url =  process.env.MAIN_URL + '/kesimpulan/editkesimpulan';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 req.session.idkonsulinput = res.data.selectkonsul;
@@ -95,12 +96,12 @@ exports.edit = async (req, res, dataputs) => {
             }
             res.redirect("/kesimpulanassessment");
         }
-    } catch(err){
+    } catch(error){
         // console.log(err);
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: 'Error please contact developer!'
+            message: error
         }
         res.redirect("/kesimpulanassessment");
     }
@@ -118,7 +119,7 @@ exports.delete = async (req, res, dataputs) => {
                 idpsikolog: modalidpsikologkesimpulan
             }
             var res1 = res;
-            url =  MAIN_URL + '/kesimpulan/deletekesimpulan';
+            url =  process.env.MAIN_URL + '/kesimpulan/deletekesimpulan';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 var message = res.data.message;
@@ -144,12 +145,12 @@ exports.delete = async (req, res, dataputs) => {
             }
             res.redirect("/kesimpulanassessment");
         }
-    } catch(err){
+    } catch(error){
         // console.log(err);
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: 'Error please contact developer!'
+            message: error
         }
         res.redirect("/kesimpulanassessment");
     }

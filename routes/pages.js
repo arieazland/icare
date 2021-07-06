@@ -1,8 +1,10 @@
 const Express = require("express");
 const axios = require('axios');
 const Router = Express.Router();
-const MAIN_URL = require ("../urlconfig.js");
 const Moment = require("moment");
+const Dotenv = require("dotenv");
+Dotenv.config({ path: './.env' });
+// process.env.MAIN_URL
 
 require("moment/locale/id");  // without this line it didn't work
 Moment.locale('id');
@@ -57,7 +59,8 @@ Router.get('/users', async (req, res) => {
         nama = req.session.nama
         tipe = req.session.type
         let res1 = res;
-        url =  MAIN_URL + '/userlist';
+        url = process.env.MAIN_URL + '/userlist';
+        // url =  MAIN_URL + '/userlist';
         axios.get(url)
         .then(function (res) {
             var users = res.data;
@@ -89,7 +92,7 @@ Router.get('/konsul', async (req, res) => {
         nama = req.session.nama
         tipe = req.session.type
         let res1 = res;
-        url =  MAIN_URL + '/konsullist';
+        url =  process.env.MAIN_URL + '/konsullist';
         axios.get(url)
         .then(function (res) {
             var konsul = res.data;
@@ -126,7 +129,7 @@ Router.get('/partisipant', async (req, res) => {
                 selectkonsul: req.session.idkonsulinput,
             }
             let res1 = res;
-            url =  MAIN_URL + '/partisipant';
+            url =  process.env.MAIN_URL + '/partisipant';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 req.session.sessionFlash2 = {
@@ -163,7 +166,7 @@ Router.get('/partisipant', async (req, res) => {
         } else {
             
             let res1 = res;
-            url =  MAIN_URL + '/konsullist';
+            url =  process.env.MAIN_URL + '/konsullist';
             axios.get(url)
             .then(function (res) {
                 var konsul = res.data;
@@ -211,7 +214,7 @@ Router.post('/partisipant', async (req, res, dataputs) => {
                     selectkonsul: selectkonsul,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/partisipant';
+                url =  process.env.MAIN_URL + '/partisipant';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var partisipant = res.data.results;
@@ -266,7 +269,7 @@ Router.get('/soal', async (req, res) => {
                 selectkonsul: req.session.idkonsulinput,
             }
             let res1 = res;
-            url =  MAIN_URL + '/listsoal';
+            url =  process.env.MAIN_URL + '/listsoal';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 req.session.sessionFlash2 = {
@@ -301,7 +304,7 @@ Router.get('/soal', async (req, res) => {
         } else {
             
             let res1 = res;
-            url =  MAIN_URL + '/konsullist';
+            url =  process.env.MAIN_URL + '/konsullist';
             axios.get(url)
             .then(function (res) {
                 var konsul = res.data;
@@ -348,7 +351,7 @@ Router.post('/soal', async (req, res, dataputs) => {
                     selectkonsul: selectkonsul,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/listsoal';
+                url =  process.env.MAIN_URL + '/listsoal';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var pertanyaan = res.data.results;
@@ -388,154 +391,6 @@ Router.post('/soal', async (req, res, dataputs) => {
     }
 });
 
-// /** Route for CRUD Jawab */
-// Router.get('/jawab', async (req, res) => {
-//     if(req.session.loggedIn){
-//         idu = req.session.iduser
-//         username = req.session.username
-//         nama = req.session.nama
-//         tipe = req.session.type
-//         if(tipe == 'peserta' || tipe == 'peserta_event'){
-//             if(req.session.idkonsulinput != null){
-//                 /** get data konsul berdasarkan id yang di pilih */
-//                 params = {
-//                     selectkonsul: req.session.idkonsulinput,
-//                 }
-//                 let res1 = res;
-//                 url =  MAIN_URL + '/listjawaban';
-//                 var dataputs = await axios.post(url, params)
-//                 .then(function (res) {
-//                     req.session.sessionFlash2 = {
-//                         type: 'success',
-//                         message: 'Jawaban berhasil dibuat'
-//                     }
-//                     var jawaban = res.data.results;
-//                     var datakonsul = res.data.konsul;
-//                     var pilihkonsul = res.data.pilihkonsul;
-//                     var selectkonsul = res.data.selectkonsul;
-//                     res1.render('listjawaban', {
-//                         idu, username, nama,
-//                         jawaban: jawaban,
-//                         datakonsul: datakonsul,
-//                         pilihkonsul: pilihkonsul,
-//                         selectkonsul: selectkonsul
-//                     })
-//                     req.session.idkonsul = null
-//                 })
-//                 .catch(function (err) {
-//                     // console.log(err.response.data)
-//                     // var message = err.response.data.message;
-//                     req.session.sessionFlash = {
-//                         type: 'error',
-//                         message: 'Error, please contact developer'
-//                     }
-//                     res1.redirect("/jawab");
-//                     req.session.idkonsul = null
-//                 })
-    
-//             } else {
-                
-//                 let res1 = res;
-//                 url =  MAIN_URL + '/konsullist';
-//                 axios.get(url)
-//                 .then(function (res) {
-//                     var konsul = res.data;
-//                     res1.render('jawab', {
-//                         idu, username, nama,
-//                         datakonsul: konsul.data
-//                     })
-//                 })
-//                 .catch(function (err) {
-//                     // console.log(err);
-//                     req.session.sessionFlash = {
-//                         type: 'error',
-//                         message: 'Error, please contact developer'
-//                     }
-//                     res.redirect("/jawab");
-//                 })
-    
-//             }
-//         } else {
-//             req.session.sessionFlash = {
-//                 type: 'error',
-//                 message: 'Not Authorized'
-//             }
-//             res.redirect('/login');
-//         }
-//     } else {
-//         res.redirect('/login');
-//     }
-// });
-
-// /** Route for CRUD Jawab */
-// Router.post('/assessment', async (req, res) => {
-//     if(req.session.loggedIn){
-//         idu = req.session.iduser
-//         username = req.session.username
-//         nama = req.session.nama
-//         tipe = req.session.type
-//         if(tipe == 'peserta' || tipe == 'peserta_event'){
-        
-//             const { selectkonsul } = req.body;
-
-//             if( selectkonsul ){
-//                 if(selectkonsul == "-- Pilih Konsultasi --"){
-//                     req.session.sessionFlash = {
-//                         type: 'error',
-//                         message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
-//                     }
-//                     res.redirect("/jawab");
-//                 } else {
-//                     /** get data konsul berdasarkan id yang di pilih */
-//                     params = {
-//                         selectkonsul: selectkonsul,
-//                         selectuser: idu
-//                     }
-//                     let res1 = res;
-//                     url =  MAIN_URL + '/listjawaban';
-//                     var dataputs = await axios.post(url, params)
-//                     .then(function (res) {
-//                         var jawaban = res.data.results;
-//                         var datakonsul = res.data.konsul;
-//                         var pilihkonsul = res.data.pilihkonsul;
-//                         var selectkonsul = res.data.selectkonsul;
-//                         res1.render('jawab', {
-//                             idu, username, nama,
-//                             jawaban: jawaban,
-//                             datakonsul: datakonsul,
-//                             pilihkonsul: pilihkonsul,
-//                             selectkonsul: selectkonsul
-//                         })
-//                     })
-//                     .catch(function (err) {
-//                         // console.log(err.response.data)
-//                         // var message = err.response.data.message;
-//                         req.session.sessionFlash = {
-//                             type: 'error',
-//                             message: 'Error, please contact developer'
-//                         }
-//                         res1.redirect("/jawab");
-//                     })
-//                 }
-//             } else {
-//                 req.session.sessionFlash = {
-//                     type: 'error',
-//                     message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
-//                 }
-//                 res.redirect("/jawab");
-//             }
-//         } else {
-//             req.session.sessionFlash = {
-//                 type: 'error',
-//                 message: 'Not Authorized'
-//             }
-//             res.redirect('/login');
-//         }
-//     } else {
-//         res.redirect('/login');
-//     }
-// });
-
 /** Route for assessmentuser */
 Router.get('/assessmentuser', async (req, res) => {
     if(req.session.loggedIn){
@@ -552,7 +407,7 @@ Router.get('/assessmentuser', async (req, res) => {
                         selectuser: idu
                     }
                     let res1 = res;
-                    url =  MAIN_URL + '/jawaban';
+                    url =  process.env.MAIN_URL + '/jawaban';
                     var dataputs = await axios.post(url, params)
                     .then(function (res) {
                         req.session.sessionFlash2 = {
@@ -590,7 +445,7 @@ Router.get('/assessmentuser', async (req, res) => {
                 } else {
                     
                     let res1 = res;
-                    url =  MAIN_URL + '/konsullist';
+                    url =  process.env.MAIN_URL + '/konsullist';
                     axios.get(url)
                     .then(function (res) {
                         var konsul = res.data;
@@ -650,7 +505,7 @@ Router.post('/assessmentuser', async (req, res) => {
                         selectuser: idu
                     }
                     let res1 = res;
-                    url =  MAIN_URL + '/jawaban';
+                    url =  process.env.MAIN_URL + '/jawaban';
                     var dataputs = await axios.post(url, params)
                     .then(function (res) {
                         var jawaban = res.data.results;
@@ -712,7 +567,7 @@ Router.get('/hasilassessment', async (req, res) => {
                     selectkonsul: req.session.idkonsulinput,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/listhasil';
+                url =  process.env.MAIN_URL + '/listhasil';
                     var dataputs = await axios.post(url, params)
                     .then(function (res) {
                         var peserta = res.data.results;
@@ -739,7 +594,7 @@ Router.get('/hasilassessment', async (req, res) => {
                     })
             } else {
                 let res1 = res;
-                url =  MAIN_URL + '/konsullist';
+                url =  process.env.MAIN_URL + '/konsullist';
                 axios.get(url)
                 .then(function (res) {
                     var konsul = res.data;
@@ -793,7 +648,7 @@ Router.post('/hasilassessment', async (req, res, dataputs) => {
                     selectkonsul: selectkonsul,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/listhasil';
+                url =  process.env.MAIN_URL + '/listhasil';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var peserta = res.data.results;
@@ -858,7 +713,7 @@ Router.post('/hasilassessmentpeserta', async (req, res, dataputs) => {
                     selectpeserta: selectpeserta,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/listhasilpeserta';
+                url =  process.env.MAIN_URL + '/listhasilpeserta';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var jawaban = res.data.results;
@@ -914,7 +769,7 @@ Router.get('/kesimpulanassessment', async (req, res) => {
                     selectkonsul: req.session.idkonsulinput,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/listkesimpulan';
+                url =  process.env.MAIN_URL + '/listkesimpulan';
                     var dataputs = await axios.post(url, params)
                     .then(function (res) {
                         var peserta = res.data.results;
@@ -941,7 +796,7 @@ Router.get('/kesimpulanassessment', async (req, res) => {
                     })
             } else {
                 let res1 = res;
-                url =  MAIN_URL + '/konsullist';
+                url =  process.env.MAIN_URL + '/konsullist';
                 axios.get(url)
                 .then(function (res) {
                     var konsul = res.data;
@@ -995,7 +850,7 @@ Router.post('/kesimpulanassessment', async (req, res, dataputs) => {
                     selectkonsul: selectkonsul,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/listkesimpulan';
+                url =  process.env.MAIN_URL + '/listkesimpulan';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var peserta = res.data.results;
@@ -1058,7 +913,7 @@ Router.get('/kesimpulanassessmentpeserta', async (req, res, dataputs) => {
                     selectpeserta: req.session.idpesertainput,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/listkesimpulanpeserta';
+                url =  process.env.MAIN_URL + '/listkesimpulanpeserta';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var jawaban = res.data.results;
@@ -1132,7 +987,7 @@ Router.post('/kesimpulanassessmentpeserta', async (req, res, dataputs) => {
                     selectpeserta: selectpeserta,
                 }
                 let res1 = res;
-                url =  MAIN_URL + '/listkesimpulanpeserta';
+                url =  process.env.MAIN_URL + '/listkesimpulanpeserta';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var jawaban = res.data.results;

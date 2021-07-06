@@ -1,8 +1,9 @@
 const Mysql = require("mysql");
 const Path = require("path");
-const Dotenv = require("dotenv");
 const axios = require('axios');
-const MAIN_URL = require ("../urlconfig.js");
+const Dotenv = require("dotenv");
+Dotenv.config({ path: './.env' });
+// process.env.MAIN_URL
 
 exports.input = async (req, res, dataputs) => {
     try{
@@ -15,7 +16,7 @@ exports.input = async (req, res, dataputs) => {
                 tanggal2: tanggalakhir
             }
             var res1 = res;
-            url =  MAIN_URL + '/konsul/registerkonsul';
+            url =  process.env.MAIN_URL + '/konsul/registerkonsul';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 var message = res.data.message;
@@ -42,12 +43,12 @@ exports.input = async (req, res, dataputs) => {
             }
             res.redirect("/konsul");
         }
-    } catch(err){
+    } catch(error){
         // console.log(err);
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: 'Error please contact developer!'
+            message: error
         }
         res.redirect("/konsul");
     }
@@ -65,7 +66,7 @@ exports.edit = async (req, res, dataputs) => {
                 tanggal2: modaltanggalberakhirkonsul
             }
             var res1 = res;
-            url =  MAIN_URL + '/konsul/editkonsul';
+            url =  process.env.MAIN_URL + '/konsul/editkonsul';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 var message = res.data.message;
@@ -91,12 +92,12 @@ exports.edit = async (req, res, dataputs) => {
             }
             res.redirect("/konsul");
         }
-    } catch(err){
+    } catch(error){
         // console.log(err);
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: err
+            message: error
         }
         res.redirect("/konsul");
     }
@@ -111,7 +112,7 @@ exports.delete = async (req, res, dataputs) => {
                 id: modalidkonsulhapus,
             }
             var res1 = res;
-            url =  MAIN_URL + '/konsul/deletekonsul';
+            url =  process.env.MAIN_URL + '/konsul/deletekonsul';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 var message = res.data.message;
@@ -137,12 +138,12 @@ exports.delete = async (req, res, dataputs) => {
             }
             res.redirect("/konsul");
         }
-    } catch(err){
+    } catch(error){
         // console.log(err);
         /** catch */
         req.session.sessionFlash = {
             type: 'error',
-            message: err
+            message: error
         }
         res.redirect("/konsul");
     }
