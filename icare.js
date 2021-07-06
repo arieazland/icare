@@ -5,8 +5,9 @@ const Hbs = require("hbs");
 const Moment = require("moment");
 require("moment/locale/id");  // without this line it didn't work
 Moment.locale('id');
-
 const app = Express();
+const Dotenv = require("dotenv");
+Dotenv.config({ path: './.env' });
 
 var session = require("express-session");
 app.use(session({
@@ -30,8 +31,6 @@ app.use(function(req, res, next){
         next();
     });
 
-// Dotenv.config({ path: './.env' });
-// const Connection = require ("./DBConnection");
 
 // Set Engine
 const publicDirectory = Path.join(__dirname, './public' );
@@ -115,7 +114,7 @@ app.use('/kesimpulan', require('./routes/kesimpulan'));
 //     res.render('index');
 // });
 
-let port = 5024;
+let port = process.env.PORT || 5034;
 app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
 });
