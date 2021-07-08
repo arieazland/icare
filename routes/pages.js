@@ -9,6 +9,62 @@ Dotenv.config({ path: './.env' });
 require("moment/locale/id");  // without this line it didn't work
 Moment.locale('id');
 
+/** test */
+Router.get('/vidcall', (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        res.render("test",{
+            username, nama, idu, tipe,
+        })
+    } else {
+        // req.session.sessionFlash = {
+        //     type: 'error',
+        //     message: 'Silahkan login terlebih dahulu!'
+        // }
+        res.redirect('/login');
+    }
+})
+
+Router.get('/vidcall2', (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        res.render("test2",{
+            username, nama, idu, tipe,
+        })
+    } else {
+        // req.session.sessionFlash = {
+        //     type: 'error',
+        //     message: 'Silahkan login terlebih dahulu!'
+        // }
+        res.redirect('/login');
+    }
+})
+
+Router.get('/vidcall3', (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        res.render("test3",{
+            username, nama, idu, tipe,
+        })
+    } else {
+        // req.session.sessionFlash = {
+        //     type: 'error',
+        //     message: 'Silahkan login terlebih dahulu!'
+        // }
+        res.redirect('/login');
+    }
+})
+/** end test */
+
 /** Route for Home */
 Router.get('/', (req, res) => {
     if(req.session.loggedIn){
