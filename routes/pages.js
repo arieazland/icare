@@ -16,8 +16,9 @@ Router.get('/vidcall', (req, res) => {
         username = req.session.username
         nama = req.session.nama
         tipe = req.session.type
+        vidcall = "true"
         res.render("test",{
-            username, nama, idu, tipe,
+            username, nama, idu, tipe, vidcall
         })
     } else {
         // req.session.sessionFlash = {
