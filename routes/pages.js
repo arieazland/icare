@@ -1113,7 +1113,7 @@ Router.get('/vidcall/:id', (req, res) => {
                     })
                     /** sent email ke peserta */
                     let mailOptions = {
-                        from: 'arieazlandfirly@gmail.com',
+                        from: 'arieazlandfirly@gmail.com, qurhanul.rizqie@gmail.com',
                         // to: 'qurhanul.rizqie@gmail.com',
                         to: 'arieazland@gmail.com',
                         subject: 'i-care Video Call Link',
