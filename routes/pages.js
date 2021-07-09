@@ -1125,7 +1125,7 @@ Router.get('/vidcall/:id', (req, res) => {
                     /** sent email ke peserta */
                     let mailOptions = {
                         from: 'arieazlandfirly@gmail.com',
-                        to: 'arieazland@gmail.com',
+                        to: 'qurhanul.rizqie@gmail.com',
                         subject: 'i-care Video Call Link',
                         text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://qiera.daily.co/new-prebuilt-test '
                     };
