@@ -5,3 +5,7 @@
 /* .scroll-sidebar{
     overflow: visible hidden !important;
 } */
+
+.checked {
+    color: orange;
+}
