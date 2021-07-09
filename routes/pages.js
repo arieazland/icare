@@ -1070,24 +1070,13 @@ Router.get('/accountsetting', (req, res) => {
 });
 
 /** test for vidcall */
-// Router.get('/vidcall', (req, res) => {
-//     if(req.session.loggedIn){
-//         idu = req.session.iduser
-//         username = req.session.username
-//         nama = req.session.nama
-//         tipe = req.session.type
-//         vidcall = "true"
-//         res.render("test",{
-//             username, nama, idu, tipe, vidcall
-//         })
-//     } else {
-//         // req.session.sessionFlash = {
-//         //     type: 'error',
-//         //     message: 'Silahkan login terlebih dahulu!'
-//         // }
-//         res.redirect('/login');
-//     }
-// })
+Router.get('/videocallicare/:url/:url2', (req, res) => {
+    var urlvideocall = req.params.url;
+    var urlvideocall2 = req.params.url2;
+    res.render("test2",{
+        urlvideocall, urlvideocall2
+    })
+})
 
 Router.get('/vidcall/:id', (req, res) => {
     if(req.session.loggedIn){
@@ -1125,9 +1114,11 @@ Router.get('/vidcall/:id', (req, res) => {
                     /** sent email ke peserta */
                     let mailOptions = {
                         from: 'arieazlandfirly@gmail.com',
-                        to: 'qurhanul.rizqie@gmail.com',
+                        // to: 'qurhanul.rizqie@gmail.com',
+                        to: 'arieazland@gmail.com',
                         subject: 'i-care Video Call Link',
-                        text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://qiera.daily.co/new-prebuilt-test '
+                        // text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://qiera.daily.co/new-prebuilt-test '
+                        text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/qiera.daily.co/new-prebuilt-test '
                     };
                     
                     transporter.sendMail(mailOptions, function(err, data) {
