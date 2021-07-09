@@ -1113,9 +1113,9 @@ Router.get('/vidcall/:id', (req, res) => {
                     })
                     /** sent email ke peserta */
                     let mailOptions = {
-                        from: 'arieazlandfirly@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
+                        from: 'arieazlandfirly@gmail.com',
                         // to: 'qurhanul.rizqie@gmail.com',
-                        to: 'arieazland@gmail.com',
+                        to: 'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
                         subject: 'i-care Video Call Link',
                         // text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://qiera.daily.co/new-prebuilt-test '
                         text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/qiera.daily.co/new-prebuilt-test '
