@@ -165,7 +165,18 @@
                                             <hr>
                                             {{/each}}
 
-                                            <a href="/vidcall" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button></a>
+                                            <a href="/vidcall/{{#each datapeserta}}{{ idpeserta }}{{/each}}" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button></a>
+
+                                            {{!-- <form action="/vidcall" method="POST">
+                                                <div class="form-body p-t-0">
+                                                    <div class="form-group">
+                                                        <input type="hidden" class="form-control" id="idpeserta" name="idpeserta" value="{{#each datapeserta}}{{ idpeserta }}{{/each}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-actions text-right">
+                                                    <button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button>
+                                                </div>
+                                            </form> --}}
 
                                             <hr>
 

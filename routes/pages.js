@@ -2,6 +2,7 @@ const Express = require("express");
 const axios = require('axios');
 const Router = Express.Router();
 const Moment = require("moment");
+const nodemailer = require('nodemailer');
 const Dotenv = require("dotenv");
 Dotenv.config({ path: './.env' });
 // process.env.MAIN_URL
@@ -9,62 +10,18 @@ Dotenv.config({ path: './.env' });
 require("moment/locale/id");  // without this line it didn't work
 Moment.locale('id');
 
-/** test */
-Router.get('/vidcall', (req, res) => {
-    if(req.session.loggedIn){
-        idu = req.session.iduser
-        username = req.session.username
-        nama = req.session.nama
-        tipe = req.session.type
-        vidcall = "true"
-        res.render("test",{
-            username, nama, idu, tipe, vidcall
-        })
-    } else {
-        // req.session.sessionFlash = {
-        //     type: 'error',
-        //     message: 'Silahkan login terlebih dahulu!'
-        // }
-        res.redirect('/login');
+/** set up mail sender */
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD,
+      clientId: process.env.OAUTH_CLIENTID,
+      clientSecret: process.env.OAUTH_CLIENT_SECRET,
+      refreshToken: process.env.OAUTH_REFRESH_TOKEN
     }
-})
-
-Router.get('/vidcall2', (req, res) => {
-    if(req.session.loggedIn){
-        idu = req.session.iduser
-        username = req.session.username
-        nama = req.session.nama
-        tipe = req.session.type
-        res.render("test2",{
-            username, nama, idu, tipe,
-        })
-    } else {
-        // req.session.sessionFlash = {
-        //     type: 'error',
-        //     message: 'Silahkan login terlebih dahulu!'
-        // }
-        res.redirect('/login');
-    }
-})
-
-Router.get('/vidcall3', (req, res) => {
-    if(req.session.loggedIn){
-        idu = req.session.iduser
-        username = req.session.username
-        nama = req.session.nama
-        tipe = req.session.type
-        res.render("test3",{
-            username, nama, idu, tipe,
-        })
-    } else {
-        // req.session.sessionFlash = {
-        //     type: 'error',
-        //     message: 'Silahkan login terlebih dahulu!'
-        // }
-        res.redirect('/login');
-    }
-})
-/** end test */
+  });
 
 /** Route for Home */
 Router.get('/', (req, res) => {
@@ -1111,6 +1068,106 @@ Router.get('/accountsetting', (req, res) => {
         res.redirect('/login');
     }
 });
+
+/** test for vidcall */
+// Router.get('/vidcall', (req, res) => {
+//     if(req.session.loggedIn){
+//         idu = req.session.iduser
+//         username = req.session.username
+//         nama = req.session.nama
+//         tipe = req.session.type
+//         vidcall = "true"
+//         res.render("test",{
+//             username, nama, idu, tipe, vidcall
+//         })
+//     } else {
+//         // req.session.sessionFlash = {
+//         //     type: 'error',
+//         //     message: 'Silahkan login terlebih dahulu!'
+//         // }
+//         res.redirect('/login');
+//     }
+// })
+
+Router.get('/vidcall/:id', (req, res) => {
+    if(req.session.loggedIn){
+
+        // const { idperserta } = req.body;
+        var idpeserta = req.params.id;
+
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        /** vidcall = "true" **/
+        if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan' ){
+            if(idpeserta) {
+                /** 1.get data peserta (terutama email) */
+                /** 2.get konfigurasi kirim email */
+                /** 3.kirim email link video call daily.co */
+                /** 4.render page test.hbs untuk video caall psikolog atau admin */
+                /**res.render("test",{
+                    username, nama, idu, tipe, vidcall
+                })**/
+                params = {
+                    idpeserta: idpeserta,
+                }
+                let res1 = res;
+                url = process.env.MAIN_URL + '/getpeserta';
+                // url =  MAIN_URL + '/userlist';
+                axios.post(url, params)
+                .then(function (res) {
+                    var peserta = res.data;
+                    res1.render('test', {
+                        idu, username, nama, tipe,
+                        peserta: peserta
+                    })
+                    /** sent email ke peserta */
+                    let mailOptions = {
+                        from: 'arieazlandfirly@gmail.com',
+                        to: 'arieazland@gmail.com',
+                        subject: 'i-care Video Call Link',
+                        text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://qiera.daily.co/new-prebuilt-test '
+                    };
+                    
+                    transporter.sendMail(mailOptions, function(err, data) {
+                        if (err) {
+                            console.log("Error " + err);
+                        } else {
+                            console.log("Email sent successfully");
+                        }
+                    });
+                    /** end sent email ke peserta */
+                })
+                .catch(function (err) {
+                    // console.log(err);
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message,
+                        idu, username, nama, tipe,
+                    }
+                    res1.redirect("/");
+                })
+            } else {
+                /** redirect ke page kesimpulan dengan membawa data tipe konsultasi dan peserta terpilih */
+            }
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        // req.session.sessionFlash = {
+        //     type: 'error',
+        //     message: 'Silahkan login terlebih dahulu!'
+        // }
+        res.redirect('/login');
+    }
+})
+/** end test */
 
 /** Router for logout */
 Router.get('/logout', (req, res) =>{

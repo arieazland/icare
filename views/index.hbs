@@ -54,9 +54,22 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
+                {{!-- Start of Notifikasi --}}
+                {{#if sessionFlash.message}}
+                    <div class="alert alert-danger"> 
+                        {{sessionFlash.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{#if sessionFlash2.message}}
+                    <div class="alert alert-success"> 
+                        {{sessionFlash2.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{!-- End of Notifikasi --}}
                 <!-- Row -->
                 <div class="row">
-                    
                 </div>
                 <!-- Row -->
                 <!-- ============================================================== -->
