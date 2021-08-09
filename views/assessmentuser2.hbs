@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{{> header}}
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    {{> preloader}}
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {{> topbar}}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {{> navbaruser}}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Jawab Assessment</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Jawab Assessment</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                {{!-- Start of Notifikasi --}}
+                {{#if sessionFlash.message}}
+                    <div class="alert alert-danger"> 
+                        {{sessionFlash.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{#if sessionFlash2.message}}
+                    <div class="alert alert-success"> 
+                        {{sessionFlash2.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{!-- End of Notifikasi --}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Jawab Assessment</h4>
+                            </div>
+                            <div class="card-block">
+                                {{!-- start of form pilih event --}}
+                                <form action="/assessmentuser" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Konsul</h4>
+                                        <h6 class="card-subtitle"> Pilih konsultasi terlebih dahulu</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="selectkonsul" name="selectkonsul" style="width: 100%" required>
+                                            <option>-- Pilih Konsultasi --</option>
+                                            {{#each datakonsul}}
+                                                <option value="{{ id }}" {{#if ../selectkonsul}}{{#compare id ../selectkonsul operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#if selectkonsul}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Jawab Assessment</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- start of form pilih event --}}
+                                <form action="/assessmentuser_klasifikasi" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Klasifikasi Konsultasi</h4>
+                                        <h6 class="card-subtitle"> Pilih klasifikasi konsultasi berikut sesuai pengalaman anda</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="selectpart" name="selectpart" style="width: 100%" required>
+                                            <option>-- Pilih Klasifikasi Konsultasi --</option>
+                                            {{#each datapart}}
+                                                <option value="{{ id }}" {{#if ../selectpart}}{{#compare id ../selectpart operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
+                                            {{/each}}
+                                        </select>
+                                        <input type="hidden" id="tipekonsul" name="tipekonsul" value="{{selectkonsul}}" required>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#if datasoal}}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Soal</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                <form id="simpanjawaban" action="#" method="post">
+                                    <input type="hidden" class="form-control" id="idacara" name="idacara" value="{{ selectacara }}">
+                                    <input type="hidden" class="form-control" id="iduser" name="iduser" value="{{ idu }}">
+                                    {{!-- Start of tabel list soal --}}
+                                    <h6 class="card-subtitle">Jawablah pertanyaan berikut</h6>
+                                    <hr>
+                                    <div class="table-responsive m-t-40">
+                                        <table id="soalassessment" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">No.</th>
+                                                    <th class="text-center">Soal</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th class="text-center">No.</th>
+                                                    <th class="text-center">Soal</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                {{#each datasoal}}
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            {{counter @index}}
+                                                            <input type="hidden" class="form-control" id="idsoal" name="idsoal" value="{{ id }}">
+                                                        </td>
+                                                        <td>
+                                                            {{ pertanyaan }} <br>
+                                                            {{#compare max_jawaban '2' operator="=="}}
+                                                                <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
+                                                                <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
+                                                                <label for="radiob_{{id}}"> {{ b }} </label>
+                                                            {{/compare}}
+                                                            {{#compare max_jawaban '3' operator="=="}}
+                                                                <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
+                                                                <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
+                                                                <label for="radiob_{{id}}"> {{ b }} </label>
+                                                                &nbsp
+                                                    
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
+                                                                <label for="radioc_{{id}}"> {{ c }} </label>
+                                                                {{#compare sub 'c' operator="=="}}
+                                                                <div id="subradioc_{{id}}" class="boxc" style="display: none;">
+                                                                    {{ sub_pertanyaan }}: &nbsp
+                                                                    <input class="m-r-200" type="radio" name="radiosub{{id}}" id="radiosuba_{{id}}" value="{{ sub_jawaban_a }}">
+                                                                    <label class="m-r-200" for="radiosuba_{{id}}"> {{ sub_jawaban_a }} </label>
+                                                                    &nbsp
+
+                                                                    <input type="radio" required="required" name="radiosub{{id}}" id="radiosubb_{{id}}" value="{{ sub_jawaban_b }}">
+                                                                    <label for="radiosubb_{{id}}"> {{ sub_jawaban_b }} </label>
+                                                                    &nbsp
+
+                                                                    <input type="radio" required="required" name="radiosub{{id}}" id="radiosubc_{{id}}" value="{{ sub_jawaban_c }}">
+                                                                    <label for="radiosubc_{{id}}"> {{ sub_jawaban_c }} </label>
+                                                                    &nbsp
+
+                                                                    <input type="radio" required="required" name="radiosub{{id}}" id="radiosubd_{{id}}" value="{{ sub_jawaban_d }}">
+                                                                    <label for="radiosubd_{{id}}"> {{ sub_jawaban_d }} </label>
+                                                                    &nbsp
+                                                                    
+                                                                </div>
+                                                                {{/compare}}
+                                                            {{/compare}}
+                                                            {{#compare max_jawaban '7' operator="=="}}
+                                                                <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
+                                                                <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
+                                                                <label for="radiob_{{id}}"> {{ b }} </label>
+                                                                &nbsp
+                                                        
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
+                                                                <label for="radioc_{{id}}"> {{ c }} </label>
+                                                                &nbsp
+                                                        
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiod_{{id}}" value="{{ d }}">
+                                                                <label for="radiod_{{id}}"> {{ d }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radioe_{{id}}" value="{{ e }}">
+                                                                <label for="radioe_{{id}}"> {{ e }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiof_{{id}}" value="{{ f }}">
+                                                                <label for="radiof_{{id}}"> {{ f }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiog_{{id}}" value="{{ g }}">
+                                                                <label for="radiog_{{id}}"> {{ g }} </label>
+                                                                {{#compare essay 'g' operator="=="}}
+                                                                    <div id="essayradiog_{{id}}" class="boxg" style="display: none;">
+                                                                        Jelaskan:
+                                                                        <textarea class="form-control essayboxg" name="essayboxg" id="essayboxg" rows="10" required></textarea>
+                                                                    </div>
+                                                                {{/compare}}
+                                                            {{/compare}}
+                                                            {{#compare max_jawaban '9' operator="=="}}
+                                                                <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
+                                                                <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
+                                                                <label for="radiob_{{id}}"> {{ b }} </label>
+                                                                &nbsp
+                                                        
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
+                                                                <label for="radioc_{{id}}"> {{ c }} </label>
+                                                                &nbsp
+                                                        
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiod_{{id}}" value="{{ d }}">
+                                                                <label for="radiod_{{id}}"> {{ d }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radioe_{{id}}" value="{{ e }}">
+                                                                <label for="radioe_{{id}}"> {{ e }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiof_{{id}}" value="{{ f }}">
+                                                                <label for="radiof_{{id}}"> {{ f }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radiog_{{id}}" value="{{ g }}">
+                                                                <label for="radiog_{{id}}"> {{ g }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radioh_{{id}}" value="{{ h }}">
+                                                                <label for="radioh_{{id}}"> {{ h }} </label>
+                                                                &nbsp
+
+                                                                <input type="radio" required="required" name="radio{{id}}" id="radioi_{{id}}" value="{{ i }}" class="haveessay">
+                                                                <label for="radioi_{{id}}"> {{ i }} </label>
+                                                                {{#compare essay 'i' operator="=="}}
+                                                                    <div id="essayradioi_{{id}}" class="boxi" style="display: none;">
+                                                                        Jelaskan:
+                                                                        <textarea class="form-control essayboxi" name="essayboxi" id="essayboxi" rows="10" required></textarea>
+                                                                    </div>
+                                                                {{/compare}}
+                                                            {{/compare}}
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    {{!-- End of tabel list soal --}}
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" id="tombolsimpan" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Simpan Jawaban</button>
+                                        <button type="reset" id="tombolreset" class="btn btn-block btn-outline-warning">Reset</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {{/if}}
+                {{!-- end of row --}}
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {{> footer}}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    {{> plugins}}
+    {{!-- <script src="/js/client/datatable/pertanyaan.js"></script>
+    <script src="/js/client/modal/soal.js"></script>
+    <script src="/js/client/adddiv/soal.js"></script> --}}
+    {{#if datasoal}}
+    {{#each datasoal}} {{#compare sub 'c' operator="=="}} 
+        <script>
+            $(document).ready(function(){
+                var nama = 'radio'+{{id}}
+                var namasub = 'radiosub'+{{id}}
+                $("input[name$='"+nama+"']").click(function() {
+                    var inputValue = $(this).attr("id");
+                    $("div.boxc").hide();
+                    $('input[name='+namasub+']').prop('checked', false);
+
+                    var add = '#sub'+inputValue
+                    $(add).show();
+                    $('input[name='+namasub+']').setAttribute("required","required");
+                });
+            });
+        </script>
+    {{/compare}} {{/each}}
+    {{#each datasoal}} {{#compare essay 'g' operator="=="}} 
+        <script>
+            $(document).ready(function(){
+                var nama = 'radio'+{{id}}
+                $("input[name$='"+nama+"']").click(function() {
+                    var inputId = $(this).attr("id");
+                    
+                    $("div.boxg").hide();
+                    $('#essayboxg').val('');
+
+                    var add = '#essay'+inputId
+                    $(add).show();
+                });
+            });
+        </script>
+    {{/compare}} {{/each}}
+    {{#each datasoal}} {{#compare essay 'i' operator="=="}} 
+        <script>
+            $(document).ready(function(){
+                var nama = 'radio'+{{id}}
+                $("input[name$='"+nama+"']").click(function() {
+                    var inputId = $(this).attr("id");
+                    
+                    $("div.boxi").hide();
+                    $('#essayboxi').val('');
+
+                    var add = '#essay'+inputId
+                    $(add).show();
+                });
+            });
+        </script>
+    {{/compare}} {{/each}}
+    {{/if}}
+</body>
+
+</html>
