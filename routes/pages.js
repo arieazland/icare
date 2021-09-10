@@ -485,10 +485,10 @@ Router.post('/assessmentuser', async (req, res) => {
                     })
                     .catch(function (err) {
                         // console.log(err.response.data)
-                        // var message = err.response.data.message;
+                        var message = err.response.data.message;
                         req.session.sessionFlash = {
                             type: 'error',
-                            message: 'Error, please contact developer',
+                            message: message,
                             idu, username, nama, tipe,
                         }
                         res1.redirect("/assessmentuser");

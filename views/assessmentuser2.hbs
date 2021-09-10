@@ -144,9 +144,20 @@
                                 <h4 class="m-b-0 text-white">Form Soal</h4>
                             </div> --}}
                             <div class="card-block">
-                                <form id="simpanjawaban" action="#" method="post">
-                                    <input type="hidden" class="form-control" id="idacara" name="idacara" value="{{ selectacara }}">
+                                <form id="simpanjawaban"
+                                {{#compare selectpart '1' operator="=="}}
+                                    action="jawab/part1"
+                                {{/compare}}
+                                {{#compare selectpart '2' operator="=="}}
+                                    action="jawab/part2"
+                                {{/compare}}
+                                {{#compare selectpart '3' operator="=="}}
+                                    action="jawab/part3"
+                                {{/compare}}
+                            method="post">
+                                    <input type="hidden" class="form-control" id="idkonsul" name="idkonsul" value="{{ selectkonsul }}">
                                     <input type="hidden" class="form-control" id="iduser" name="iduser" value="{{ idu }}">
+                                    <input type="hidden" class="form-control" id="idpart" name="idpart" value="{{ selectpart }}">
                                     {{!-- Start of tabel list soal --}}
                                     <h6 class="card-subtitle">Jawablah pertanyaan berikut</h6>
                                     <hr>
@@ -174,119 +185,129 @@
                                                         <td>
                                                             {{ pertanyaan }} <br>
                                                             {{#compare max_jawaban '2' operator="=="}}
-                                                                <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
-                                                                <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
-                                                                &nbsp
+                                                                <div class="toggle">
+                                                                    <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
+                                                                    <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
-                                                                <label for="radiob_{{id}}"> {{ b }} </label>
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
+                                                                    <label for="radiob_{{id}}"> {{ b }} </label>
+                                                                </div>
                                                             {{/compare}}
                                                             {{#compare max_jawaban '3' operator="=="}}
-                                                                <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
-                                                                <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
-                                                                &nbsp
-
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
-                                                                <label for="radiob_{{id}}"> {{ b }} </label>
-                                                                &nbsp
-                                                    
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
-                                                                <label for="radioc_{{id}}"> {{ c }} </label>
-                                                                {{#compare sub 'c' operator="=="}}
-                                                                <div id="subradioc_{{id}}" class="boxc" style="display: none;">
-                                                                    {{ sub_pertanyaan }}: &nbsp
-                                                                    <input class="m-r-200" type="radio" name="radiosub{{id}}" id="radiosuba_{{id}}" value="{{ sub_jawaban_a }}">
-                                                                    <label class="m-r-200" for="radiosuba_{{id}}"> {{ sub_jawaban_a }} </label>
+                                                                <div class="toggle">
+                                                                    <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
+                                                                    <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
                                                                     &nbsp
 
-                                                                    <input type="radio" required="required" name="radiosub{{id}}" id="radiosubb_{{id}}" value="{{ sub_jawaban_b }}">
-                                                                    <label for="radiosubb_{{id}}"> {{ sub_jawaban_b }} </label>
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
+                                                                    <label for="radiob_{{id}}"> {{ b }} </label>
                                                                     &nbsp
+                                                        
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
+                                                                    <label for="radioc_{{id}}"> {{ c }} </label>
+                                                                </div> 
+                                                                    {{#compare sub 'c' operator="=="}}
+                                                                    <div id="subradioc_{{id}}" class="boxc" style="display: none;">
+                                                                        {{ sub_pertanyaan }}: &nbsp
+                                                                        <div class="toggle">
+                                                                            <input class="m-r-200" type="radio" name="radiosub{{id}}" id="radiosuba_{{id}}" value="{{ sub_jawaban_a }}">
+                                                                            <label class="m-r-200" for="radiosuba_{{id}}"> {{ sub_jawaban_a }} </label>
+                                                                            &nbsp
 
-                                                                    <input type="radio" required="required" name="radiosub{{id}}" id="radiosubc_{{id}}" value="{{ sub_jawaban_c }}">
-                                                                    <label for="radiosubc_{{id}}"> {{ sub_jawaban_c }} </label>
-                                                                    &nbsp
+                                                                            <input type="radio" name="radiosub{{id}}" id="radiosubb_{{id}}" value="{{ sub_jawaban_b }}">
+                                                                            <label for="radiosubb_{{id}}"> {{ sub_jawaban_b }} </label>
+                                                                            &nbsp
 
-                                                                    <input type="radio" required="required" name="radiosub{{id}}" id="radiosubd_{{id}}" value="{{ sub_jawaban_d }}">
-                                                                    <label for="radiosubd_{{id}}"> {{ sub_jawaban_d }} </label>
-                                                                    &nbsp
-                                                                    
-                                                                </div>
+                                                                            <input type="radio" name="radiosub{{id}}" id="radiosubc_{{id}}" value="{{ sub_jawaban_c }}">
+                                                                            <label for="radiosubc_{{id}}"> {{ sub_jawaban_c }} </label>
+                                                                            &nbsp
+
+                                                                            <input type="radio" name="radiosub{{id}}" id="radiosubd_{{id}}" value="{{ sub_jawaban_d }}">
+                                                                            <label for="radiosubd_{{id}}"> {{ sub_jawaban_d }} </label>
+                                                                            &nbsp
+                                                                        </div>
+                                                                    </div>
                                                                 {{/compare}}
                                                             {{/compare}}
                                                             {{#compare max_jawaban '7' operator="=="}}
-                                                                <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
-                                                                <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
-                                                                &nbsp
+                                                                <div class="toggle">
+                                                                    <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
+                                                                    <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
-                                                                <label for="radiob_{{id}}"> {{ b }} </label>
-                                                                &nbsp
-                                                        
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
-                                                                <label for="radioc_{{id}}"> {{ c }} </label>
-                                                                &nbsp
-                                                        
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiod_{{id}}" value="{{ d }}">
-                                                                <label for="radiod_{{id}}"> {{ d }} </label>
-                                                                &nbsp
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
+                                                                    <label for="radiob_{{id}}"> {{ b }} </label>
+                                                                    &nbsp
+                                                            
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
+                                                                    <label for="radioc_{{id}}"> {{ c }} </label>
+                                                                    &nbsp
+                                                            
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiod_{{id}}" value="{{ d }}">
+                                                                    <label for="radiod_{{id}}"> {{ d }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radioe_{{id}}" value="{{ e }}">
-                                                                <label for="radioe_{{id}}"> {{ e }} </label>
-                                                                &nbsp
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radioe_{{id}}" value="{{ e }}">
+                                                                    <label for="radioe_{{id}}"> {{ e }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiof_{{id}}" value="{{ f }}">
-                                                                <label for="radiof_{{id}}"> {{ f }} </label>
-                                                                &nbsp
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiof_{{id}}" value="{{ f }}">
+                                                                    <label for="radiof_{{id}}"> {{ f }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiog_{{id}}" value="{{ g }}">
-                                                                <label for="radiog_{{id}}"> {{ g }} </label>
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiog_{{id}}" value="{{ g }}">
+                                                                    <label for="radiog_{{id}}"> {{ g }} </label>
+                                                                </div>
                                                                 {{#compare essay 'g' operator="=="}}
                                                                     <div id="essayradiog_{{id}}" class="boxg" style="display: none;">
                                                                         Jelaskan:
-                                                                        <textarea class="form-control essayboxg" name="essayboxg" id="essayboxg" rows="10" required></textarea>
+                                                                        <textarea class="form-control essayboxg" name="essayboxg" id="essayboxg" rows="10"></textarea>
                                                                     </div>
                                                                 {{/compare}}
                                                             {{/compare}}
                                                             {{#compare max_jawaban '9' operator="=="}}
-                                                                <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
-                                                                <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
-                                                                &nbsp
+                                                                <div class="toggle">
+                                                                    <input class="m-r-200" type="radio" required="required" name="radio{{id}}" id="radioa_{{id}}" value="{{ a }}">
+                                                                    <label class="m-r-200" for="radioa_{{id}}"> {{ a }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
-                                                                <label for="radiob_{{id}}"> {{ b }} </label>
-                                                                &nbsp
-                                                        
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
-                                                                <label for="radioc_{{id}}"> {{ c }} </label>
-                                                                &nbsp
-                                                        
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiod_{{id}}" value="{{ d }}">
-                                                                <label for="radiod_{{id}}"> {{ d }} </label>
-                                                                &nbsp
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiob_{{id}}" value="{{ b }}">
+                                                                    <label for="radiob_{{id}}"> {{ b }} </label>
+                                                                    &nbsp
+                                                            
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radioc_{{id}}" value="{{ c }}">
+                                                                    <label for="radioc_{{id}}"> {{ c }} </label>
+                                                                    &nbsp
+                                                            
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiod_{{id}}" value="{{ d }}">
+                                                                    <label for="radiod_{{id}}"> {{ d }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radioe_{{id}}" value="{{ e }}">
-                                                                <label for="radioe_{{id}}"> {{ e }} </label>
-                                                                &nbsp
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radioe_{{id}}" value="{{ e }}">
+                                                                    <label for="radioe_{{id}}"> {{ e }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiof_{{id}}" value="{{ f }}">
-                                                                <label for="radiof_{{id}}"> {{ f }} </label>
-                                                                &nbsp
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiof_{{id}}" value="{{ f }}">
+                                                                    <label for="radiof_{{id}}"> {{ f }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radiog_{{id}}" value="{{ g }}">
-                                                                <label for="radiog_{{id}}"> {{ g }} </label>
-                                                                &nbsp
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radiog_{{id}}" value="{{ g }}">
+                                                                    <label for="radiog_{{id}}"> {{ g }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radioh_{{id}}" value="{{ h }}">
-                                                                <label for="radioh_{{id}}"> {{ h }} </label>
-                                                                &nbsp
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radioh_{{id}}" value="{{ h }}">
+                                                                    <label for="radioh_{{id}}"> {{ h }} </label>
+                                                                    &nbsp
 
-                                                                <input type="radio" required="required" name="radio{{id}}" id="radioi_{{id}}" value="{{ i }}" class="haveessay">
-                                                                <label for="radioi_{{id}}"> {{ i }} </label>
+                                                                    <input type="radio" required="required" name="radio{{id}}" id="radioi_{{id}}" value="{{ i }}" class="haveessay">
+                                                                    <label for="radioi_{{id}}"> {{ i }} </label>
+                                                                </div>
+                                                                
                                                                 {{#compare essay 'i' operator="=="}}
                                                                     <div id="essayradioi_{{id}}" class="boxi" style="display: none;">
                                                                         Jelaskan:
-                                                                        <textarea class="form-control essayboxi" name="essayboxi" id="essayboxi" rows="10" required></textarea>
+                                                                        <textarea class="form-control essayboxi" name="essayboxi" id="essayboxi" rows="10"></textarea>
                                                                     </div>
                                                                 {{/compare}}
                                                             {{/compare}}
