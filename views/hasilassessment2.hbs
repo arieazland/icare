@@ -157,32 +157,32 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td class="text-nowrap"> <code>Nama</code> </td>
-                                                        <td>{{#each biodata}} {{namapeserta}} {{/each}}</td>
+                                                        <td class="text-nowrap"> <b>Nama</b> </td>
+                                                        <td>{{#each biodata}} {{#if namapeserta}} {{namapeserta}} {{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap"> <code>Tempat/Tanggal Lahir</code> </td>
-                                                        <td>{{#each biodata}} {{tempat_lahir}}/{{formatDate tanggal_lahir}} {{/each}}</td>
+                                                        <td class="text-nowrap"> <b>Tempat/Tanggal Lahir</b> </td>
+                                                        <td>{{#each biodata}} {{#if tempat_lahir}} {{tempat_lahir}}{{/if}}/{{#if tanggal_lahir}}{{formatDate tanggal_lahir}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap"> <code>Jenis Kelamin</code> </td>
-                                                        <td>{{#each biodata}} {{jenis_kelamin}} {{/each}}</td>
+                                                        <td class="text-nowrap"> <b>Jenis Kelamin</b> </td>
+                                                        <td>{{#each biodata}} {{#if jenis_kelamin}}{{jenis_kelamin}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap"> <code>Pendidikan Terakhir</code> </td>
-                                                        <td>{{#each biodata}} {{loud pendidikan_terakhir}} {{/each}}</td>
+                                                        <td class="text-nowrap"> <b>Pendidikan Terakhir</b> </td>
+                                                        <td>{{#each biodata}} {{#if pendidikan_terakhir}} {{loud pendidikan_terakhir}} {{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap"> <code>Asal Universitas</code> </td>
-                                                        <td>{{#each biodata}} {{asal_universitas}} {{/each}}</td>
+                                                        <td class="text-nowrap"> <b>Asal Universitas</b> </td>
+                                                        <td>{{#each biodata}} {{#if asal_universitas}}{{asal_universitas}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap"> <code>Jurusan</code> </td>
-                                                        <td>{{#each biodata}} {{jurusan}} {{/each}}</td>
+                                                        <td class="text-nowrap"> <b>Jurusan</b> </td>
+                                                        <td>{{#each biodata}} {{#if jurusan}}{{jurusan}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-nowrap"> <code>Nomor Kontak</code> </td>
-                                                        <td>{{#each biodata}} {{phone}} {{/each}}</td>
+                                                        <td class="text-nowrap"> <b>Nomor Kontak</b> </td>
+                                                        <td>{{#each biodata}} {{#if phone}}{{phone}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
