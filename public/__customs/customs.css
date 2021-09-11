@@ -9,3 +9,36 @@
 .checked {
     color: orange;
 }
+
+.login-register2 {
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center center;
+    height:100%;
+    width:100%;
+    padding:10% 0;
+    position:fixed;
+    overflow:scroll;
+}
+.login-box2 {
+    width:400px;
+    margin:0 auto
+}
+.login-box2 .footer {
+    width:100%;
+    left:0px;
+    right:0px
+}
+.login-box2 .social {
+    display:block;
+    margin-bottom:30px
+}
+.login-sidebar2{ 
+    padding:0px;
+    margin-top:0px
+}
+.login-sidebar2 .login-box2{
+    right:0px;
+    position:absolute;
+    height:auto
+}

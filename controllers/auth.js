@@ -60,6 +60,60 @@ exports.login = async (req, res, dataputs) => {
     }        
 };
 
+exports.regPeserta = async (req, res, dataputs) => {
+    const { nama, email, password, password2, jenis_kelamin, nomor_kontak, tempat_lahir, tanggal_lahir, pendidikan, universitas, jurusan } = req.body;
+
+    if(nama && email && password && password2 && jenis_kelamin && nomor_kontak && tempat_lahir && tanggal_lahir && pendidikan && universitas && jurusan){
+        if(password == password2) {
+            params = {
+                nama: nama,
+                email: email,
+                password: password,
+                password2: password2,
+                jenis_kelamin: jenis_kelamin,
+                nomor_kontak: nomor_kontak,
+                tempat_lahir: tempat_lahir,
+                tanggal_lahir: tanggal_lahir,
+                pendidikan: pendidikan,
+                universitas: universitas,
+                jurusan: jurusan
+            }
+            var res1 = res;
+            url = process.env.MAIN_URL + '/auth/registerpeserta';
+            var dataputs = await axios.post(url, params)
+            .then(function (res) {
+                var message = res.data.message;
+                req.session.sessionFlash2 = {
+                    type: 'success',
+                    message: message
+                }
+                var users = res.data;
+                res1.redirect('/login');
+            })
+            .catch(function (err) {
+                var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message
+                }
+                res1.redirect("/register");
+            })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Mohon di cek kembali password dan konfirmasi password anda tidak sama'
+            }
+            res.redirect("/register");
+        }
+    } else {
+        req.session.sessionFlash = {
+            type: 'error',
+            message: 'Field tidak boleh kosong!'
+        }
+        res.redirect("/register");
+    }
+}
+
 exports.reg = async (req, res, dataputs) => {
     try{
         const { nama, email, password, password2, tipeakun } = req.body;

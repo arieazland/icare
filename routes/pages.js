@@ -65,6 +65,11 @@ Router.get('/login', (req, res) => {
     }
 });
 
+/** Route for Register */
+Router.get('/register', (req, res) => {
+    res.render("register");
+});
+
 /** Route for get user list */
 Router.get('/users', async (req, res) => {
     if(req.session.loggedIn){
