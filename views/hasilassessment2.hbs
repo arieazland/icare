@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{{> header}}
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    {{> preloader}}
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {{> topbar}}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbar}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{/if}}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Hasil Assessment</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Assessment</a></li>
+                            <li class="breadcrumb-item active">HasilAssessment</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                {{!-- Start of Notifikasi --}}
+                {{#if sessionFlash.message}}
+                    <div class="alert alert-danger"> 
+                        {{sessionFlash.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{#if sessionFlash2.message}}
+                    <div class="alert alert-success"> 
+                        {{sessionFlash2.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{!-- End of Notifikasi --}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Hasil Assessment</h4>
+                            </div>
+                            <div class="card-block">
+                                {{!-- start of form pilih event --}}
+                                <form action="/hasilassessment" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Konsul</h4>
+                                        <h6 class="card-subtitle"> Pilih konsultasi terlebih dahulu untuk menampilkan data jawaban assessment</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="selectkonsul" name="selectkonsul" style="width: 100%" required>
+                                            <option>-- Pilih Konsultasi --</option>
+                                            {{#each datakonsul}}
+                                                <option value="{{ id }}" {{#if ../selectkonsul}}{{#compare id ../selectkonsul operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#if selectkonsul}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Hasil Assessment</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- start of form pilih event --}}
+                                <form action="/hasilassessmentpeserta" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Peserta</h4>
+                                        <h6 class="card-subtitle"> Pilih peserta terlebih dahulu untuk menampilkan data jawaban assessment</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="selectpeserta" name="selectpeserta" style="width: 100%" required>
+                                            <option>-- Pilih Peserta --</option>
+                                            {{#each datapeserta}}
+                                                <option value="{{ idpeserta }}" {{#if ../selectpeserta}}{{#compare idpeserta ../selectpeserta operator="=="}}selected{{/compare}}{{/if}}>{{ namapeserta }}</option>
+                                            {{/each}}
+                                        </select>
+                                        <input type="hidden" id="selectkonsul" name="selectkonsul" value="{{ selectkonsul }}">
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#if selectpeserta}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-block">
+                                {{!-- start of identitas peserta --}}
+                                <div class="form-body">
+                                    <h4 class="card-title">Biodata Peserta</h4>
+                                    <hr>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-nowrap" colspan="2">Biodata</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <code>Nama</code> </td>
+                                                        <td>{{#each biodata}} {{namapeserta}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <code>Tempat/Tanggal Lahir</code> </td>
+                                                        <td>{{#each biodata}} {{tempat_lahir}}/{{formatDate tanggal_lahir}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <code>Jenis Kelamin</code> </td>
+                                                        <td>{{#each biodata}} {{jenis_kelamin}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <code>Pendidikan Terakhir</code> </td>
+                                                        <td>{{#each biodata}} {{loud pendidikan_terakhir}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <code>Asal Universitas</code> </td>
+                                                        <td>{{#each biodata}} {{asal_universitas}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <code>Jurusan</code> </td>
+                                                        <td>{{#each biodata}} {{jurusan}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <code>Nomor Kontak</code> </td>
+                                                        <td>{{#each biodata}} {{phone}} {{/each}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                {{!-- end of identitas peserta --}}
+                                {{!-- start of form tampil pertanyaan dan jawaban --}}
+                                <div class="form-body">
+                                    <h4 class="card-title">Form Jawaban</h4>
+                                    <hr>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            {{#each jawaban}}
+                                            <div class="form-group" id="form-group">
+                                                {{!-- pertanyaan --}}
+                                                <label class="control-label">Pertanyaan {{counter @index}}:</label>
+                                                <div class="form-group">
+                                                    {{pertanyaan}}
+                                                </div>
+                                                {{!-- jawaban --}}
+                                                <label class="control-label">Jawaban:</label>
+                                                <div class="form-group">
+                                                    {{jawaban}}
+                                                </div>
+                                                {{!-- sub pertanyaan dan sub jawaban --}}
+                                                {{#if sub_jawaban}}
+                                                    <label class="control-label">{{ sub_pertanyaan }}:</label>
+                                                    <div class="form-group">
+                                                        {{sub_jawaban}}
+                                                    </div>
+                                                {{/if}}
+                                                {{!-- jawaban essay --}}
+                                                {{#if jawaban_essay}}
+                                                    <label class="control-label">Penjelasan:</label>
+                                                    <div class="form-group">
+                                                        <textarea class="form-control essayboxg" name="essayboxg" id="essayboxg" rows="10" readonly>{{jawaban_essay}}</textarea>
+                                                    </div>
+                                                {{/if}}
+                                            </div>
+                                            <hr>
+                                            {{/each}}
+
+                                            <a href="/vidcall/{{selectpeserta}}" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button></a>
+
+                                            {{!-- <form action="/vidcall" method="POST">
+                                                <div class="form-body p-t-0">
+                                                    <div class="form-group">
+                                                        <input type="hidden" class="form-control" id="idpeserta" name="idpeserta" value="{{#each datapeserta}}{{ idpeserta }}{{/each}}">
+                                                    </div>
+                                                </div>
+                                                <div class="form-actions text-right">
+                                                    <button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button>
+                                                </div>
+                                            </form> --}}
+
+                                            <hr>
+
+                                            <form action="/kesimpulan/input" method="POST">
+                                                <div class="form-body p-t-20">
+                                                    <h4 class="card-title">Form Kesimpulan</h4>
+                                                    <hr>
+                                                    <div class="row p-t-5">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group" id="form-group">
+                                                                <label class="control-label">Kesimpulan:</label>
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" name="kesimpulan" id="kesimpulan" rows="10" required></textarea>
+                                                                    <input type="hidden" id="selectkonsul" name="selectkonsul" value="{{ selectkonsul }}" required>
+                                                                    <input type="hidden" id="selectpeserta" name="selectpeserta" value="{{ selectpeserta }}" required>
+                                                                    <input type="hidden" id="idu" name="idu" value="{{ idu }}" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-actions text-right">
+                                                    <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Simpan</button>
+                                                    <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                                </div>
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                {{!-- end of form tampil pertanyaan dan jawaban --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- end of row --}}
+                {{/if}}
+                {{/if}}
+                <!-- ============================================================== -->
+                <!-- End Page Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {{> footer}}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    {{> plugins}}
+</body>
+
+</html>

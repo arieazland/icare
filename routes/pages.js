@@ -923,13 +923,15 @@ Router.post('/hasilassessmentpeserta', async (req, res, dataputs) => {
                     var selectkonsul = res.data.selectkonsul;
                     var datapeserta = res.data.peserta;
                     var selectpeserta = res.data.selectpeserta;
-                    res1.render('hasilassessment', {
+                    var biodata = res.data.biodata;
+                    res1.render('hasilassessment2', {
                         idu, username, nama, tipe,
                         jawaban: jawaban,
                         datakonsul: datakonsul,
                         selectkonsul: selectkonsul,
                         datapeserta: datapeserta,
-                        selectpeserta: selectpeserta
+                        selectpeserta: selectpeserta,
+                        biodata: biodata
                     })
                 })
                 .catch(function (err) {
@@ -1124,14 +1126,16 @@ Router.get('/kesimpulanassessmentpeserta', async (req, res, dataputs) => {
                     var selectkonsul = res.data.selectkonsul;
                     var datapeserta = res.data.peserta;
                     var selectpeserta = res.data.selectpeserta;
-                    res1.render('kesimpulanassessment', {
+                    var biodata = res.data.biodata;
+                    res1.render('kesimpulanassessment2', {
                         idu, username, nama, tipe,
                         jawaban: jawaban,
                         datakonsul: datakonsul,
                         selectkonsul: selectkonsul,
                         datapeserta: datapeserta,
                         selectpeserta: selectpeserta,
-                        datakesimpulan: datakesimpulan
+                        datakesimpulan: datakesimpulan,
+                        biodata: biodata
                     })
                     req.session.idkonsulinput = null
                     req.session.idpesertainput = null
@@ -1198,14 +1202,16 @@ Router.post('/kesimpulanassessmentpeserta', async (req, res, dataputs) => {
                     var selectkonsul = res.data.selectkonsul;
                     var datapeserta = res.data.peserta;
                     var selectpeserta = res.data.selectpeserta;
-                    res1.render('kesimpulanassessment', {
+                    var biodata = res.data.biodata;
+                    res1.render('kesimpulanassessment2', {
                         idu, username, nama, tipe,
                         jawaban: jawaban,
                         datakonsul: datakonsul,
                         selectkonsul: selectkonsul,
                         datapeserta: datapeserta,
                         selectpeserta: selectpeserta,
-                        datakesimpulan: datakesimpulan
+                        datakesimpulan: datakesimpulan,
+                        biodata: biodata
                     })
                 })
                 .catch(function (err) {

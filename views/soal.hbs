@@ -139,7 +139,7 @@
                                                     <td class="text-center notexport">
                                                         <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-id="{{ idp }}" data-pertanyaan="{{ pertanyaan }}" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                         
-                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ idp }}" data-pertanyaan="{{ pertanyaan }}"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                        {{!-- <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ idp }}" data-pertanyaan="{{ pertanyaan }}"><i class="fa fa-trash" aria-hidden="true"></i></button></a> --}}
                                                     </td>
                                                 </tr>
                                             {{/each}} 
@@ -179,7 +179,7 @@
                 </form>
                 <!-- end of modal update soal -->
                 <!-- start of modal delete soal -->
-                <form action="soal/delete" method="post">
+                {{!-- <form action="soal/delete" method="post">
                     <div class="modal fade" id="modalHapussoal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -199,7 +199,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                </form> --}}
                 <!-- end of modal delete soal -->
                 {{!-- start of row --}}
                 <div class="row">
