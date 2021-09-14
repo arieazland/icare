@@ -108,6 +108,7 @@ app.use('/partisipant', require('./routes/partisipant'));
 app.use('/soal', require('./routes/soal'));
 app.use('/jawab', require('./routes/jawab'));
 app.use('/kesimpulan', require('./routes/kesimpulan'));
+app.use('/assessment', require('./routes/assessment'));
 
 /** router for index */
 // app.get('/', (req, res) => {

@@ -193,32 +193,37 @@
                                 {{!-- end of identitas peserta --}}
                                 {{!-- start of form tampil pertanyaan dan jawaban --}}
                                 <div class="form-body">
-                                    <h4 class="card-title">Form Jawaban</h4>
+
+                                    <a href="/vidcall/{{selectpeserta}}" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button></a>
+
+                                    <hr>
+
+                                    <h3 class="card-title">Form Jawaban</h3>
                                     <hr>
                                     <div class="row p-t-20">
                                         <div class="col-md-12">
                                             {{#each jawaban}}
                                             <div class="form-group" id="form-group">
                                                 {{!-- pertanyaan --}}
-                                                <label class="control-label">Pertanyaan {{counter @index}}:</label>
+                                                <label class="control-label"><h4>Pertanyaan {{counter @index}}:</h4></label>
                                                 <div class="form-group">
                                                     {{pertanyaan}}
                                                 </div>
                                                 {{!-- jawaban --}}
-                                                <label class="control-label">Jawaban:</label>
+                                                <label class="control-label"><h4>Jawaban:</h4></label>
                                                 <div class="form-group">
                                                     {{jawaban}}
                                                 </div>
                                                 {{!-- sub pertanyaan dan sub jawaban --}}
                                                 {{#if sub_jawaban}}
-                                                    <label class="control-label">{{ sub_pertanyaan }}:</label>
+                                                    <label class="control-label"><h4>{{ sub_pertanyaan }}:</h4></label>
                                                     <div class="form-group">
                                                         {{sub_jawaban}}
                                                     </div>
                                                 {{/if}}
                                                 {{!-- jawaban essay --}}
                                                 {{#if jawaban_essay}}
-                                                    <label class="control-label">Penjelasan:</label>
+                                                    <label class="control-label"><h4>Penjelasan:</h4></label>
                                                     <div class="form-group">
                                                         <textarea class="form-control essayboxg" name="essayboxg" id="essayboxg" rows="10" readonly>{{jawaban_essay}}</textarea>
                                                     </div>
@@ -227,7 +232,7 @@
                                             <hr>
                                             {{/each}}
 
-                                            <a href="/vidcall/{{selectpeserta}}" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button></a>
+                                            
 
                                             {{!-- <form action="/vidcall" method="POST">
                                                 <div class="form-body p-t-0">

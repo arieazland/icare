@@ -61,11 +61,12 @@ exports.login = async (req, res, dataputs) => {
 };
 
 exports.regPeserta = async (req, res, dataputs) => {
-    const { nama, email, password, password2, jenis_kelamin, nomor_kontak, tempat_lahir, tanggal_lahir, pendidikan, universitas, jurusan } = req.body;
+    const { username, nama, email, password, password2, jenis_kelamin, nomor_kontak, tempat_lahir, tanggal_lahir, pendidikan, universitas, jurusan } = req.body;
 
-    if(nama && email && password && password2 && jenis_kelamin && nomor_kontak && tempat_lahir && tanggal_lahir && pendidikan && universitas && jurusan){
+    if(username && nama && email && password && password2 && jenis_kelamin && nomor_kontak && tempat_lahir && tanggal_lahir && pendidikan && universitas && jurusan){
         if(password == password2) {
             params = {
+                username: username,
                 nama: nama,
                 email: email,
                 password: password,

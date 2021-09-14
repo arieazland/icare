@@ -418,25 +418,78 @@ Router.get('/assessmentuser', async (req, res) => {
         nama = req.session.nama
         tipe = req.session.type
         if(tipe === 'peserta' || tipe === 'peserta_event'){
-            let res1 = res;
-            url =  process.env.MAIN_URL + '/konsullist';
-            axios.get(url)
-            .then(function (res) {
-                var konsul = res.data;
-                res1.render('assessmentuser2', {
-                    idu, username, nama, tipe,
-                    datakonsul: konsul.data
-                })
-            })
-            .catch(function (err) {
-                // console.log(err);
-                req.session.sessionFlash = {
-                    type: 'error',
-                    message: 'Error, please contact developer',
-                    idu, username, nama, tipe,
+            if(req.session.idkonsul != null){
+                /** session id tidak kosong */
+                if(req.session.idkonsul === '3'){
+                    /** tipe konsultasi test kepribadian/SAPA */
+                    /** get data acara berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: req.session.idkonsul,
+                        idu: idu,
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/listpertanyaan2';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var selectkonsul = res.data.selectkonsul;
+                        var datakonsul = res.data.datakonsul;
+                        var partpertanyaan = res.data.partpertanyaan;
+                        if(partpertanyaan === '1'){
+                            var data = res.data.pertanyaan_part1;
+                        } else if(partpertanyaan === '2'){
+                            var data = res.data.pertanyaan_part2;
+                        } else if(partpertanyaan === '3'){
+                            var data = res.data.pertanyaan_part3;
+                        } else if(partpertanyaan === '4'){
+                            var data = res.data.pertanyaan_part4;
+                        } else if(partpertanyaan === '5'){
+                            var data = res.data.pertanyaan_part5;
+                        }
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        
+                        res1.render('assessmentmahasiswa', {
+                            idu, username, nama, tipe,
+                            data: data,
+                            selectkonsul,
+                            datakonsul,
+                            partpertanyaan
+                        })
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
+                        }
+                        res1.redirect("/assessmentuser");
+                    })
                 }
-                res.redirect("/assessmentuser");
-            })
+            } else {
+                /** session idkonsul kosong */
+                let res1 = res;
+                url =  process.env.MAIN_URL + '/konsullist';
+                axios.get(url)
+                .then(function (res) {
+                    var konsul = res.data;
+                    res1.render('assessmentuser2', {
+                        idu, username, nama, tipe,
+                        datakonsul: konsul.data
+                    })
+                })
+                .catch(function (err) {
+                    // console.log(err);
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Error, please contact developer',
+                        idu, username, nama, tipe,
+                    }
+                    res.redirect("/assessmentuser");
+                })
+            }
         } else {
             req.session.sessionFlash = {
                 type: 'error',
@@ -467,7 +520,8 @@ Router.post('/assessmentuser', async (req, res) => {
                         message: 'Harap Pilih Konsultasi Terlebih Dahulu!'
                     }
                     res.redirect("/assessmentuser");
-                } else {
+                } else if(selectkonsul === '1'){
+                    /** tipe konsultasi karir */
                     params = {
                         selectkonsul: selectkonsul,
                         selectuser: idu
@@ -495,6 +549,57 @@ Router.post('/assessmentuser', async (req, res) => {
                             type: 'error',
                             message: message,
                             idu, username, nama, tipe,
+                        }
+                        res1.redirect("/assessmentuser");
+                    })
+                } else if(selectkonsul === '2'){
+                    /** tipe konsultasi reguler */
+                    
+
+                } else if(selectkonsul === '3'){
+                    /** tipe konsultasi test kepribadian/SAPA */
+                    /** get data acara berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: selectkonsul,
+                        idu: idu,
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/listpertanyaan2';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var selectkonsul = res.data.selectkonsul;
+                        var datakonsul = res.data.datakonsul;
+                        var partpertanyaan = res.data.partpertanyaan;
+                        if(partpertanyaan === '1'){
+                            var data = res.data.pertanyaan_part1;
+                        } else if(partpertanyaan === '2'){
+                            var data = res.data.pertanyaan_part2;
+                        } else if(partpertanyaan === '3'){
+                            var data = res.data.pertanyaan_part3;
+                        } else if(partpertanyaan === '4'){
+                            var data = res.data.pertanyaan_part4;
+                        } else if(partpertanyaan === '5'){
+                            var data = res.data.pertanyaan_part5;
+                        }
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        
+                        res1.render('assessmentmahasiswa', {
+                            idu, username, nama, tipe,
+                            data: data,
+                            selectkonsul,
+                            datakonsul,
+                            partpertanyaan
+                        })
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
                         }
                         res1.redirect("/assessmentuser");
                     })
@@ -759,6 +864,99 @@ Router.post('/assessmentuser_klasifikasi', async (req, res) => {
 //         res.redirect('/login');
 //     }
 // });
+
+/** Skoring konsultasi kepribadian */
+Router.get('/skoringkepribadian', async (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan'){
+            /** get data part skoring */
+            let res1 = res;
+            url =  process.env.MAIN_URL + '/skoringpart';
+            dataputs = await axios.get(url)
+            .then(function (res) {
+                var part = res.data.getpart;
+                /** render page hasilassessment */
+                res1.render('skorassessment', {
+                    username, nama, idu, tipe,
+                    datapart: part
+                })
+            })
+            .catch(function (err) {
+                var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message
+                }
+                res1.redirect("/skoringkepribadian");
+            })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
+
+Router.post('/skoringkepribadian', async (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan'){
+            const { selectpart } = req.body;
+            if(selectpart){
+                /** proses ke api get data skoring dari part terpilih */
+                params = {
+                    selectpart: selectpart,
+                }
+                let res1 = res;
+                url =  process.env.MAIN_URL + '/skorassessment2';
+                var dataputs = await axios.post(url, params)
+                .then(function (res) {
+                    var selectpart = res.data.selectpart;
+                    var datapart = res.data.getpart;
+                    var part = res.data.part;
+                    res1.render('skorassessment', {
+                        idu, username, nama, tipe,
+                        selectpart, datapart, part
+                    })
+                })
+                .catch(function (err) {
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message
+                    }
+                    res1.redirect("/skoringkepribadian");
+                })
+            } else {
+                /** field id acara kosong */
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Field tidak boleh kosong'
+                }
+                res.redirect("/skoringkepribadian");
+            }
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
 
 /** hasil assessment */
 Router.get('/hasilassessment', async (req, res) => {

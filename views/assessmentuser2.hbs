@@ -41,10 +41,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Jawab Assessment</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Assessment Awal</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Jawab Assessment</li>
+                            <li class="breadcrumb-item active">Assessment Awal</li>
                         </ol>
                     </div>
                 </div>
@@ -74,18 +74,18 @@
                     <div class="col-lg-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Form Jawab Assessment</h4>
+                                <h4 class="m-b-0 text-white">Assessment Awal</h4>
                             </div>
                             <div class="card-block">
                                 {{!-- start of form pilih event --}}
                                 <form action="/assessmentuser" method="POST">
                                     <div class="form-body">
-                                        <h4 class="card-title">Pilih Konsul</h4>
-                                        <h6 class="card-subtitle"> Pilih konsultasi terlebih dahulu</h6>
+                                        <h4 class="card-title">Pilih Tipe Konsultasi</h4>
+                                        <h6 class="card-subtitle"> Pilih Tipe Konsultasi terlebih dahulu untuk menampilkan assessment awal</h6>
                                         <hr>
                                         {{!-- <h5 class="m-t-30">Single select2</h5> --}}
                                         <select class="select2" id="selectkonsul" name="selectkonsul" style="width: 100%" required>
-                                            <option>-- Pilih Konsultasi --</option>
+                                            <option>-- Pilih Tipe Konsultasi --</option>
                                             {{#each datakonsul}}
                                                 <option value="{{ id }}" {{#if ../selectkonsul}}{{#compare id ../selectkonsul operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
                                             {{/each}}
