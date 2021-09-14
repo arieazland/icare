@@ -44,7 +44,7 @@
                         <h3 class="text-themecolor m-b-0 m-t-0">Hasil Assessment</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Assessment</a></li>
-                            <li class="breadcrumb-item active">HasilAssessment</li>
+                            <li class="breadcrumb-item active">Hasil Assessment</li>
                         </ol>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     <div class="col-lg-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Form Hasil Assessment</h4>
+                                <h4 class="m-b-0 text-white">Hasil Assessment</h4>
                             </div>
                             <div class="card-block">
                                 {{!-- start of form pilih event --}}
@@ -193,11 +193,6 @@
                                 {{!-- end of identitas peserta --}}
                                 {{!-- start of form tampil pertanyaan dan jawaban --}}
                                 <div class="form-body">
-
-                                    <a href="/vidcall/{{selectpeserta}}" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button></a>
-
-                                    <hr>
-
                                     <h3 class="card-title">Form Jawaban</h3>
                                     <hr>
                                     <div class="row p-t-20">
@@ -231,9 +226,8 @@
                                             </div>
                                             <hr>
                                             {{/each}}
-
-                                            
-
+                                            <a href="/vidcall/{{selectpeserta}}" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button></a>
+                                            <hr>
                                             {{!-- <form action="/vidcall" method="POST">
                                                 <div class="form-body p-t-0">
                                                     <div class="form-group">
@@ -244,9 +238,7 @@
                                                     <button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button>
                                                 </div>
                                             </form> --}}
-
                                             <hr>
-
                                             <form action="/kesimpulan/input" method="POST">
                                                 <div class="form-body p-t-20">
                                                     <h4 class="card-title">Form Kesimpulan</h4>

@@ -6,5 +6,4 @@ const kesimpulanController = require("../controllers/kesimpulan");
 Router.post('/input', kesimpulanController.input);
 Router.post('/edit', kesimpulanController.edit);
 Router.post('/delete', kesimpulanController.delete);
-
 module.exports = Router;

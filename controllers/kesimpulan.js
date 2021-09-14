@@ -6,50 +6,40 @@ Dotenv.config({ path: './.env' });
 // process.env.MAIN_URL
 
 exports.input = async (req, res, dataputs) => {
-    try{
-        const { kesimpulan, selectkonsul, selectpeserta, idu } = req.body;
+    const { kesimpulan, selectkonsul, selectpeserta, idu } = req.body;
 
-        if(kesimpulan && selectkonsul && selectpeserta && idu){
-            params = {
-                selectkonsul: selectkonsul, 
-                selectpeserta: selectpeserta, 
-                idpsikolog: idu, 
-                kesimpulan: kesimpulan
+    if(kesimpulan && selectkonsul && selectpeserta && idu){
+        params = {
+            selectkonsul: selectkonsul, 
+            selectpeserta: selectpeserta, 
+            idpsikolog: idu, 
+            kesimpulan: kesimpulan
+        }
+        var res1 = res;
+        url =  process.env.MAIN_URL + '/kesimpulan/registerkesimpulan';
+        var dataputs = await axios.post(url, params)
+        .then(function (res) {
+            req.session.idkonsulinput = res.data.selectkonsul;
+            var message = res.data.message;
+            req.session.sessionFlash2 = {
+                type: 'success',
+                message: message
             }
-            var res1 = res;
-            url =  process.env.MAIN_URL + '/kesimpulan/registerkesimpulan';
-            var dataputs = await axios.post(url, params)
-            .then(function (res) {
-                req.session.idkonsulinput = res.data.selectkonsul;
-                var message = res.data.message;
-                req.session.sessionFlash2 = {
-                    type: 'success',
-                    message: message
-                }
-                res1.redirect('/hasilassessment');
-            })
-            .catch(function (err) {
-                var message = err.response.data.message;
-                req.session.sessionFlash = {
-                    type: 'error',
-                    message: message
-                }
-                res1.redirect("/hasilassessment");
-            })
-        } else{
-            /** Field tidak boleh kosong */
+            res1.redirect('/hasilassessment');
+        })
+        .catch(function (err) {
+            var message = err.response.data.message;
             req.session.sessionFlash = {
                 type: 'error',
-                message: 'Field tidak boleh kosong!'
+                message: message
             }
-            res.redirect("/hasilassessment");
-        }
-    } catch(error){
-        // console.log(err);
-        /** catch */
+            res1.redirect("/hasilassessment");
+        })
+    } else{
+        /** Field tidak boleh kosong */
         req.session.sessionFlash = {
             type: 'error',
-            message: error
+            message: 'Field tidak boleh kosong!'
         }
         res.redirect("/hasilassessment");
     }
@@ -78,7 +68,15 @@ exports.edit = async (req, res, dataputs) => {
                     type: 'success',
                     message: message
                 }
-                res1.redirect('/kesimpulanassessmentpeserta');
+                if(req.session.idkonsulinput === '1') {
+                    /** konsultasi karir */
+                    res1.redirect('/kesimpulanassessmentpeserta');
+                } else if(req.session.idkonsulinput === '2'){
+                    /** konsultasi reguler */
+                } else if(req.session.idkonsulinput === '3'){
+                    /** konsultasi kepribadian */
+                    res1.redirect('/kesimpulanassessmentkepribadian');
+                }
             })
             .catch(function (err) {
                 var message = err.response.data.message;
@@ -123,6 +121,7 @@ exports.delete = async (req, res, dataputs) => {
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 var message = res.data.message;
+                req.session.idkonsulinput = res.data.selectkonsul;
                 req.session.sessionFlash2 = {
                     type: 'success',
                     message: message

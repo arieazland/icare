@@ -879,7 +879,7 @@ Router.get('/skoringkepribadian', async (req, res) => {
             dataputs = await axios.get(url)
             .then(function (res) {
                 var part = res.data.getpart;
-                /** render page hasilassessment */
+                /** render page skorassessment */
                 res1.render('skorassessment', {
                     username, nama, idu, tipe,
                     datapart: part
@@ -967,12 +967,14 @@ Router.get('/hasilassessment', async (req, res) => {
         tipe = req.session.type
         if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan'){
             if(req.session.idkonsulinput != null){
-                /** get data konsul berdasarkan id yang di pilih */
-                params = {
-                    selectkonsul: req.session.idkonsulinput,
-                }
-                let res1 = res;
-                url =  process.env.MAIN_URL + '/listhasil';
+                if(req.session.idkonsulinput === '1'){
+                    /** Konsultasi Karir */
+                    /** get data konsul berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: req.session.idkonsulinput,
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/listhasil';
                     var dataputs = await axios.post(url, params)
                     .then(function (res) {
                         var peserta = res.data.results;
@@ -997,6 +999,46 @@ Router.get('/hasilassessment', async (req, res) => {
                         req.session.idkonsulinput = null
                         res1.redirect("/hasilassessment");
                     })
+                } else if(req.session.idkonsulinput === '2'){
+                    /** Konsultasi Reguler */
+                } else if(req.session.idkonsulinput === '3'){
+                    /** Konstulasi Kepribadian */
+                    params = {
+                        selectkonsul: req.session.idkonsulinput,
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/hasilassessmentkepribadian';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var data = res.data.resultcekpeserta;
+                        var selectkonsul = res.data.selectkonsul;
+                        var selectpeserta = res.data.selectpeserta;
+                        var datakonsul = res.data.datakonsul;
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        res1.render('hasilassessmentkepribadian', {
+                            idu, username, nama, tipe,
+                            data: data,
+                            selectkonsul,
+                            datakonsul,
+                            selectpeserta
+                        })
+                        req.session.idkonsulinput = null
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
+                        }
+                        req.session.idkonsulinput = null
+                        res1.redirect("/hasilassessment");
+                    })
+                }
+                
             } else {
                 let res1 = res;
                 url =  process.env.MAIN_URL + '/konsullist';
@@ -1036,6 +1078,7 @@ Router.post('/hasilassessment', async (req, res, dataputs) => {
     if(req.session.loggedIn){
         
         const { selectkonsul } = req.body;
+        
         idu = req.session.iduser
         username = req.session.username
         nama = req.session.nama
@@ -1048,34 +1091,74 @@ Router.post('/hasilassessment', async (req, res, dataputs) => {
                 }
                 res.redirect("/hasilassessment");
             } else {
-                /** get data konsul berdasarkan id yang di pilih */
-                params = {
-                    selectkonsul: selectkonsul,
-                }
-                let res1 = res;
-                url =  process.env.MAIN_URL + '/listhasil';
-                var dataputs = await axios.post(url, params)
-                .then(function (res) {
-                    var peserta = res.data.results;
-                    var datakonsul = res.data.konsul;
-                    var selectkonsul = res.data.selectkonsul;
-                    res1.render('hasilassessment', {
-                        idu, username, nama, tipe,
-                        datapeserta: peserta,
-                        datakonsul: datakonsul,
-                        selectkonsul: selectkonsul
-                    })
-                })
-                .catch(function (err) {
-                    // console.log(err.response.data)
-                    var message = err.response.data.message;
-                    req.session.sessionFlash = {
-                        type: 'error',
-                        message: message,
-                        idu, username, nama, tipe,
+                if(selectkonsul === '1'){
+                    /** konsutlasi karir */
+                    /** get data konsul berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: selectkonsul,
                     }
-                    res1.redirect("/hasilassessment");
-                })
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/listhasil';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var peserta = res.data.results;
+                        var datakonsul = res.data.konsul;
+                        var selectkonsul = res.data.selectkonsul;
+                        res1.render('hasilassessment', {
+                            idu, username, nama, tipe,
+                            datapeserta: peserta,
+                            datakonsul: datakonsul,
+                            selectkonsul: selectkonsul
+                        })
+                    })
+                    .catch(function (err) {
+                        // console.log(err.response.data)
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe,
+                        }
+                        res1.redirect("/hasilassessment");
+                    })
+                } else if(selectkonsul === '2'){
+                    /** konsultasi reguler */
+
+                } else if( selectkonsul === '3'){
+                    /** konsultasi kepribadian */
+                    params = {
+                        selectkonsul: selectkonsul,
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/hasilassessmentkepribadian';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var data = res.data.resultcekpeserta;
+                        var selectkonsul = res.data.selectkonsul;
+                        var selectpeserta = res.data.selectpeserta;
+                        var datakonsul = res.data.datakonsul;
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        res1.render('hasilassessmentkepribadian', {
+                            idu, username, nama, tipe,
+                            data: data,
+                            selectkonsul,
+                            datakonsul,
+                            selectpeserta
+                        })
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
+                        }
+                        res1.redirect("/hasilassessment");
+                    })
+                }
             }
         } else {
             req.session.sessionFlash = {
@@ -1090,6 +1173,91 @@ Router.post('/hasilassessment', async (req, res, dataputs) => {
         res.redirect('/login');
     }
 });
+
+/** start of sapa konsep */
+/** Route for hasil assessment kepribadian peserta*/
+Router.post('/hasilassessmentkepribadianpeserta', async (req, res, dataputs) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan'){
+            const { selectpeserta, idkonsul } = req.body;
+            if( selectpeserta && idkonsul ){
+                if(selectpeserta == "-- Pilih Peserta --"){
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Harap pilih peserta terlebih dahulu!'
+                    }
+                    res.redirect("/hasilassessment");
+                } else {
+                    /** get data acara berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: idkonsul,
+                        selectpeserta: selectpeserta
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/hasilassessmentkepribadianpeserta';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var part1 = res.data.part1;
+                        var part2 = res.data.part2;
+                        var part3 = res.data.part3;
+                        var part4 = res.data.part4;
+                        var part5 = res.data.part5;
+                        var selectkonsul = res.data.selectkonsul;
+                        var selectpeserta = res.data.selectpeserta;
+                        var datakonsul = res.data.datakonsul;
+                        var data = res.data.resultcekpeserta;
+                        var biodatapeserta = res.data.biodatapeserta;
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        res1.render('hasilassessmentkepribadian', {
+                            idu, username, nama, tipe,
+                            part1, part2, part3, part4, part5, 
+                            data: data,
+                            selectpeserta,
+                            selectkonsul,
+                            datakonsul,
+                            biodatapeserta
+                        })
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
+                        }
+                        res1.redirect("/hasilassessment");
+                    })
+                }
+            } else {
+                /** field id acara kosong */
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Field tidak boleh kosong'
+                }
+                res.redirect("/hasilassessment");
+            }
+
+        } else {
+            /** di redirect ke login dengan status unauthorized */
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Un-Authorized'
+            }
+            res.redirect("/login");
+        }
+    } else {
+        /** di redirect ke login */
+        res.redirect("/login");
+    }
+})
+/** end of sapa konsep */
 
 Router.post('/hasilassessmentpeserta', async (req, res, dataputs) => {
     if(req.session.loggedIn){
@@ -1171,7 +1339,9 @@ Router.get('/kesimpulanassessment', async (req, res) => {
         tipe = req.session.type
         if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan'){
             if(req.session.idkonsulinput != null){
-                /** get data konsul berdasarkan id yang di pilih */
+                if(req.session.idkonsulinput === '1'){
+                    /** konsultasi karir */
+                    /** get data konsul berdasarkan id yang di pilih */
                 params = {
                     selectkonsul: req.session.idkonsulinput,
                 }
@@ -1201,6 +1371,44 @@ Router.get('/kesimpulanassessment', async (req, res) => {
                         req.session.idkonsulinput = null
                         res1.redirect("/kesimpulanassessment");
                     })
+                } else if(req.session.idkonsulinput === '2'){
+                    /** konsultasi reguler */
+                } else if(req.session.idkonsulinput === '3'){
+                    /** konsultasi kepribadian */
+                    /** sapa konsep */
+                    params = {
+                        selectkonsul: req.session.idkonsulinput,
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/kesimpulanassessmentkepribadian';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var data = res.data.resultcekpeserta;
+                        var selectkonsul = res.data.selectkonsul;
+                        var datakonsul = res.data.datakonsul;
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        res1.render('kesimpulanassessmentkepribadian', {
+                            idu, username, nama, tipe,
+                            data: data,
+                            selectkonsul,
+                            datakonsul,
+                        })
+                        req.session.idkonsulinput = null
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
+                        }
+                        req.session.idkonsulinput = null
+                        res1.redirect("/kesimpulanassessment");
+                    })
+                }
             } else {
                 let res1 = res;
                 url =  process.env.MAIN_URL + '/konsullist';
@@ -1252,34 +1460,73 @@ Router.post('/kesimpulanassessment', async (req, res, dataputs) => {
                 }
                 res.redirect("/kesimpulanassessment");
             } else {
-                /** get data konsul berdasarkan id yang di pilih */
-                params = {
-                    selectkonsul: selectkonsul,
-                }
-                let res1 = res;
-                url =  process.env.MAIN_URL + '/listkesimpulan';
-                var dataputs = await axios.post(url, params)
-                .then(function (res) {
-                    var peserta = res.data.results;
-                    var datakonsul = res.data.konsul;
-                    var selectkonsul = res.data.selectkonsul;
-                    res1.render('kesimpulanassessment', {
-                        idu, username, nama, tipe,
-                        datapeserta: peserta,
-                        datakonsul: datakonsul,
-                        selectkonsul: selectkonsul
-                    })
-                })
-                .catch(function (err) {
-                    // console.log(err.response.data)
-                    var message = err.response.data.message;
-                    req.session.sessionFlash = {
-                        type: 'error',
-                        message: message,
-                        idu, username, nama, tipe,
+                if(selectkonsul === '1'){
+                    /** Konsultasi Karir */
+                    /** get data konsul berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: selectkonsul,
                     }
-                    res1.redirect("/kesimpulanassessment");
-                })
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/listkesimpulan';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var peserta = res.data.results;
+                        var datakonsul = res.data.konsul;
+                        var selectkonsul = res.data.selectkonsul;
+                        res1.render('kesimpulanassessment', {
+                            idu, username, nama, tipe,
+                            datapeserta: peserta,
+                            datakonsul: datakonsul,
+                            selectkonsul: selectkonsul
+                        })
+                    })
+                    .catch(function (err) {
+                        // console.log(err.response.data)
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe,
+                        }
+                        res1.redirect("/kesimpulanassessment");
+                    })
+                } else if(selectkonsul === '2'){
+                    /** Konsultasi Reguler */
+                } else if(selectkonsul === '3'){
+                    /** Konsultasi Kepribadia */
+                    /** sapa konsep */
+                    params = {
+                        selectkonsul: selectkonsul,
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/kesimpulanassessmentkepribadian';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var data = res.data.resultcekpeserta;
+                        var selectkonsul = res.data.selectkonsul;
+                        var datakonsul = res.data.datakonsul;
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        res1.render('kesimpulanassessmentkepribadian', {
+                            idu, username, nama, tipe,
+                            data: data,
+                            selectkonsul,
+                            datakonsul,
+                        })
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
+                        }
+                        res1.redirect("/kesimpulanassessment");
+                    })
+                }
+                
             }
         } else {
             req.session.sessionFlash = {
@@ -1441,6 +1688,175 @@ Router.post('/kesimpulanassessmentpeserta', async (req, res, dataputs) => {
         res.redirect('/login');
     }
 });
+
+/** start of sapa konsep */
+/** Route for kesimpulan assessment kepribadian peserta*/
+Router.get('/kesimpulanassessmentkepribadian', async (req, res, dataputs) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        if(tipe == 'admin' || tipe == 'psikolog'){
+            if(req.session.idkonsulinput && req.session.idpesertainput){
+                if(req.session.idpesertainput == "-- Pilih Peserta --"){
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Harap pilih peserta terlebih dahulu!'
+                    }
+                    res.redirect("/kesimpulanassessment");
+                } else {
+                    /** get data acara berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: req.session.idkonsulinput,
+                        selectpeserta: req.session.idpesertainput
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/kesimpulanassessmentkepribadianpeserta';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var part1 = res.data.part1;
+                        var part2 = res.data.part2;
+                        var part3 = res.data.part3;
+                        var part4 = res.data.part4;
+                        var part5 = res.data.part5;
+                        var selectkonsul= res.data.selectkonsul
+                        var selectpeserta = res.data.selectpeserta;
+                        var datakonsul = res.data.datakonsul;
+                        var data = res.data.resultcekpeserta;
+                        var biodatapeserta = res.data.datapeserta;
+                        var datakesimpulan = res.data.datakesimpulan;
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        res1.render('kesimpulanassessmentkepribadian', {
+                            idu, username, nama, tipe,
+                            part1, part2, part3, part4, part5, 
+                            data: data,
+                            selectpeserta,
+                            selectkonsul,
+                            datakonsul,
+                            biodatapeserta,
+                            datakesimpulan
+                        })
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
+                        }
+                        res1.redirect("/kesimpulanassessment");
+                    })
+                }
+            } else {
+                /** field id acara kosong */
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Field tidak boleh kosong'
+                }
+                res.redirect("/kesimpulanassessment");
+            }
+        } else {
+            /** di redirect ke login dengan status unauthorized */
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Un-Authorized'
+            }
+            res.redirect("/login");
+        }
+    } else {
+        /** di redirect ke login */
+        res.redirect("/login");
+    }
+})
+
+/** Route for kesimpulan assessment kepribadian peserta*/
+Router.post('/kesimpulanassessmentkepribadian', async (req, res, dataputs) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        if(tipe == 'admin' || tipe == 'psikolog'){
+            const { selectpeserta, idkonsul } = req.body;
+            if( selectpeserta && idkonsul ){
+                if(selectpeserta == "-- Pilih Peserta --"){
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: 'Harap pilih peserta terlebih dahulu!'
+                    }
+                    res.redirect("/kesimpulanassessment");
+                } else {
+                    /** get data acara berdasarkan id yang di pilih */
+                    params = {
+                        selectkonsul: idkonsul,
+                        selectpeserta: selectpeserta
+                    }
+                    let res1 = res;
+                    url =  process.env.MAIN_URL + '/kesimpulanassessmentkepribadianpeserta';
+                    var dataputs = await axios.post(url, params)
+                    .then(function (res) {
+                        var part1 = res.data.part1;
+                        var part2 = res.data.part2;
+                        var part3 = res.data.part3;
+                        var part4 = res.data.part4;
+                        var part5 = res.data.part5;
+                        var selectkonsul= res.data.selectkonsul
+                        var selectpeserta = res.data.selectpeserta;
+                        var datakonsul = res.data.datakonsul;
+                        var data = res.data.resultcekpeserta;
+                        var biodatapeserta = res.data.datapeserta;
+                        var datakesimpulan = res.data.datakesimpulan;
+                        var message = res.data.message;
+                        req.session.sessionFlash2 = {
+                            type: 'success',
+                            message: message
+                        }
+                        res1.render('kesimpulanassessmentkepribadian', {
+                            idu, username, nama, tipe,
+                            part1, part2, part3, part4, part5, 
+                            data: data,
+                            selectpeserta,
+                            selectkonsul,
+                            datakonsul,
+                            biodatapeserta,
+                            datakesimpulan
+                        })
+                    })
+                    .catch(function (err) {
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message
+                        }
+                        res1.redirect("/kesimpulanassessment");
+                    })
+                }
+            } else {
+                /** field id acara kosong */
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Field tidak boleh kosong'
+                }
+                res.redirect("/kesimpulanassessment");
+            }
+        } else {
+            /** di redirect ke login dengan status unauthorized */
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Un-Authorized'
+            }
+            res.redirect("/login");
+        }
+    } else {
+        /** di redirect ke login */
+        res.redirect("/login");
+    }
+})
+/** end of sapa konsep */
 
 /** Route for profile */
 Router.get('/accountsetting', (req, res) => {
