@@ -104,7 +104,49 @@ exports.partDua = async (req, res, dataputs) => {
 }
 
 exports.partTiga = async (req, res, dataputs) => {
+    const { idkonsul, iduser, idpart, idsoal, radio9, radio10 , essayboxi } = req.body;
 
+    if(idkonsul && iduser && idpart && idsoal && radio9 && radio10){
+        params = {
+            idkonsul: idkonsul,
+            iduser: iduser,
+            idpart: idpart,
+            idsoal: idsoal,
+            radio9: radio9,
+            radio10: radio10,
+            essayboxi: essayboxi
+        }
+        var res1 = res;
+        url =  process.env.MAIN_URL + '/jawab/registerjawab3';
+        var dataputs = await axios.post(url, params)
+        .then(function (res) {
+            selectkonsul = res.data.idkonsul;
+            selectpart = res.data.idpart;
+            var message = res.data.message;
+            req.session.sessionFlash2 = {
+                type: 'success',
+                message: message
+            }
+            var users = res.data;
+            res1.redirect('/assessmentuser');
+        })
+        .catch(function (err) {
+            /** get message from API */
+            var message = err.response.data.message;
+            req.session.sessionFlash = {
+                type: 'error',
+                message: message
+            }
+            res1.redirect("/assessmentuser");
+        })
+    } else {
+        /** Field tidak boleh kosong */
+        req.session.sessionFlash = {
+            type: 'error',
+            message: 'Field tidak boleh kosong!'
+        }
+        res.redirect("/assessmentuser");
+    }
 }
 
 exports.input = async (req, res, dataputs) => {
