@@ -24,7 +24,8 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbar}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{/if}}
+        {{!-- {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbarkarir}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarkarir}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarkarir}} {{/compare}} {{/if}} --}}
+        {{> navbarkarir}}
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -41,10 +42,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Kesimpulan Assessment</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Hasil Assessment Karir</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Assessment</a></li>
-                            <li class="breadcrumb-item active">Kesimpulan Assessment</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Assessment Karir</a></li>
+                            <li class="breadcrumb-item active">Hasil Assessment Karir</li>
                         </ol>
                     </div>
                 </div>
@@ -74,52 +75,18 @@
                     <div class="col-lg-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Form Kesimpulan Assessment</h4>
+                                <h4 class="m-b-0 text-white">Hasil Assessment Karir</h4>
                             </div>
+                            
                             <div class="card-block">
                                 {{!-- start of form pilih event --}}
-                                <form action="/kesimpulanassessment" method="POST">
-                                    <div class="form-body">
-                                        <h4 class="card-title">Pilih Konsul</h4>
-                                        <h6 class="card-subtitle"> Pilih konsultasi terlebih dahulu untuk menampilkan data kesimpulan assessment</h6>
-                                        <hr>
-                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
-                                        <select class="select2" id="selectkonsul" name="selectkonsul" style="width: 100%" required>
-                                            <option>-- Pilih Konsultasi --</option>
-                                            {{#each datakonsul}}
-                                                <option value="{{ id }}" {{#if ../selectkonsul}}{{#compare id ../selectkonsul operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
-                                    <hr>
-                                    <div class="form-actions text-right">
-                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
-                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
-                                    </div>
-                                </form>
-                                {{!-- end of form pilih soal --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {{#if selectkonsul}}
-                {{!-- start of row --}}
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card card-outline-info">
-                            {{!-- <div class="card-header">
-                                <h4 class="m-b-0 text-white">Form Hasil Assessment</h4>
-                            </div> --}}
-                            <div class="card-block">
-                                {{!-- start of form pilih event --}}
-                                <form action="/kesimpulanassessmentpeserta" method="POST">
+                                <form action="/hasilassessmentkarir" method="POST">
                                     <div class="form-body">
                                         <h4 class="card-title">Pilih Peserta</h4>
-                                        <h6 class="card-subtitle"> Pilih peserta terlebih dahulu untuk menampilkan data kesimpulan assessment</h6>
+                                        <h6 class="card-subtitle"> Pilih peserta terlebih dahulu untuk menampilkan data jawaban assessment karir</h6>
                                         <hr>
                                         {{!-- <h5 class="m-t-30">Single select2</h5> --}}
                                         <select class="select2" id="selectpeserta" name="selectpeserta" style="width: 100%" required>
-                                            <option>-- Pilih Peserta --</option>
                                             {{#each datapeserta}}
                                                 <option value="{{ idpeserta }}" {{#if ../selectpeserta}}{{#compare idpeserta ../selectpeserta operator="=="}}selected{{/compare}}{{/if}}>{{ namapeserta }}</option>
                                             {{/each}}
@@ -158,31 +125,31 @@
                                                 <tbody>
                                                     <tr>
                                                         <td class="text-nowrap"> <b>Nama</b> </td>
-                                                        <td>{{#each biodata}} {{namapeserta}} {{/each}}</td>
+                                                        <td>{{#each biodata}} {{#if namapeserta}} {{namapeserta}} {{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-nowrap"> <b>Tempat/Tanggal Lahir</b> </td>
-                                                        <td>{{#each biodata}} {{tempat_lahir}}/{{formatDate tanggal_lahir}} {{/each}}</td>
+                                                        <td>{{#each biodata}} {{#if tempat_lahir}} {{tempat_lahir}}{{/if}}/{{#if tanggal_lahir}}{{formatDate tanggal_lahir}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-nowrap"> <b>Jenis Kelamin</b> </td>
-                                                        <td>{{#each biodata}} {{jenis_kelamin}} {{/each}}</td>
+                                                        <td>{{#each biodata}} {{#if jenis_kelamin}}{{jenis_kelamin}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-nowrap"> <b>Pendidikan Terakhir</b> </td>
-                                                        <td>{{#each biodata}} {{loud pendidikan_terakhir}} {{/each}}</td>
+                                                        <td>{{#each biodata}} {{#if pendidikan_terakhir}} {{loud pendidikan_terakhir}} {{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-nowrap"> <b>Asal Universitas</b> </td>
-                                                        <td>{{#each biodata}} {{asal_universitas}} {{/each}}</td>
+                                                        <td>{{#each biodata}} {{#if asal_universitas}}{{asal_universitas}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-nowrap"> <b>Jurusan</b> </td>
-                                                        <td>{{#each biodata}} {{jurusan}} {{/each}}</td>
+                                                        <td>{{#each biodata}} {{#if jurusan}}{{jurusan}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-nowrap"> <b>Nomor Kontak</b> </td>
-                                                        <td>{{#each biodata}} {{phone}} {{/each}}</td>
+                                                        <td>{{#each biodata}} {{#if phone}}{{phone}}{{/if}} {{/each}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -226,108 +193,53 @@
                                             </div>
                                             <hr>
                                             {{/each}}
-
-                                            <div class="form-body p-t-20">
-                                                {{!-- Start of tabel list acara --}}
-                                                <h4 class="card-title">Kesimpulan</h4>
-                                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
-                                                <hr>
-                                                <div class="table-responsive m-t-40">
-                                                    <table id="kesimpulan" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Kesimpulan</th>
-                                                                <th>Psikolog</th>
-                                                                <th class="notexport">Aksi</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th>Kesimpulan</th>
-                                                                <th>Psikolog</th>
-                                                                <th class="notexport">Aksi</th>
-                                                            </tr>
-                                                        </tfoot>
-                                                        <tbody>
-                                                            {{#each datakesimpulan}}
-                                                                <tr>
-                                                                    <td>{{kesimpulan}}</td>
-                                                                    <td>{{loud namapsikolog }}</td>
-                                                                    <td class="notexport">
-                                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-id="{{ idkesimpulan }}" data-kesimpulan="{{ kesimpulan }}" data-idkonsul="{{ idkonsul }}" data-idpeserta="{{ idpeserta }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-                                                                        
-                                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ idkesimpulan }}" data-kesimpulan="{{ kesimpulan }}" data-idkonsul="{{ idkonsul }}" data-idpeserta="{{ idpeserta }}"><i class="fa fa-ban" aria-hidden="true"></i></button></a>
-                                                                    </td>
-                                                                </tr>
-                                                            {{/each}}
-                                                        </tbody>
-                                                    </table>
+                                            <a href="/vidcall/{{selectpeserta}}" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button></a>
+                                            <hr>
+                                            {{!-- <form action="/vidcall" method="POST">
+                                                <div class="form-body p-t-0">
+                                                    <div class="form-group">
+                                                        <input type="hidden" class="form-control" id="idpeserta" name="idpeserta" value="{{#each datapeserta}}{{ idpeserta }}{{/each}}">
+                                                    </div>
                                                 </div>
-                                                {{!-- end of tabel kesimpulan --}}
-                                            </div>
+                                                <div class="form-actions text-right">
+                                                    <button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Video Call"> <i class="fa fa-camera"></i> Video Call</button>
+                                                </div>
+                                            </form> --}}
+                                            <hr>
+                                            <form action="/kesimpulankarir/input" method="POST">
+                                                <div class="form-body p-t-20">
+                                                    <h4 class="card-title">Form Kesimpulan</h4>
+                                                    <hr>
+                                                    <div class="row p-t-5">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group" id="form-group">
+                                                                <label class="control-label">Kesimpulan:</label>
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" name="kesimpulan" id="kesimpulan" rows="10" required></textarea>
+                                                                    <input type="hidden" id="selectpeserta" name="selectpeserta" value="{{ selectpeserta }}" required>
+                                                                    <input type="hidden" id="idu" name="idu" value="{{ idu }}" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-actions text-right">
+                                                    <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Simpan</button>
+                                                    <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                                </div>
+                                            </form>
+
+
                                         </div>
                                     </div>
                                 </div>
+                                
                                 {{!-- end of form tampil pertanyaan dan jawaban --}}
                             </div>
                         </div>
                     </div>
                 </div>
-                {{!-- start of modal update kesimpulan --}}
-                <form action="/kesimpulan/edit" method="post">
-                    <div class="modal fade" id="modalEditkesimpulan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel1">Ubah Data Kesimpulan</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="modalkesimpulan" class="control-label">Kesimpulan:</label>
-                                        <textarea class="form-control modalkesimpulan" name="modalkesimpulan" id="modalkesimpulan"  rows="10"></textarea>
-                                        <input type="hidden" class="form-control modalidkesimpulan" id="modalidkesimpulan" name="modalidkesimpulan">
-                                        <input type="hidden" class="form-control modalidkonsulkesimpulan" id="modalidkonsulkesimpulan" name="modalidkonsulkesimpulan">
-                                        <input type="hidden" class="form-control modalidpsikologkesimpulan" id="modalidpsikologkesimpulan" name="modalidpsikologkesimpulan" value="{{ idu }}">
-                                        <input type="hidden" class="form-control modalidpesertakesimpulan" id="modalidpesertakesimpulan" name="modalidpesertakesimpulan">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-success">Ubah</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- end of modal update konsul -->
-                <!-- start of modal delete konsul -->
-                <form action="/kesimpulan/delete" method="post">
-                    <div class="modal fade" id="modalHapuskesimpulan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Data Kesimpulan</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                <div class="modal-body">
-                                    <strong>Anda yakin mau menghapus kesimpulan: <label class="font-weight-bold judul"></label>?</strong>
-                                    <input type="hidden" class="form-control modalidkesimpulanhapus" id="modalidkesimpulanhapus" name="modalidkesimpulanhapus">
-                                    <input type="hidden" class="form-control modalidkonsulkesimpulan" id="modalidkonsulkesimpulan" name="modalidkonsulkesimpulan">
-                                    <input type="hidden" class="form-control modalidpesertakesimpulan" id="modalidpesertakesimpulan" name="modalidpesertakesimpulan">
-                                    <input type="hidden" class="form-control modalidpsikologkesimpulan" id="modalidpsikologkesimpulan" name="modalidpsikologkesimpulan" value="{{ idu }}">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- end of modal delete konsul -->
                 {{!-- end of row --}}
-                {{/if}}
                 {{/if}}
                 <!-- ============================================================== -->
                 <!-- End Page Content -->
@@ -363,8 +275,6 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     {{> plugins}}
-    <script src="/js/client/datatable/kesimpulan.js"></script>
-    <script src="/js/client/modal/kesimpulan.js"></script>
 </body>
 
 </html>

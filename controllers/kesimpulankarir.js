@@ -6,17 +6,16 @@ Dotenv.config({ path: './.env' });
 // process.env.MAIN_URL
 
 exports.input = async (req, res, dataputs) => {
-    const { kesimpulan, selectkonsul, selectpeserta, idu } = req.body;
+    const { kesimpulan, selectpeserta, idu } = req.body;
 
-    if(kesimpulan && selectkonsul && selectpeserta && idu){
+    if(kesimpulan && selectpeserta && idu){
         params = {
-            selectkonsul: selectkonsul, 
             selectpeserta: selectpeserta, 
             idpsikolog: idu, 
             kesimpulan: kesimpulan
         }
         var res1 = res;
-        url =  process.env.MAIN_URL + '/kesimpulan/registerkesimpulan';
+        url =  process.env.MAIN_URL + '/kesimpulankarir/registerkesimpulan';
         var dataputs = await axios.post(url, params)
         .then(function (res) {
             req.session.idkonsulinput = res.data.selectkonsul;
@@ -25,7 +24,7 @@ exports.input = async (req, res, dataputs) => {
                 type: 'success',
                 message: message
             }
-            res1.redirect('/hasilassessment');
+            res1.redirect('/hasilassessmentkarir');
         })
         .catch(function (err) {
             var message = err.response.data.message;
@@ -33,7 +32,7 @@ exports.input = async (req, res, dataputs) => {
                 type: 'error',
                 message: message
             }
-            res1.redirect("/hasilassessment");
+            res1.redirect("/hasilassessmentkarir");
         })
     } else{
         /** Field tidak boleh kosong */
@@ -41,42 +40,32 @@ exports.input = async (req, res, dataputs) => {
             type: 'error',
             message: 'Field tidak boleh kosong!'
         }
-        res.redirect("/hasilassessment");
+        res.redirect("/hasilassessmentkarir");
     }
 }
 
 exports.edit = async (req, res, dataputs) => {
     try{
-        const { modalidkesimpulan, modalkesimpulan, modalidkonsulkesimpulan, modalidpsikologkesimpulan, modalidpesertakesimpulan } = req.body;
+        const { modalidkesimpulan, modalkesimpulan, modalidpsikologkesimpulan, modalidpesertakesimpulan } = req.body;
 
-        if(modalidkesimpulan && modalkesimpulan && modalidkonsulkesimpulan && modalidpsikologkesimpulan && modalidpesertakesimpulan){
+        if(modalidkesimpulan && modalkesimpulan && modalidpsikologkesimpulan && modalidpesertakesimpulan){
             params = {
                 idkesimpulan: modalidkesimpulan, 
-                selectkonsul: modalidkonsulkesimpulan, 
                 selectpeserta: modalidpesertakesimpulan, 
                 idpsikolog: modalidpsikologkesimpulan, 
                 kesimpulan: modalkesimpulan
             }
             var res1 = res;
-            url =  process.env.MAIN_URL + '/kesimpulan/editkesimpulan';
+            url =  process.env.MAIN_URL + '/kesimpulankarir/editkesimpulan';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
-                req.session.idkonsulinput = res.data.selectkonsul;
                 req.session.idpesertainput = res.data.selectpeserta;
                 var message = res.data.message;
                 req.session.sessionFlash2 = {
                     type: 'success',
                     message: message
                 }
-                if(req.session.idkonsulinput === '1') {
-                    /** konsultasi karir */
-                    res1.redirect('/kesimpulanassessmentpeserta');
-                } else if(req.session.idkonsulinput === '2'){
-                    /** konsultasi reguler */
-                } else if(req.session.idkonsulinput === '3'){
-                    /** konsultasi kepribadian */
-                    res1.redirect('/kesimpulanassessmentkepribadian');
-                }
+                res1.redirect('/kesimpulanassessmentkarir');
             })
             .catch(function (err) {
                 var message = err.response.data.message;
@@ -84,7 +73,7 @@ exports.edit = async (req, res, dataputs) => {
                     type: 'error',
                     message: message
                 }
-                res1.redirect("/kesimpulanassessment");
+                res1.redirect("/kesimpulanassessmentkarir");
             })
         } else{
             /** Field tidak boleh kosong */
@@ -92,7 +81,7 @@ exports.edit = async (req, res, dataputs) => {
                 type: 'error',
                 message: 'Field tidak boleh kosong!'
             }
-            res.redirect("/kesimpulanassessment");
+            res.redirect("/kesimpulanassessmentkarir");
         }
     } catch(error){
         // console.log(err);
@@ -101,32 +90,30 @@ exports.edit = async (req, res, dataputs) => {
             type: 'error',
             message: error
         }
-        res.redirect("/kesimpulanassessment");
+        res.redirect("/kesimpulanassessmentkarir");
     }
 }
 
 exports.delete = async (req, res, dataputs) => {
     try{
-        const { modalidkesimpulanhapus, modalidkonsulkesimpulan, modalidpsikologkesimpulan, modalidpesertakesimpulan } = req.body;
+        const { modalidkesimpulanhapus, modalidpsikologkesimpulan, modalidpesertakesimpulan } = req.body;
 
-        if(modalidkesimpulanhapus && modalidkonsulkesimpulan && modalidpsikologkesimpulan && modalidpesertakesimpulan){
+        if(modalidkesimpulanhapus  && modalidpsikologkesimpulan && modalidpesertakesimpulan){
             params = {
                 idkesimpulan: modalidkesimpulanhapus, 
-                selectkonsul: modalidkonsulkesimpulan, 
                 selectpeserta: modalidpesertakesimpulan, 
                 idpsikolog: modalidpsikologkesimpulan
             }
             var res1 = res;
-            url =  process.env.MAIN_URL + '/kesimpulan/deletekesimpulan';
+            url =  process.env.MAIN_URL + '/kesimpulankarir/deletekesimpulan';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 var message = res.data.message;
-                req.session.idkonsulinput = res.data.selectkonsul;
                 req.session.sessionFlash2 = {
                     type: 'success',
                     message: message
                 }
-                res1.redirect('/kesimpulanassessment');
+                res1.redirect('/kesimpulanassessmentkarir');
             })
             .catch(function (err) {
                 var message = err.response.data.message;
@@ -134,7 +121,7 @@ exports.delete = async (req, res, dataputs) => {
                     type: 'error',
                     message: message
                 }
-                res1.redirect("/kesimpulanassessment");
+                res1.redirect("/kesimpulanassessmentkarir");
             })
         } else{
             /** Field tidak boleh kosong */
@@ -142,7 +129,7 @@ exports.delete = async (req, res, dataputs) => {
                 type: 'error',
                 message: 'Field tidak boleh kosong!'
             }
-            res.redirect("/kesimpulanassessment");
+            res.redirect("/kesimpulanassessmentkarir");
         }
     } catch(error){
         // console.log(err);
@@ -151,6 +138,6 @@ exports.delete = async (req, res, dataputs) => {
             type: 'error',
             message: error
         }
-        res.redirect("/kesimpulanassessment");
+        res.redirect("/kesimpulanassessmentkarir");
     }
 }

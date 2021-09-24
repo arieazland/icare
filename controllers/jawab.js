@@ -6,11 +6,10 @@ Dotenv.config({ path: './.env' });
 // process.env.MAIN_URL
 
 exports.partSatu = async (req, res, dataputs) => {
-    const { idkonsul, iduser, idpart, idsoal, radio1, radio2, radio3, radio4, essayboxg , essayboxi } = req.body;
+    const { iduser, idpart, idsoal, radio1, radio2, radio3, radio4, essayboxg , essayboxi } = req.body;
 
-    if(idkonsul && iduser && idpart && idsoal && radio1 && radio2 && radio3 && radio4){
+    if(iduser && idpart && idsoal && radio1 && radio2 && radio3 && radio4){
         params = {
-            idkonsul: idkonsul,
             iduser: iduser,
             idpart: idpart,
             idsoal: idsoal,
@@ -25,15 +24,13 @@ exports.partSatu = async (req, res, dataputs) => {
         url =  process.env.MAIN_URL + '/jawab/registerjawab1';
         var dataputs = await axios.post(url, params)
         .then(function (res) {
-            selectkonsul = res.data.idkonsul;
-            selectpart = res.data.idpart;
             var message = res.data.message;
             req.session.sessionFlash2 = {
                 type: 'success',
                 message: message
             }
             var users = res.data;
-            res1.redirect('/assessmentuser');
+            res1.redirect('/assessmentuserkarir');
         })
         .catch(function (err) {
             /** get message from API */
@@ -42,7 +39,7 @@ exports.partSatu = async (req, res, dataputs) => {
                 type: 'error',
                 message: message
             }
-            res1.redirect("/assessmentuser");
+            res1.redirect("/assessmentuserkarir");
         })
     } else {
         /** Field tidak boleh kosong */
@@ -50,16 +47,15 @@ exports.partSatu = async (req, res, dataputs) => {
             type: 'error',
             message: 'Field tidak boleh kosong!'
         }
-        res.redirect("/assessmentuser");
+        res.redirect("/assessmentuserkarir");
     }
 }
 
 exports.partDua = async (req, res, dataputs) => {
-    const { idkonsul, iduser, idpart, idsoal, radio5, radio6, radio7, radio8, radiosub5 , essayboxi } = req.body;
+    const {iduser, idpart, idsoal, radio5, radio6, radio7, radio8, radiosub5 , essayboxi } = req.body;
 
-    if(idkonsul && iduser && idpart && idsoal && radio5 && radio6 && radio7 && radio8){
+    if(iduser && idpart && idsoal && radio5 && radio6 && radio7 && radio8){
         params = {
-            idkonsul: idkonsul,
             iduser: iduser,
             idpart: idpart,
             idsoal: idsoal,
@@ -74,15 +70,13 @@ exports.partDua = async (req, res, dataputs) => {
         url =  process.env.MAIN_URL + '/jawab/registerjawab2';
         var dataputs = await axios.post(url, params)
         .then(function (res) {
-            selectkonsul = res.data.idkonsul;
-            selectpart = res.data.idpart;
             var message = res.data.message;
             req.session.sessionFlash2 = {
                 type: 'success',
                 message: message
             }
             var users = res.data;
-            res1.redirect('/assessmentuser');
+            res1.redirect('/assessmentuserkarir');
         })
         .catch(function (err) {
             /** get message from API */
@@ -91,7 +85,7 @@ exports.partDua = async (req, res, dataputs) => {
                 type: 'error',
                 message: message
             }
-            res1.redirect("/assessmentuser");
+            res1.redirect("/assessmentuserkarir");
         })
     } else {
         /** Field tidak boleh kosong */
@@ -99,16 +93,15 @@ exports.partDua = async (req, res, dataputs) => {
             type: 'error',
             message: 'Field tidak boleh kosong!'
         }
-        res.redirect("/assessmentuser");
+        res.redirect("/assessmentuserkarir");
     }
 }
 
 exports.partTiga = async (req, res, dataputs) => {
-    const { idkonsul, iduser, idpart, idsoal, radio9, radio10 , essayboxi } = req.body;
+    const { iduser, idpart, idsoal, radio9, radio10 , essayboxi } = req.body;
 
-    if(idkonsul && iduser && idpart && idsoal && radio9 && radio10){
+    if(iduser && idpart && idsoal && radio9 && radio10){
         params = {
-            idkonsul: idkonsul,
             iduser: iduser,
             idpart: idpart,
             idsoal: idsoal,
@@ -120,15 +113,12 @@ exports.partTiga = async (req, res, dataputs) => {
         url =  process.env.MAIN_URL + '/jawab/registerjawab3';
         var dataputs = await axios.post(url, params)
         .then(function (res) {
-            selectkonsul = res.data.idkonsul;
-            selectpart = res.data.idpart;
             var message = res.data.message;
             req.session.sessionFlash2 = {
                 type: 'success',
                 message: message
             }
-            var users = res.data;
-            res1.redirect('/assessmentuser');
+            res1.redirect('/assessmentuserkarir');
         })
         .catch(function (err) {
             /** get message from API */
@@ -137,7 +127,7 @@ exports.partTiga = async (req, res, dataputs) => {
                 type: 'error',
                 message: message
             }
-            res1.redirect("/assessmentuser");
+            res1.redirect("/assessmentuserkarir");
         })
     } else {
         /** Field tidak boleh kosong */
@@ -145,59 +135,59 @@ exports.partTiga = async (req, res, dataputs) => {
             type: 'error',
             message: 'Field tidak boleh kosong!'
         }
-        res.redirect("/assessmentuser");
+        res.redirect("/assessmentuserkarir");
     }
 }
 
 exports.input = async (req, res, dataputs) => {
-    try{
-        const { jawaban, pertanyaan, peserta, selectkonsul } = req.body;
+    // try{
+    //     const { jawaban, pertanyaan, peserta, selectkonsul } = req.body;
 
-        if(jawaban && pertanyaan && peserta && selectkonsul){
-            params = {
-                jawaban: jawaban,
-                idpertanyaan: pertanyaan,
-                iduser: peserta,
-                idkonsul: selectkonsul
-            }
-            var res1 = res;
-            url =  process.env.MAIN_URL + '/jawab/registerjawab';
-            var dataputs = await axios.post(url, params)
-            .then(function (res) {
-                req.session.idkonsulinput = res.data.idkonsul;
-                var message = res.data.message;
-                req.session.sessionFlash2 = {
-                    type: 'success',
-                    message: message
-                }
-                var users = res.data;
-                res1.redirect('/assessmentuser');
-            })
-            .catch(function (err) {
-                var message = err.response.data.message;
-                req.session.sessionFlash = {
-                    type: 'error',
-                    message: message
-                }
-                res1.redirect("/assessmentuser");
-            })
-        } else{
-            /** Field tidak boleh kosong */
-            req.session.sessionFlash = {
-                type: 'error',
-                message: 'Field tidak boleh kosong!'
-            }
-            res.redirect("/assessmentuser");
-        }
-    } catch(error){
-        // console.log(err);
-        /** catch */
-        req.session.sessionFlash = {
-            type: 'error',
-            message: error
-        }
-        res.redirect("/assessmentuser");
-    }
+    //     if(jawaban && pertanyaan && peserta && selectkonsul){
+    //         params = {
+    //             jawaban: jawaban,
+    //             idpertanyaan: pertanyaan,
+    //             iduser: peserta,
+    //             idkonsul: selectkonsul
+    //         }
+    //         var res1 = res;
+    //         url =  process.env.MAIN_URL + '/jawab/registerjawab';
+    //         var dataputs = await axios.post(url, params)
+    //         .then(function (res) {
+    //             req.session.idkonsulinput = res.data.idkonsul;
+    //             var message = res.data.message;
+    //             req.session.sessionFlash2 = {
+    //                 type: 'success',
+    //                 message: message
+    //             }
+    //             var users = res.data;
+    //             res1.redirect('/assessmentuserkarir');
+    //         })
+    //         .catch(function (err) {
+    //             var message = err.response.data.message;
+    //             req.session.sessionFlash = {
+    //                 type: 'error',
+    //                 message: message
+    //             }
+    //             res1.redirect("/assessmentuserkarir");
+    //         })
+    //     } else{
+    //         /** Field tidak boleh kosong */
+    //         req.session.sessionFlash = {
+    //             type: 'error',
+    //             message: 'Field tidak boleh kosong!'
+    //         }
+    //         res.redirect("/assessmentuserkarir");
+    //     }
+    // } catch(error){
+    //     // console.log(err);
+    //     /** catch */
+    //     req.session.sessionFlash = {
+    //         type: 'error',
+    //         message: error
+    //     }
+    //     res.redirect("/assessmentuserkarir");
+    // }
 };
 
 exports.edit = async (req, res, dataputs) => {

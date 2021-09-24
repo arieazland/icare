@@ -24,7 +24,7 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        {{> navbaruser}}
+        {{> navbaruserkarir}}
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -41,10 +41,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Assessment Awal</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Assessment Awal Konsultasi Karir</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Assessment Awal</li>
+                            <li class="breadcrumb-item active">Assessment Awal Konsultasi Karir</li>
                         </ol>
                     </div>
                 </div>
@@ -70,60 +70,26 @@
                 {{/if}}
                 {{!-- End of Notifikasi --}}
                 {{!-- start of row --}}
+                {{#if datapart}}
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Assessment Awal</h4>
+                                <h4 class="m-b-0 text-white">Assessment Awal Konsultasi Karir</h4>
                             </div>
                             <div class="card-block">
                                 {{!-- start of form pilih event --}}
-                                <form action="/assessmentuser" method="POST">
-                                    <div class="form-body">
-                                        <h4 class="card-title">Pilih Tipe Konsultasi</h4>
-                                        <h6 class="card-subtitle"> Pilih Tipe Konsultasi terlebih dahulu untuk menampilkan assessment awal</h6>
-                                        <hr>
-                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
-                                        <select class="select2" id="selectkonsul" name="selectkonsul" style="width: 100%" required>
-                                            <option>-- Pilih Tipe Konsultasi --</option>
-                                            {{#each datakonsul}}
-                                                <option value="{{ id }}" {{#if ../selectkonsul}}{{#compare id ../selectkonsul operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
-                                    <hr>
-                                    <div class="form-actions text-right">
-                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
-                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
-                                    </div>
-                                </form>
-                                {{!-- end of form pilih soal --}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {{#if selectkonsul}}
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card card-outline-info">
-                            {{!-- <div class="card-header">
-                                <h4 class="m-b-0 text-white">Form Jawab Assessment</h4>
-                            </div> --}}
-                            <div class="card-block">
-                                {{!-- start of form pilih event --}}
-                                <form action="/assessmentuser_klasifikasi" method="POST">
+                                <form action="/assessmentuserkarir" method="POST">
                                     <div class="form-body">
                                         <h4 class="card-title">Pilih Klasifikasi Konsultasi</h4>
                                         <h6 class="card-subtitle"> Pilih klasifikasi konsultasi berikut sesuai pengalaman anda</h6>
                                         <hr>
                                         {{!-- <h5 class="m-t-30">Single select2</h5> --}}
                                         <select class="select2" id="selectpart" name="selectpart" style="width: 100%" required>
-                                            <option>-- Pilih Klasifikasi Konsultasi --</option>
                                             {{#each datapart}}
                                                 <option value="{{ id }}" {{#if ../selectpart}}{{#compare id ../selectpart operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
                                             {{/each}}
                                         </select>
-                                        <input type="hidden" id="tipekonsul" name="tipekonsul" value="{{selectkonsul}}" required>
                                     </div>
                                     <hr>
                                     <div class="form-actions text-right">
@@ -136,6 +102,7 @@
                         </div>
                     </div>
                 </div>
+                {{/if}}
                 {{#if datasoal}}
                 <div class="row">
                     <div class="col-12">
@@ -155,7 +122,6 @@
                                     action="jawab/part3"
                                 {{/compare}}
                             method="post">
-                                    <input type="hidden" class="form-control" id="idkonsul" name="idkonsul" value="{{ selectkonsul }}">
                                     <input type="hidden" class="form-control" id="iduser" name="iduser" value="{{ idu }}">
                                     <input type="hidden" class="form-control" id="idpart" name="idpart" value="{{ selectpart }}">
                                     {{!-- Start of tabel list soal --}}
@@ -328,7 +294,22 @@
                         </div>
                     </div>
                 </div>
-                {{/if}}
+                {{else}}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Soal</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                                    <h3 class="text-success"><i class="fa fa-check-circle"></i> Success</h3> Anda Sudah Menyelesaikan Assessment Awal Konsultasi Karir, Silahkan Cek Terus Email Anda, Link Video Call akan Dikirimkan ke Email Anda, Terima Kasih Atas Partisipasinya.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {{/if}}
                 {{!-- end of row --}}
                 <!-- ============================================================== -->

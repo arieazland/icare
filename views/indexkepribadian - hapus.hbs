@@ -24,7 +24,7 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbar}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{/if}}
+        {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbarkepribadian}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{/if}}
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -41,10 +41,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Home Konsultasi Kepribadian</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home Konsultasi Kepribadian</a></li>
+                            
                         </ol>
                     </div>
                 </div>
@@ -69,8 +69,38 @@
                 {{/if}}
                 {{!-- End of Notifikasi --}}
                 <!-- Row -->
+                <!-- Row -->
                 <div class="row">
+                    <!-- column -->
+                    <div class="col-lg-3 col-md-6">
+                        <!-- Card -->
+                        <div class="card">
+                            <img class="card-img-top img-responsive" src="/images/big/25285.jpg" alt="Card image cap">
+                            <div class="card-block">
+                                <h4 class="card-title">Konsultasi Karir</h4>
+                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, impedit.</p>
+                                <a href="/konsultasikarir" class="btn btn-primary">Mulai Konsultasi</a>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                    </div>
+                    <!-- column -->
+                    <!-- column -->
+                    <div class="col-lg-3 col-md-6">
+                        <!-- Card -->
+                        <div class="card">
+                            <img class="card-img-top img-responsive" src="/images/big/5190435.jpg" alt="Card image cap">
+                            <div class="card-block">
+                                <h4 class="card-title">Konsultasi Kepribadian</h4>
+                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, impedit.</p>
+                                <a href="/konsultasikepribadian" class="btn btn-primary">Mulai Konsultasi</a>
+                            </div>
+                        </div>
+                        <!-- Card -->
+                    </div>
+                    <!-- column -->
                 </div>
+                <!-- Row -->
                 <!-- Row -->
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->

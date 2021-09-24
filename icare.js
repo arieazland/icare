@@ -107,7 +107,8 @@ app.use('/konsultasi', require('./routes/konsultasi'));
 app.use('/partisipant', require('./routes/partisipant'));
 app.use('/soal', require('./routes/soal'));
 app.use('/jawab', require('./routes/jawab'));
-app.use('/kesimpulan', require('./routes/kesimpulan'));
+app.use('/kesimpulankarir', require('./routes/kesimpulankarir'));
+app.use('/kesimpulankepribadian', require('./routes/kesimpulankepribadian'));
 app.use('/assessment', require('./routes/assessment'));
 
 /** router for index */

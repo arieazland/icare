@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{{> header}}
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    {{> preloader}}
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {{> topbar}}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {{!-- {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbarkepribadian}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{/if}} --}}
+        {{> navbarkepribadian}}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Kesimpulan Assessment Kepribadian</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Assessment Kepribadian</a></li>
+                            <li class="breadcrumb-item active">Kesimpulan Assessment Kepribadian</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                {{!-- Start of Notifikasi --}}
+                {{#if sessionFlash.message}}
+                    <div class="alert alert-danger"> 
+                        {{sessionFlash.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{#if sessionFlash2.message}}
+                    <div class="alert alert-success"> 
+                        {{sessionFlash2.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{!-- End of Notifikasi --}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            <div class="card-header">
+                                <h4 class="m-b-0 text-white">Kesimpulan Assessment Kepribadian</h4>
+                            </div>
+                            
+                            <div class="card-block">
+                                {{!-- start of form pilih part --}}
+                                <form action="/kesimpulanassessmentkepribadian" method="post">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Peserta</h4>
+                                        <h6 class="card-subtitle"> Pilih peserta terlebih dahulu untuk menampilkan data hasil assessment kepribadian</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="selectpeserta" name="selectpeserta" style="width: 100%" required>
+                                            {{#each data}}
+                                                <option value="{{ id }}" {{#if ../selectpeserta}}{{#compare id ../selectpeserta operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih part --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#if selectpeserta}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            <div class="card-block">
+                                <div class="form-body">
+                                    <h4 class="card-title">Data Peserta</h4>
+                                    <h6 class="card-subtitle"> Berikut adalah data peserta yang terpilih</h6>
+                                    <hr>
+                                    <div class="table-responsive m-t-40">
+                                        <table id="biodata" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">                                            
+                                            <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <b>Nama</b> </td>
+                                                        <td>{{#each biodatapeserta}} {{#if nama}} {{nama}} {{/if}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <b>Tempat/Tanggal Lahir</b> </td>
+                                                        <td>{{#each biodatapeserta}} {{#if tempat_lahir}} {{tempat_lahir}}{{/if}}/{{#if tanggal_lahir}}{{formatDate tanggal_lahir}}{{/if}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <b>Jenis Kelamin</b> </td>
+                                                        <td>{{#each biodatapeserta}} {{#if jenis_kelamin}}{{jenis_kelamin}}{{/if}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <b>Pendidikan Terakhir</b> </td>
+                                                        <td>{{#each biodatapeserta}} {{#if pendidikan}} {{loud pendidikan}} {{/if}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <b>Asal Universitas</b> </td>
+                                                        <td>{{#each biodatapeserta}} {{#if universitas}}{{universitas}}{{/if}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <b>Jurusan</b> </td>
+                                                        <td>{{#each biodatapeserta}} {{#if jurusan}}{{jurusan}}{{/if}} {{/each}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <b>Nomor Kontak</b> </td>
+                                                        <td>{{#each biodatapeserta}} {{#if nomor_kontak}}{{nomor_kontak}}{{/if}} {{/each}}</td>
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {{#if selectpeserta}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Aspek</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- Start of tabel list aspek --}}
+                                <h4 class="card-title">Part 1</h4>
+                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                                <hr>
+                                <div class="table-responsive m-t-40">
+                                    <table id="part1" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="">Aspek</th>
+                                                <th class="">Skor</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>Total:</th>
+                                                <th id="total1"></th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {{#each part1}}
+                                                <tr>
+                                                    <td class="text-center">{{counter @index}}</td>
+                                                    <td>{{ aspek }}</td>
+                                                    <td>{{ skor }}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {{!-- end of tabel list soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Aspek</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- Start of tabel list aspek --}}
+                                <h4 class="card-title">Part 2</h4>
+                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                                <hr>
+                                <div class="table-responsive m-t-40">
+                                    <table id="part2" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="">Aspek</th>
+                                                <th class="">Skor</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>Total:</th>
+                                                <th id="total2"></th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {{#each part2}}
+                                                <tr>
+                                                    <td class="text-center">{{counter @index}}</td>
+                                                    <td>{{ aspek }}</td>
+                                                    <td>{{ skor }}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {{!-- end of tabel list soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Aspek</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- Start of tabel list aspek --}}
+                                <h4 class="card-title">Part 3</h4>
+                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                                <hr>
+                                <div class="table-responsive m-t-40">
+                                    <table id="part3" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="">Aspek</th>
+                                                <th class="">Skor</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>Total:</th>
+                                                <th id="total3"></th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {{#each part3}}
+                                                <tr>
+                                                    <td class="text-center">{{counter @index}}</td>
+                                                    <td>{{ aspek }}</td>
+                                                    <td>{{ skor }}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {{!-- end of tabel list soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Aspek</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- Start of tabel list aspek --}}
+                                <h4 class="card-title">Part 4</h4>
+                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                                <hr>
+                                <div class="table-responsive m-t-40">
+                                    <table id="part4" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="">Aspek</th>
+                                                <th class="">Skor</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>Total:</th>
+                                                <th id="total4"></th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {{#each part4}}
+                                                <tr>
+                                                    <td class="text-center">{{counter @index}}</td>
+                                                    <td>{{ aspek }}</td>
+                                                    <td>{{ skor }}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {{!-- end of tabel list soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Aspek</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- Start of tabel list aspek --}}
+                                <h4 class="card-title">Part 5</h4>
+                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                                <hr>
+                                <div class="table-responsive m-t-40">
+                                    <table id="part5" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="">Aspek</th>
+                                                <th class="">Skor</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>Total:</th>
+                                                <th id="total5"></th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {{#each part5}}
+                                                <tr>
+                                                    <td class="text-center">{{counter @index}}</td>
+                                                    <td>{{ aspek }}</td>
+                                                    <td>{{ skor }}</td>
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {{!-- end of tabel list soal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title">Kesimpulan</h4>
+                                <h6 class="card-subtitle">Berikut adalah kesimpulan atas peserta {{#each biodatapeserta}}{{ nama }}{{/each}}</h6>
+                                <hr>
+                                <div class="table-responsive m-t-40">
+                                    <table id="kesimpulan" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="">Kesimpulan</th>
+                                                <th class="">Psikolog</th>
+                                                <th class="not-export">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="">Kesimpulan</th>
+                                                <th class="">Psikolog</th>
+                                                <th class="not-export">Aksi</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {{#each datakesimpulan}}
+                                                <tr>
+                                                    <td>{{ kesimpulan }}</td>
+                                                    <td>{{ namapsikolog }}</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-id="{{ idkesimpulan }}" data-kesimpulan="{{ kesimpulan }}"><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                                                        
+                                                        <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ idkesimpulan }}" data-kesimpulan="{{ kesimpulan }}"><i class="fa fa-ban" aria-hidden="true"></i></button></a>
+                                                    </td>
+                                                </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- end of row --}}
+                {{!-- start of modal update acara --}}
+                <form action="/kesimpulankepribadian/edit" method="post">
+                    <div class="modal fade" id="modalEditkesimpulan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel1">Ubah Kesimpulan</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="modalnamaacara" class="control-label">Kesimpulan:</label>
+                                        <textarea name="modalkesimpulan" id="modalkesimpulan" rows="10" class="form-control modalkesimpulan"></textarea>
+                                        <input type="hidden" class="form-control modalidkesimpulan" id="modalidkesimpulan" name="modalidkesimpulan">
+                                        <input type="hidden" class="form-control idpsikolog" id="modalidpsikologkesimpulan" name="modalidpsikologkesimpulan" value="{{ idu }}">
+                                        <input type="hidden" class="form-control idmahasiswa" id="modalidpesertakesimpulan" name="modalidpesertakesimpulan" value="{{#each biodatapeserta}}{{ id }}{{/each}}">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-success">Ubah</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- end of modal update acara -->
+                <!-- start of modal delete acara -->
+                <form action="/kesimpulankepribadian/delete" method="post">
+                    <div class="modal fade" id="modalHapuskesimpulan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Kesimpulan</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{!-- modalidkesimpulanhapus, modalidkonsulkesimpulan, modalidpsikologkesimpulan, modalidpesertakesimpulan --}}
+                                    <strong>Anda yakin mau menghapus : <label class="font-weight-bold judul"></label>?</strong>
+                                    <input type="hidden" class="form-control modalidkesimpulanhapus" id="modalidkesimpulanhapus" name="modalidkesimpulanhapus">
+                                    <input type="hidden" class="form-control idpsikolog" id="modalidpsikologkesimpulan" name="modalidpsikologkesimpulan" value="{{ idu }}">
+                                    <input type="hidden" class="form-control idmahasiswa" id="modalidpesertakesimpulan" name="modalidpesertakesimpulan" value="{{#each biodatapeserta}}{{ id }}{{/each}}">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                    {{!-- <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-outline-info"> --}}
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Aspek</h4>
+                            </div> --}}
+                                {{!-- <div class="card-block text-center">
+                                    <div class="form-actions text-right">
+                                        <a href="/cetakkesimpulanassessment/{{ selectacara }}/{{#each datamahasiswa}}{{ idmahasiswa }}{{/each}}/" target="_blank" class=""><button type="button" class="btn btn-block btn-outline-success" data-toggle="tooltip" data-original-title="Cetak Kesimpulan"> <i class="fa fa-print"></i> Cetak</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+                </div>
+                {{/if}}
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {{> footer}}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    {{> plugins}}
+    <script src="/js/client/datatable/kesimpulanassessmentkepribadian.js"></script>
+    <script src="/js/client/modal/kesimpulanassessmentkepribadian.js"></script>
+    <script src="/js/client/cetak/kesimpulanassessmentkepribadian.js"></script>
+</body>
+
+</html>
