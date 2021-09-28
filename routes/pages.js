@@ -1677,7 +1677,7 @@ Router.get('/kesimpulanassessmentkepribadian', async (req, res, dataputs) => {
                         message: message
                     }
                     req.session.idpesertainput = null
-                    res1.redirect("/kesimpulanassessmentkepribadian");
+                    res1.redirect("/");
                     
                 })
             } else {
@@ -1702,7 +1702,7 @@ Router.get('/kesimpulanassessmentkepribadian', async (req, res, dataputs) => {
                         type: 'error',
                         message: message
                     }
-                    res1.redirect("/kesimpulanassessmentkepribadian");
+                    res1.redirect("/");
                 })
             }
         } else {
