@@ -1103,7 +1103,7 @@ Router.get('/hasilassessmentkarir', async (req, res) => {
                     message: message,
                     idu, username, nama, tipe, tipekonsultasi,
                 }
-                res1.redirect("/hasilassessmentkarir");
+                res1.redirect("/");
             })
         } else {
             req.session.sessionFlash = {
@@ -1534,7 +1534,7 @@ Router.get('/hasilassessmentkepribadian', async (req, res) => {
                     type: 'error',
                     message: message
                 }
-                res1.redirect("/hasilassessmentkepribadian");
+                res1.redirect("/");
             })
         } else {
             /** di redirect ke login dengan status unauthorized */
