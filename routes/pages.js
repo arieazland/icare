@@ -1310,7 +1310,7 @@ Router.get('/kesimpulanassessmentkarir', async (req, res) => {
                         message: message,
                         idu, username, nama, tipe, tipekonsultasi,
                     }
-                    res1.redirect("/kesimpulanassessmentkarir");
+                    res1.redirect("/");
                 })
             } else {
                 let res1 = res;
@@ -1331,7 +1331,7 @@ Router.get('/kesimpulanassessmentkarir', async (req, res) => {
                         message: message,
                         idu, username, nama, tipe, tipekonsultasi,
                     }
-                    res1.redirect("/kesimpulanassessmentkarir");
+                    res1.redirect("/");
                 })
             }
         } else {
