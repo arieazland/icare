@@ -24,7 +24,7 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbar}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{/if}}
+        {{> navbarkarir}}
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -56,7 +56,7 @@
                 <!-- ============================================================== -->
                 <!-- Row -->
                 <div class="row">
-                    
+                    {{#each urlroom2}} {{url_room}} {{/each}}
                 </div>
                 <!-- Row -->
                 <!-- ============================================================== -->
@@ -93,6 +93,7 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     {{> plugins}}
+    
     <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
     <script>
     callFrame = window.DailyIframe.createFrame({
@@ -106,7 +107,9 @@
         },
         showLeaveButton: true,
     });
-    callFrame.join({ url: 'https://qiera.daily.co/new-prebuilt-test' });
+    //callFrame.join({ url: 'https://qiera.daily.co/new-prebuilt-test' });
+    //callFrame.join({ url: [{{#each urlroom}} '{{url_room}}', {{/each}}] });
+    callFrame.join({ url: {{#each urlroom2}} '{{url_room}}' {{/each}} });
     </script>
 </body>
 

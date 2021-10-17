@@ -91,10 +91,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Users</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Room Video Call</h3>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Users</li>
+                            <li class="breadcrumb-item active">Room Video Call</li>
                         </ol>
                     </div>
                 </div>
@@ -124,50 +124,49 @@
                     <div class="col-lg-12">
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Form Users</h4>
+                                <h4 class="m-b-0 text-white">Form Room Video Call</h4>
                             </div>
                             <div class="card-block">
-                                {{!-- Start of tabel list users --}}
-                                <h4 class="card-title">List User</h4>
+                                {{!-- Start of tabel list room video call --}}
+                                <h4 class="card-title">List Room Video Call</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
                                 <hr>
                                 <div class="table-responsive m-t-40">
-                                    <table id="listUsers" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="listVidcall" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No.</th>
-                                                <th class="text-center">Nama</th>
-                                                <th class="text-center">Email</th>
-                                                <th class="text-center">Tipe Akun</th>
-                                                <th class="text-center">Tanggal Lahir</th>
-                                                <th class="text-center">Tempat Lahir</th>
+                                                <th class="text-center">Nama Room</th>
+                                                <th class="text-center">URL Room</th>
+                                                <th class="text-center">Psikolog Pengguna</th>
+                                                <th class="text-center">Tanggal Dibuat</th>
+                                                <th class="text-center">Jam Dibuat</th>
                                                 <th class="text-center notexport">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
                                             <tr>
                                                 <th class="text-center">No.</th>
-                                                <th class="text-center">Nama</th>
-                                                <th class="text-center">Email</th>
-                                                <th class="text-center">Tipe Akun</th>
-                                                <th class="text-center">Tanggal Lahir</th>
-                                                <th class="text-center">Tempat Lahir</th>
+                                                <th class="text-center">Nama Room</th>
+                                                <th class="text-center">URL Room</th>
+                                                <th class="text-center">Psikolog Pengguna</th>
+                                                <th class="text-center">Tanggal Dibuat</th>
+                                                <th class="text-center">Jam Dibuat</th>
                                                 <th class="text-center notexport">Aksi</th>
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            {{#each data}}
+                                            {{#each listvidcall}}
                                             <tr>
-                                                <td>{{counter @index}}</td>
-                                                <td>{{ nama }}</td>
-                                                <td>{{ email }}</td>
-                                                <td>{{ account_type }}</td>
-                                                <td>{{ tanggal_lahir }}</td>
-                                                <td>{{ tempat_lahir }}</td>
+                                                <td class="text-center">{{counter @index}}</td>
+                                                <td class="text-center">{{ namaroom }}</td>
+                                                <td class="text-center">{{ urlroom }}</td>
+                                                <td class="text-center">{{ namapengguna }}</td>
+                                                <td class="text-center">{{formatDate tanggaldibuat }}</td>
+                                                <td class="text-center">{{formatTime jamdibuat }}</td>
                                                 <td class="text-center notexport">
-                                                    <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn edit" data-toggle="tooltip" data-original-title="Ubah" data-id="{{ id }}" data-nama="{{ nama }}" data-email="{{ email }}" ><i class="fa fa-pencil" aria-hidden="true"></i></button></a>
                                                     
-                                                    <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ id }}" data-nama="{{ nama }}"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                                    <a href="javascript:void(0);" class=""><button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn delete" data-toggle="tooltip" data-original-title="Hapus" data-id="{{ id }}" data-nama="{{ namaroom }}"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
                                                 </td>
                                             </tr>
                                             {{/each}}
@@ -179,47 +178,19 @@
                         </div>
                     </div>
                 </div>
-                {{!-- start of modal update users --}}
-                <form action="/auth/edit" method="post">
-                    <div class="modal fade" id="modalEditusers" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel1">Ubah Data User</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="modalnama" class="control-label">Nama User:</label>
-                                        <input type="text" class="form-control modalnama" id="modalnama" name="modalnama">
-                                        <input type="hidden" class="form-control modalid" id="modalid" name="modalid">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="modalemail" class="control-label">Email:</label>
-                                        <input type="email" class="form-control modalemail" id="modalemail" name="modalemail">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-success">Ubah</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <!-- end of modal update users -->
                 <!-- start of modal delete users -->
-                <form action="/auth/delete" method="post">
-                    <div class="modal fade" id="modalHapususers" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                <form action="/room/delete" method="post">
+                    <div class="modal fade" id="modalHapusroom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Data User</h4>
+                                    <h4 class="modal-title" id="exampleModalLabel1">Hapus Room</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <strong>Anda yakin mau menghapus user <label class="font-weight-bold judul"></label>?</strong>
+                                    <strong>Anda yakin mau menghapus Room <label class="font-weight-bold judul"></label>?</strong>
                                     <input type="hidden" class="form-control modalidhapus" id="modalidhapus" name="modalidhapus">
+                                    <input type="hidden" class="form-control modalnamahapus" id="modalnamahapus" name="modalnamahapus">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="reset" class="btn btn-warning" data-dismiss="modal">Batal</button>
@@ -236,58 +207,27 @@
                         <div class="card">
                             <div class="card-block">
                                 {{!-- start of form tambah data psikolog --}}
-                                <form action="/auth/reg" method="POST">
+                                <form action="/room/create" method="POST">
                                     <div class="form-body">
-                                        <h4 class="card-title">Form Input Data User</h4>
+                                        <h4 class="card-title">Form Create Room</h4>
                                         <hr>
                                         <!--/row-->
                                         <div class="row p-t-20">
                                             <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Nama</label>
+                                                    <label class="control-label">Nama Room</label>
                                                     <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama" required="required">
                                                 </div>
                                             </div>
                                             <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Email</label>
-                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required="required">
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                        </div>
-                                        <!--/row-->
-                                        <div class="row p-t-20">
-                                            <!--/span-->
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Password</label>
-                                                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required">
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Konfirmasi Password</label>
-                                                    <input type="password" id="password2" name="password2" class="form-control" placeholder="Konfirmasi Password" required="required">
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                        </div>
-                                        <!--/row-->
-                                        <div class="row">
-                                            <!--/span-->
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Account Type</label>
-                                                    <select class="select2" id="tipeakun" name="tipeakun" style="width: 100%" required>
-                                                        <option value="0">-- Pilih Account Type --</option>
-                                                        <option value="admin">Admin</option>
-                                                        <option value="pesertareguler">Peserta Reguler</option>
-                                                        <option value="pesertaevent">Peserta Event</option>
-                                                        <option value="psikolog">Psikolog</option>
+                                                    <label class="control-label">Psikolog</label>
+                                                    <select class="select2" id="psikolog" name="psikolog" style="width: 100%" required>
+                                                        {{#each listpsikolog}}
+                                                            <option value="{{ id }}" {{#if ../selectpart}}{{#compare id ../selectpart operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
+                                                        {{/each}}
                                                     </select>
                                                 </div>
                                             </div>
@@ -341,8 +281,8 @@
     <!-- All Jquery -->
     <!-- ============================================================== -->
     {{> plugins}}
-    <script src="/js/client/datatable/users.js"></script>
-    <script src="/js/client/modal/users.js"></script>
+    <script src="/js/client/datatable/room.js"></script>
+    <script src="/js/client/modal/room.js"></script>
 </body>
 
 </html>

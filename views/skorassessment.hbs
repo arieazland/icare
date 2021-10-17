@@ -85,8 +85,8 @@
                                         <h6 class="card-subtitle"> Pilih Part pertanyaan terlebih dahulu untuk menampilkan data skor assessment</h6>
                                         <hr>
                                         <select class="select2" id="selectpart" name="selectpart" style="width: 100%" required>
-                                            {{#each datapart}}
-                                                <option value="{{ id }}" {{#if ../selectpart}}{{#compare id ../selectpart operator="=="}}selected{{/compare}}{{/if}}>{{ nama }}</option>
+                                            {{#each listpsikolog}}
+                                                <option value="{{ id }}">{{ nama }}</option>
                                             {{/each}}
                                         </select>
                                     </div>

@@ -1833,6 +1833,126 @@ Router.get('/videocallicare/:url/:url2', (req, res) => {
     })
 })
 
+/** route for video call */
+Router.get('/videocall', async (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        email = req.session.email
+        if(tipe === 'admin'){
+            let res1 = res;
+            url =  process.env.MAIN_URL + '/videocall';
+            axios.get(url)
+            .then(function (res) {
+                var listvidcall = res.data.listvidcall;
+                var listpsikolog = res.data.listpsikolog;
+                // req.session.sessionFlash2 = {
+                //     type: 'success',
+                //     message: message
+                // }
+                res1.render('videocall',{
+                    idu, username, nama, tipe, email, 
+                    listvidcall, listpsikolog
+                });
+            })
+            .catch(function (err) {
+                var message = err.response.data;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message
+                }
+                console.log(message)
+                res1.redirect("/");
+            })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
+
+// Router.get('/listroomvcall', (req, res) => {
+//     const Headers = {
+//         'Authorization': 'Bearer ' + process.env.DAILY_TOKEN,
+//         'Content-Type': 'application/json'
+//       }
+//     let res1 = res;
+//     url = process.env.DAILY_URL;
+//     axios.get(url, {headers: Headers})
+//     .then(function (res) {
+//         var data = res.data.data;
+//         console.log(data);
+//     })
+//     .catch(function (err) {
+//     // console.log(err);
+//     //var message = err.response.data.message;
+//     var message1 = err.response.data.error;
+//     var message2 = err.response.data.info;
+//     console.log(message1);
+//     console.log(message2);
+//     })
+// })
+
+// Router.get('/deleteroomvcall', (req, res) => {
+//     //const { selectroom } = req.body;
+//     const namaroom = 'testing';
+//     const Headers = {
+//         'Authorization': 'Bearer ' + process.env.DAILY_TOKEN,
+//         'Content-Type': 'application/json'
+//       }
+//     let res1 = res;
+//     url = process.env.DAILY_URL + '/' + namaroom;
+//     axios.delete(url, {headers: Headers})
+//     .then(function (res) {
+//         var name = res.data.name;
+//         var deleted = res.data.deleted;
+//         console.log(name);
+//         console.log(deleted);
+//     })
+//     .catch(function (err) {
+//     // console.log(err);
+//     //var message = err.response.data.message;
+//     var message1 = err.response.data.error;
+//     var message2 = err.response.data.info;
+//     console.log(message1);
+//     console.log(message2);
+//     })
+// })
+
+// Router.post('/creatroomvcall', (req, res) => {
+//     const { namaroom } = req.body; 
+//     const Headers = {
+//         'Authorization': 'Bearer ' + process.env.DAILY_TOKEN,
+//         'Content-Type': 'application/json'
+//       }
+//       let data = {
+//         "name": namaroom,
+//         "properties" : {"eject_after_elapsed":1200}
+//       }
+//     let res1 = res;
+//     url = process.env.DAILY_URL;
+//     axios.post(url, data, {headers: Headers})
+//     .then(function (res) {
+//         var url = res.data.url;
+//         console.log(url);
+//     })
+//     .catch(function (err) {
+//     // console.log(err);
+//     //var message = err.response.data.message;
+//     var message1 = err.response.data.error;
+//     var message2 = err.response.data.info;
+//     console.log(message1);
+//     console.log(message2);
+//     })
+// })
+
 Router.get('/vidcall/:id', (req, res) => {
     if(req.session.loggedIn){
 
@@ -1855,30 +1975,42 @@ Router.get('/vidcall/:id', (req, res) => {
                 })**/
                 params = {
                     idpeserta: idpeserta,
+                    idpsikolog: idu
                 }
                 let res1 = res;
-                url = process.env.MAIN_URL + '/getpeserta';
+                url = process.env.MAIN_URL + '/getpesertavidcall';
                 // url =  MAIN_URL + '/userlist';
                 axios.post(url, params)
                 .then(function (res) {
-                    var peserta = res.data;
+                    const peserta = res.data.cek_peserta;
+                    const idpeserta = res.data.cek_peserta[0].id;
+                    const emailpeserta = res.data.cek_peserta[0].email;
+                    const urlroom = res.data.urlroom[0].url_room;
+                    var urlroom2 = res.data.urlroom;
                     res1.render('test', {
                         idu, username, nama, tipe,
-                        peserta: peserta
+                        urlroom2
                     })
                     /** sent email ke peserta */
                     let mailOptions = {
                         from: 'arieazlandfirly@gmail.com',
                         // to: 'qurhanul.rizqie@gmail.com',
-                        to: 'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
+                        to: emailpeserta, //'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
                         subject: 'i-care Video Call Link',
-                        // text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://qiera.daily.co/new-prebuilt-test '
-                        text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/qiera.daily.co/new-prebuilt-test '
+                        // text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/qiera.daily.co/new-prebuilt-test '
+                        text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: ${urlroom}`
                     };
                     
                     transporter.sendMail(mailOptions, function(err, data) {
                         if (err) {
                             console.log("Error " + err);
+                            // var message = err;
+                            // req.session.sessionFlash = {
+                            //     type: 'error',
+                            //     message: message,
+                            //     idu, username, nama, tipe,
+                            // }
+                            // res1.redirect("/");
                         } else {
                             console.log("Email sent successfully");
                         }
@@ -1887,6 +2019,8 @@ Router.get('/vidcall/:id', (req, res) => {
                 })
                 .catch(function (err) {
                     // console.log(err);
+                    // var error = err.response.data;
+                    // console.log(error)
                     var message = err.response.data.message;
                     req.session.sessionFlash = {
                         type: 'error',
