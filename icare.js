@@ -119,6 +119,7 @@ app.use('/kesimpulankarir', require('./routes/kesimpulankarir'));
 app.use('/kesimpulankepribadian', require('./routes/kesimpulankepribadian'));
 app.use('/assessment', require('./routes/assessment'));
 app.use('/room', require('./routes/room'));
+app.use('/rating', require('./routes/rating'));
 
 /** router for index */
 // app.get('/', (req, res) => {

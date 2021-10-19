@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{{> header}}
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    {{> preloader}}
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {{> topbar}}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {{!-- {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbar}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{/if}} --}}
+
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- User profile -->
+                <div class="user-profile">
+                    <!-- User profile image -->
+                    {{!-- <div class="profile-img"> <img src="/images/users/1.jpg" alt="user" /> </div> --}}
+                    <!-- User profile text-->
+                    {{!-- <div class="profile-text"> <a href="#" class="dropdown-toggle link u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">{{ nama }} <span class="caret"></span></a>
+                        <div class="dropdown-menu animated flipInY">
+                            <a href="/myprofile" class="dropdown-item"><i class="ti-user"></i> My Profile</a>
+                            <div class="dropdown-divider"></div> <a href="#" class="dropdown-item"><i class="ti-settings"></i> Account Setting</a>
+                            <div class="dropdown-divider"></div> <a href="/logout" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                        </div>
+                    </div> --}}
+                </div>
+                <!-- End User profile text-->
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="nav-small-cap">MENU</li>
+                        <li>
+                            <a class="" href="/" aria-expanded="false"><i class="mdi mdi-home-variant"></i><span class="hide-menu">Home</span></a>
+                        </li>
+                        {{#if tipe}}
+                        {{#compare tipe "admin" operator="=="}}
+                        <li>
+                            <a class="" href="/users" aria-expanded="false"><i class="mdi mdi-account-circle"></i><span class="hide-menu">Users</span></a>
+                        </li>
+                        <li>
+                            <a class="" href="/videocall" aria-expanded="false"><i class="mdi mdi-camcorder"></i><span class="hide-menu">Video Call</span></a>
+                        </li>
+                        {{/compare}}
+                        {{/if}}
+                        <li class="nav-devider"></li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+            <!-- Bottom points-->
+            <div class="sidebar-footer">
+                <!-- item-->
+                {{!-- <a href="/logout" class="link" data-toggle="tooltip" title="Logout"><i class="mdi mdi-power"></i></a> --}}
+                <!-- item-->
+                {{!-- <a href="/myprofile" class="link" data-toggle="tooltip" title="Account Settings"><i class="ti-settings"></i></a> --}}
+                <!-- item-->
+                {{!-- <a href="" class="link" data-toggle="tooltip" title="Email"><i class="mdi mdi-gmail"></i></a> --}}
+            </div>
+            <!-- End Bottom points-->
+        </aside>
+
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">Rating</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Rating</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                {{!-- Start of Notifikasi --}}
+                {{#if sessionFlash.message}}
+                    <div class="alert alert-danger"> 
+                        {{sessionFlash.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{#if sessionFlash2.message}}
+                    <div class="alert alert-success"> 
+                        {{sessionFlash2.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{!-- End of Notifikasi --}}
+                <!-- Row -->
+                <div class="row">
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title">Average User Rating</h4>
+                                <div class="text-left">
+                                    <h2 class="font-light m-b-0"><b>{{rataratarating}}/5</b></h2>
+                                </div>
+                                {{#if rataratarating}}
+                                    {{#compare rataratarating '5' operator=">="}}
+                                        <div class="star">
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                        </div>
+                                    {{/compare}}
+                                    {{#compare rataratarating '5' operator="<"}}
+                                        {{#compare rataratarating '4' operator=">="}}
+                                        <div class="star">
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                        </div>
+                                        {{/compare}}
+                                    {{/compare}}
+                                    {{#compare rataratarating '4' operator="<"}}
+                                        {{#compare rataratarating '3' operator=">="}}
+                                        <div class="star">
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        </div>
+                                        {{/compare}}
+                                    {{/compare}}
+                                    {{#compare rataratarating '3' operator="<"}}
+                                        {{#compare rataratarating '2' operator=">="}}
+                                        <div class="star">
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        </div>
+                                        {{/compare}}
+                                    {{/compare}}
+                                    {{#compare rataratarating '2' operator="<"}}
+                                        {{#compare rataratarating '1' operator=">="}}
+                                        <div class="star">
+                                            <span class="fa fa-star checked"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        </div>
+                                        {{/compare}}
+                                    {{/compare}}
+                                    {{#compare rataratarating '1' operator="<"}}
+                                        <div class="star">
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                            <span class="fa fa-star"></span>
+                                        </div>
+                                    {{/compare}}
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title">Rating Breakdown</h4>
+                                {{!-- 5 start --}}
+                                <div class="d-flex flex-row">
+                                    <div class="align-self-center">
+                                        <span class="text-success star">☆ 5</span>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="text-success">{{#each count}}{{rate5}}{{/each}}</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{#each count}}{{persentase5}}{{/each}}; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {{!-- 5 start --}}
+                                {{!-- 4 start --}}
+                                <div class="d-flex flex-row">
+                                    <div class="align-self-center">
+                                        <span class="text-info star">☆ 4</span>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="text-info">{{#each count}}{{rate4}}{{/each}}</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{#each count}}{{persentase4}}{{/each}}; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {{!-- 4 start --}}
+                                {{!-- 3 start --}}
+                                <div class="d-flex flex-row">
+                                    <div class="align-self-center">
+                                        <span class="text-purple star">☆ 3</span>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="text-purple">{{#each count}}{{rate3}}{{/each}}</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-purple" role="progressbar" style="width: {{#each count}}{{persentase3}}{{/each}}; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {{!-- 3 start --}}
+                                {{!-- 2 start --}}
+                                <div class="d-flex flex-row">
+                                    <div class="align-self-center">
+                                        <span class="text-warning star">☆ 2</span>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="text-warning">{{#each count}}{{rate2}}{{/each}}</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: {{#each count}}{{persentase2}}{{/each}}; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {{!-- 2 start --}}
+                                {{!-- 1 start --}}
+                                <div class="d-flex flex-row">
+                                    <div class="align-self-center">
+                                        <span class="text-danger star">☆ 1</span>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span class="text-danger">{{#each count}}{{rate1}}{{/each}}</span>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{#each count}}{{persentase1}}{{/each}}; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                {{!-- 1 start --}}
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-9 col-md-9">
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title">Review</h4>
+
+                                <ul class="list"></ul>
+                                <div class="list-footer">
+                                    <button class="btnreview" id="prev-page"><</button>
+                                    <div><span id="current-page"></span> of <span id="total-pages"></span></div>
+                                    <button class="btnreview" id="next-page">></button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
+                <!-- Row -->
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {{> footer}}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    {{> plugins}}
+    {{!-- <script src="/js/client/pagination/rating.js"></script> --}}
+    <script>
+        // DOM Elements
+        const list = document.querySelector('.list');
+        const currPage = document.querySelector('#current-page');
+        const totalPages = document.querySelector('#total-pages');
+        const buttonPrev = document.querySelector('#prev-page');
+        const buttonNext = document.querySelector('#next-page');
+
+        /*
+        const items = [
+            { title: 'James Anderson 1', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 2', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 3', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 4', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 5', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 6', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 7', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 8', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 9', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 10', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 11', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+            { title: 'James Anderson 12', description: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum has beenorem Ipsum is simply dummy text of the printing and type setting industry' },
+        ];
+        */
+
+        const items = [{{#each all}}{ peserta:`{{namapeserta}}`,rate:`{{rate}}`,komentar:`{{komentar}}` },{{/each}}]
+        console.log(items)
+
+        let currentPage = 1;
+        let currentIndex = 0;
+        const itemsPerPage = 5;
+
+        const numPages = Math.ceil(items.length / itemsPerPage);
+
+        // Functions
+        const createListItem = (item) => 
+
+        `
+        <div class="row">
+            <div class="comment-text w-100">
+                <li class="list-item">
+                    <h5>${item.peserta}</h5> <span class="text-muted">April 14, 2016</span>
+                    
+                    {{#compare item.rate '5' operator=">="}}
+                        <div class="star">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                        </div>
+                    {{/compare}}
+                    {{#compare item.rate '5' operator="<"}}
+                        {{#compare item.rate '4' operator=">="}}
+                        <div class="star">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                        {{/compare}}
+                    {{/compare}}
+                    {{#compare item.rate '4' operator="<"}}
+                        {{#compare item.rate '3' operator=">="}}
+                        <div class="star">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                        {{/compare}}
+                    {{/compare}}
+                    {{#compare item.rate '3' operator="<"}}
+                        {{#compare item.rate '2' operator=">="}}
+                        <div class="star">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                        {{/compare}}
+                    {{/compare}}
+                    {{#compare item.rate '2' operator="<"}}
+                        {{#compare item.rate '1' operator=">="}}
+                        <div class="star">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                        {{/compare}}
+                    {{/compare}}
+                    {{#compare item.rate '1' operator="<"}}
+                        <div class="star">
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                    {{/compare}}
+                    
+                    <p class="m-b-5">${item.komentar}</p>
+                </li>
+            </div>
+        </div>`;
+
+        const nextPage = () => {
+            if (currentPage === numPages) return;
+
+            currentPage++;
+            currentIndex = (currentPage - 1) * itemsPerPage;
+            let newIndex = currentIndex + itemsPerPage;
+            list.innerHTML = items
+                .slice(currentIndex, newIndex)
+                .map((item) => createListItem(item))
+                .join('');
+            currPage.innerHTML = currentPage;
+        };
+
+        const prevPage = () => {
+            if (currentPage === 1) return;
+
+            currentPage--;
+            currentIndex = (currentPage - 1) * itemsPerPage;
+            let newIndex = currentIndex + itemsPerPage;
+            list.innerHTML = items
+                .slice(currentIndex, newIndex)
+                .map((item) => createListItem(item))
+                .join('');
+            currPage.innerHTML = currentPage;
+        };
+
+        const init = () => {
+            currPage.innerHTML = currentPage;
+            totalPages.innerHTML = numPages;
+
+            list.innerHTML = items
+                .slice(0, itemsPerPage)
+                .map((item) => createListItem(item))
+                .join('');
+        };
+
+        // Event Listeners
+        buttonPrev.addEventListener('click', prevPage);
+        buttonNext.addEventListener('click', nextPage);
+
+        init();
+    </script>
+</body>
+
+</html>

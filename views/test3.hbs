@@ -17,14 +17,14 @@
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-        {{> topbar}}
+        {{> topbarvidcall}}
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        {{#if tipe}} {{#compare tipe "admin" operator="=="}} {{> navbar}} {{/compare}} {{#compare tipe "psikologis" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{#compare tipe "konsultan" operator="=="}} {{> navbarpsikolog}} {{/compare}} {{/if}}
+        
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -41,10 +41,10 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor m-b-0 m-t-0">Dashboard</h3>
+                        <h3 class="text-themecolor m-b-0 m-t-0">Video Live Consultation</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Assessment</a></li>
+                            <li class="breadcrumb-item active">Video Live Consultation</li>
                         </ol>
                     </div>
                 </div>
@@ -95,8 +95,18 @@
     {{> plugins}}
     <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
     <script>
-    callFrame = window.DailyIframe.createFrame();
-    callFrame.join({ url: 'https://qiera.daily.co/test02' });
+    callFrame = window.DailyIframe.createFrame({
+        iframeStyle: {
+            position: 'fixed',
+            border: 0,
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+        },
+        showLeaveButton: true,
+    });
+    callFrame.join({ url: {{#each urlroom2}} '{{url_room}}' {{/each}} });
     </script>
 </body>
 

@@ -6,9 +6,9 @@ Dotenv.config({ path: './.env' });
 // process.env.MAIN_URL
 
 exports.partSatu = async (req, res, dataputs) => {
-    const { iduser, idpart, idsoal, radio1, radio2, radio3, radio4, essayboxg , essayboxi } = req.body;
+    const { iduser, idpart, idsoal, radio1, radio2, radio3, radio4, essayboxg , essayboxi, selectsesi} = req.body;
 
-    if(iduser && idpart && idsoal && radio1 && radio2 && radio3 && radio4){
+    if(iduser && idpart && idsoal && radio1 && radio2 && radio3 && radio4 && selectsesi){
         params = {
             iduser: iduser,
             idpart: idpart,
@@ -18,7 +18,8 @@ exports.partSatu = async (req, res, dataputs) => {
             radio3: radio3,
             radio4: radio4,
             essayboxg: essayboxg,
-            essayboxi: essayboxi
+            essayboxi: essayboxi,
+            selectsesi: selectsesi
         }
         var res1 = res;
         url =  process.env.MAIN_URL + '/jawab/registerjawab1';
@@ -52,9 +53,9 @@ exports.partSatu = async (req, res, dataputs) => {
 }
 
 exports.partDua = async (req, res, dataputs) => {
-    const {iduser, idpart, idsoal, radio5, radio6, radio7, radio8, radiosub5 , essayboxi } = req.body;
+    const {iduser, idpart, idsoal, radio5, radio6, radio7, radio8, radiosub5, essayboxi, selectsesi } = req.body;
 
-    if(iduser && idpart && idsoal && radio5 && radio6 && radio7 && radio8){
+    if(iduser && idpart && idsoal && radio5 && radio6 && radio7 && radio8 && selectsesi){
         params = {
             iduser: iduser,
             idpart: idpart,
@@ -64,7 +65,8 @@ exports.partDua = async (req, res, dataputs) => {
             radio7: radio7,
             radio8: radio8,
             radiosub5: radiosub5,
-            essayboxi: essayboxi
+            essayboxi: essayboxi,
+            selectsesi: selectsesi
         }
         var res1 = res;
         url =  process.env.MAIN_URL + '/jawab/registerjawab2';
@@ -98,16 +100,17 @@ exports.partDua = async (req, res, dataputs) => {
 }
 
 exports.partTiga = async (req, res, dataputs) => {
-    const { iduser, idpart, idsoal, radio9, radio10 , essayboxi } = req.body;
+    const { iduser, idpart, idsoal, radio9, radio10, essayboxi, selectsesi } = req.body;
 
-    if(iduser && idpart && idsoal && radio9 && radio10){
+    if(iduser && idpart && idsoal && radio9 && radio10 && selectsesi){
         params = {
             iduser: iduser,
             idpart: idpart,
             idsoal: idsoal,
             radio9: radio9,
             radio10: radio10,
-            essayboxi: essayboxi
+            essayboxi: essayboxi,
+            selectsesi: selectsesi
         }
         var res1 = res;
         url =  process.env.MAIN_URL + '/jawab/registerjawab3';

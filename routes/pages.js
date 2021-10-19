@@ -518,11 +518,13 @@ Router.post('/assessmentuserkarir', async (req, res) => {
                     var dataputs = await axios.post(url, params)
                     .then(function (res) {
                         var datasoal = res.data.soal;
+                        var datasesi = res.data.sesi;
                         var datapart = res.data.datapart;
                         var selectpart = res.data.selectpart;
                         res1.render('assessmentuserkarir', {
                             idu, username, nama, tipe, tipekonsultasi,
                             datasoal: datasoal,
+                            datasesi: datasesi,
                             datapart: datapart,
                             selectpart: selectpart
                         })
@@ -1089,10 +1091,10 @@ Router.get('/hasilassessmentkarir', async (req, res) => {
             url =  process.env.MAIN_URL + '/hasilassessmentkarir';
             var dataputs = await axios.get(url)
             .then(function (res) {
-                var peserta = res.data.results;
+                var datasesi = res.data.sesi;
                 res1.render('hasilassessmentkarir', {
                     idu, username, nama, tipe, tipekonsultasi,
-                    datapeserta: peserta,
+                    datasesi,
                 })
             })
             .catch(function (err) {
@@ -1112,6 +1114,56 @@ Router.get('/hasilassessmentkarir', async (req, res) => {
             }
             res.redirect('/login');
         }
+    } else {
+        res.redirect('/login');
+    }
+});
+
+Router.post('/hasilassessmentkarirsesi', async (req, res, dataputs) => {
+    if(req.session.loggedIn){
+        const { selectsesi } = req.body;
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        tipekonsultasi = 1
+        if( selectsesi){
+                params = {
+                    selectsesi: selectsesi,
+                }
+                let res1 = res;
+                url =  process.env.MAIN_URL + '/hasilassessmentkarirsesi';
+                var dataputs = await axios.post(url, params)
+                .then(function (res) {
+                    var datapeserta = res.data.results;
+                    var datasesi = res.data.sesi;
+                    var selectsesi = res.data.selectsesi;
+                    res1.render('hasilassessmentkarir', {
+                        idu, username, nama, tipe, tipekonsultasi,
+                        datapeserta,
+                        datasesi,
+                        selectsesi
+                    })
+                })
+                .catch(function (err) {
+                    // console.log(err.response.data)
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message,
+                        idu, username, nama, tipe, tipekonsultasi
+                    }
+                    res1.redirect("/hasilassessmentkarir");
+                })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Harap Pilih Peserta Terlebih Dahulu!',
+                idu, username, nama, tipe,
+            }
+            res.redirect("/hasilassessmentkarir");
+        }
+
     } else {
         res.redirect('/login');
     }
@@ -1219,15 +1271,16 @@ Router.get('/hasilassessmentkarir', async (req, res) => {
 
 Router.post('/hasilassessmentkarir', async (req, res, dataputs) => {
     if(req.session.loggedIn){
-        const { selectpeserta } = req.body;
+        const { selectpeserta, selectsesi } = req.body;
         idu = req.session.iduser
         username = req.session.username
         nama = req.session.nama
         tipe = req.session.type
         tipekonsultasi = 1
-        if( selectpeserta){
+        if( selectpeserta && selectsesi ){
                 params = {
                     selectpeserta: selectpeserta,
+                    selectsesi: selectsesi
                 }
                 let res1 = res;
                 url =  process.env.MAIN_URL + '/hasilassessmentkarirpeserta';
@@ -1237,12 +1290,16 @@ Router.post('/hasilassessmentkarir', async (req, res, dataputs) => {
                     var datapeserta = res.data.peserta;
                     var selectpeserta = res.data.selectpeserta;
                     var biodata = res.data.biodata;
+                    var datasesi = res.data.sesi;
+                    var selectsesi = res.data.selectsesi;
                     res1.render('hasilassessmentkarir', {
                         idu, username, nama, tipe, tipekonsultasi,
                         jawaban: jawaban,
                         datapeserta: datapeserta,
                         selectpeserta: selectpeserta,
-                        biodata: biodata
+                        biodata: biodata,
+                        datasesi,
+                        selectsesi
                     })
                 })
                 .catch(function (err) {
@@ -1285,7 +1342,7 @@ Router.get('/kesimpulanassessmentkarir', async (req, res) => {
                     selectpeserta: req.session.idpesertainput,
                 }
                 let res1 = res;
-                url =  process.env.MAIN_URL + '/kesimpulanassessmentkarirpeserta';
+                url =  process.env.MAIN_URL + '/kesimpulanassessmentkarir';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var jawaban = res.data.results;
@@ -1317,10 +1374,10 @@ Router.get('/kesimpulanassessmentkarir', async (req, res) => {
                 url =  process.env.MAIN_URL + '/kesimpulanassessmentkarir';
                 var dataputs = await axios.get(url)
                 .then(function (res) {
-                    var peserta = res.data.cekkesimpulan;
+                    var datasesi = res.data.sesi;
                     res1.render('kesimpulanassessmentkarir', {
                         idu, username, nama, tipe, tipekonsultasi,
-                        datapeserta: peserta,
+                        datasesi
                     })
                 })
                 .catch(function (err) {
@@ -1346,34 +1403,30 @@ Router.get('/kesimpulanassessmentkarir', async (req, res) => {
     }
 });
 
-Router.post('/kesimpulanassessmentkarir', async (req, res, dataputs) => {
+Router.post('/kesimpulanassessmentkarirsesi', async (req, res, dataputs) => {
     if(req.session.loggedIn){
-        const { selectpeserta } = req.body;
+        const { selectsesi } = req.body;
         idu = req.session.iduser
         username = req.session.username
         nama = req.session.nama
         tipe = req.session.type
         tipekonsultasi = 1
-        if( selectpeserta){
+        if( selectsesi ){
             params = {
-                selectpeserta: selectpeserta,
+                selectsesi: selectsesi,
             }
             let res1 = res;
-            url =  process.env.MAIN_URL + '/kesimpulanassessmentkarirpeserta';
+            url =  process.env.MAIN_URL + '/kesimpulanassessmentkarirsesi';
             var dataputs = await axios.post(url, params)
             .then(function (res) {
-                var jawaban = res.data.results;
-                var datakesimpulan = res.data.datakesimpulan;
-                var datapeserta = res.data.peserta;
-                var selectpeserta = res.data.selectpeserta;
-                var biodata = res.data.biodata;
+                var datapeserta = res.data.cekkesimpulan;
+                var selectsesi = res.data.selectsesi;
+                var datasesi = res.data.sesi;
                 res1.render('kesimpulanassessmentkarir', {
                     idu, username, nama, tipe, tipekonsultasi,
-                    jawaban: jawaban,
-                    datapeserta: datapeserta,
-                    selectpeserta: selectpeserta,
-                    datakesimpulan: datakesimpulan,
-                    biodata: biodata
+                    datapeserta,
+                    selectsesi,
+                    datasesi
                 })
             })
             .catch(function (err) {
@@ -1398,6 +1451,125 @@ Router.post('/kesimpulanassessmentkarir', async (req, res, dataputs) => {
         res.redirect('/login');
     }
 });
+
+Router.post('/kesimpulanassessmentkarir', async (req, res, dataputs) => {
+    if(req.session.loggedIn){
+        const { selectpeserta, selectsesi } = req.body;
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        tipekonsultasi = 1
+        if( selectpeserta && selectsesi ){
+            params = {
+                selectpeserta: selectpeserta,
+                selectsesi: selectsesi
+            }
+            let res1 = res;
+            url =  process.env.MAIN_URL + '/kesimpulanassessmentkarirpeserta';
+            var dataputs = await axios.post(url, params)
+            .then(function (res) {
+                var jawaban = res.data.results;
+                var datakesimpulan = res.data.datakesimpulan;
+                var datapeserta = res.data.peserta;
+                var selectpeserta = res.data.selectpeserta;
+                var biodata = res.data.biodata;
+                var selectsesi = res.data.selectsesi;
+                var datasesi = res.data.sesi;
+                res1.render('kesimpulanassessmentkarir', {
+                    idu, username, nama, tipe, tipekonsultasi,
+                    jawaban: jawaban,
+                    datapeserta: datapeserta,
+                    selectpeserta: selectpeserta,
+                    datakesimpulan: datakesimpulan,
+                    biodata: biodata,
+                    selectsesi,
+                    datasesi
+                })
+            })
+            .catch(function (err) {
+                // console.log(err.response.data)
+                var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message,
+                    idu, username, nama, tipe, tipekonsultasi,
+                }
+                res1.redirect("/kesimpulanassessmentkarir");
+            })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Harap Pilih Peserta Terlebih Dahulu!',
+                idu, username, nama, tipe, tipekonsultasi,
+            }
+            res.redirect("/kesimpulanassessmentkarir");
+        }
+    } else {
+        res.redirect('/login');
+    }
+});
+
+/** Route untuk peserta melihat kesimpulannya  */
+Router.get('/lihatkesimpulankarirpeserta', async (req, res, dataputs) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        tipekonsultasi = 1
+        if(tipe === 'peserta' || tipe === 'peserta_event'){
+            params = {
+                selectpeserta: idu,
+            }
+            let res1 = res;
+            url =  process.env.MAIN_URL + '/lihatkesimpulankarirpeserta';
+            var dataputs = await axios.post(url, params)
+            .then(function (res) {
+                var rating = res.data.rating;
+                
+                if(rating == "true"){
+                    var kesimpulan = res.data.cek_kesimpulan;
+                    res1.render('lihatkesimpulankarirpeserta', {
+                        idu, username, nama, tipe, tipekonsultasi, rating, kesimpulan
+                    })
+                } else if(rating == "false") {
+                    var jawaban = res.data.results;
+                    var datakesimpulan = res.data.datakesimpulan;
+                    var datapeserta = res.data.peserta;
+                    var selectpeserta = res.data.selectpeserta;
+                    var biodata = res.data.biodata;
+                    res1.render('lihatkesimpulankarirpeserta', {
+                        idu, username, nama, tipe, tipekonsultasi, rating,
+                        jawaban: jawaban,
+                        datapeserta: datapeserta,
+                        selectpeserta: selectpeserta,
+                        datakesimpulan: datakesimpulan,
+                        biodata: biodata
+                    })
+                }
+            })
+            .catch(function (err) {
+                // console.log(err.response.data)
+                var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message,
+                    idu, username, nama, tipe, tipekonsultasi,
+                }
+                res1.redirect("/");
+            })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
 
 /** start of sapa konsep */
 /** Skoring konsultasi kepribadian */
@@ -1824,15 +1996,6 @@ Router.get('/accountsetting', (req, res) => {
     }
 });
 
-/** test for vidcall */
-Router.get('/videocallicare/:url/:url2', (req, res) => {
-    var urlvideocall = req.params.url;
-    var urlvideocall2 = req.params.url2;
-    res.render("test2",{
-        urlvideocall, urlvideocall2
-    })
-})
-
 /** route for video call */
 Router.get('/videocall', async (req, res) => {
     if(req.session.loggedIn){
@@ -1985,9 +2148,9 @@ Router.get('/vidcall/:id', (req, res) => {
                     const peserta = res.data.cek_peserta;
                     const idpeserta = res.data.cek_peserta[0].id;
                     const emailpeserta = res.data.cek_peserta[0].email;
-                    const urlroom = res.data.urlroom[0].url_room;
+                    const urlroom = res.data.urlroom[0].url_room.substr(8);
                     var urlroom2 = res.data.urlroom;
-                    res1.render('test', {
+                    res1.render('test3', {
                         idu, username, nama, tipe,
                         urlroom2
                     })
@@ -1998,7 +2161,12 @@ Router.get('/vidcall/:id', (req, res) => {
                         to: emailpeserta, //'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
                         subject: 'i-care Video Call Link',
                         // text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/qiera.daily.co/new-prebuilt-test '
-                        text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: ${urlroom}`
+                        /** for live prod */
+                        text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/${urlroom}`,
+                        /** end for live prod */
+                        /** for testing on localhost */
+                        // text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: http://localhost:5024/videocallicare/${urlroom}`
+                        /** end for testing on localhost */
                     };
                     
                     transporter.sendMail(mailOptions, function(err, data) {
@@ -2047,7 +2215,64 @@ Router.get('/vidcall/:id', (req, res) => {
         res.redirect('/login');
     }
 })
-/** end test */
+
+/** test for vidcall */
+Router.get('/videocallicare/:url/:url2', (req, res) => {
+    var urlvideocall = req.params.url;
+    var urlvideocall2 = req.params.url2;
+    res.render("test2",{
+        urlvideocall, urlvideocall2
+    })
+})
+
+/** route for rating psikolog */
+Router.get('/ratingpsikolog', async (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        email = req.session.email
+        if(tipe === 'psikologis'){
+            params = {
+                psikolog: idu
+            }
+            let res1 = res;
+            url =  process.env.MAIN_URL + '/ratingpsikolog';
+            axios.post(url, params)
+            .then(function (res) {
+                var all = res.data.allRating;
+                var count = res.data.countRating;
+                var rataratarating = res.data.ratarataRating[0].rata2;
+                // req.session.sessionFlash2 = {
+                //     type: 'success',
+                //     message: message
+                // }
+                res1.render('ratingpsikolog',{
+                    idu, username, nama, tipe, email, 
+                    all, count, rataratarating
+                });
+            })
+            .catch(function (err) {
+                var message = err.response.data;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message
+                }
+                console.log(message)
+                res1.redirect("/");
+            })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
 
 /** Router for logout */
 Router.get('/logout', (req, res) =>{

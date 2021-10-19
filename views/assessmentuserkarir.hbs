@@ -125,7 +125,8 @@
                                     <input type="hidden" class="form-control" id="iduser" name="iduser" value="{{ idu }}">
                                     <input type="hidden" class="form-control" id="idpart" name="idpart" value="{{ selectpart }}">
                                     {{!-- Start of tabel list soal --}}
-                                    <h6 class="card-subtitle">Jawablah pertanyaan berikut</h6>
+                                    <h4 class="card-title">Soal Assessment Awal</h4>
+                                    <h6 class="card-subtitle"> Jawablah Pertanyaan - pertanyaan berikut ini</h6>
                                     <hr>
                                     <div class="table-responsive m-t-40">
                                         <table id="soalassessment" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
@@ -285,6 +286,19 @@
                                     </div>
                                     {{!-- End of tabel list soal --}}
                                     <hr>
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Sesi Konsultasi</h4>
+                                        <h6 class="card-subtitle"> Pilihlah sesi konsultasi berikut ini</h6>
+                                        <hr>
+                                        {{!-- <h5 class="m-t-30">Single select2</h5> --}}
+                                        <select class="select2" id="selectsesi" name="selectsesi" style="width: 100%" required>
+                                            {{#each datasesi}}
+                                                <option value="{{ id }}">{{ sesi }}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <br>
                                     <div class="form-actions text-right">
                                         <button type="submit" id="tombolsimpan" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Simpan Jawaban</button>
                                         <button type="reset" id="tombolreset" class="btn btn-block btn-outline-warning">Reset</button>

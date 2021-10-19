@@ -1,0 +1,10 @@
+.star > span {
+    /* display: inline-block; */
+    position: relative;
+    width: 1.1em;
+    font-size: 150%;
+}
+
+.star > .checked {
+    color: #FD4;
+}
