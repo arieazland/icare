@@ -9,5 +9,6 @@ Router.post('/registrasipeserta', authController.regPeserta);
 Router.post('/edit', authController.edit);
 Router.post('/delete', authController.delete);
 Router.post('/gantipassword', authController.gantiPassword);
+Router.post('/resetpassword', authController.resetPassword);
 
 module.exports = Router;

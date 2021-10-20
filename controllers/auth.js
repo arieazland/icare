@@ -308,3 +308,48 @@ exports.gantiPassword = async (req, res, dataputs) => {
         res.redirect("/accountsetting");
     }
 }
+
+/** Reset password User */
+exports.resetPassword = async (req, res, dataputs) => {
+    try{
+        const { idakun, password, password2 } = req.body;
+        if(idakun && password && password2){
+            params = {
+                id: idakun,
+                password: password,
+                password2: password2,
+            }
+            var res1 = res;
+            url = process.env.MAIN_URL + '/auth/resetpassword';
+            var dataputs = await axios.put(url, params)
+                .then(function (res) {
+                    var message = res.data.message
+                    req.session.sessionFlash2 = {
+                        type: 'success',
+                        message: message
+                    }
+                    res1.redirect('/login');
+                })
+                .catch(function (err) {
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message
+                    }
+                    res1.redirect("/login");
+                })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Field tidak boleh kosong!'
+            }
+            res.redirect("/login");
+        }
+    } catch(error){
+        req.session.sessionFlash = {
+            type: 'error',
+            message: error
+        }
+        res.redirect("/login");
+    }
+}

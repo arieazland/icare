@@ -2305,8 +2305,6 @@ Router.post('/lupapassword', async (req, res) => {
                 }
             });
             /** end sent email ke peserta */
-
-
             req.session.sessionFlash2 = {
                 type: 'success',
                 message: 'Jika email yang digunakan terdaftar, silahkan cek email anda dan ikuti instruksinya'
@@ -2327,6 +2325,24 @@ Router.post('/lupapassword', async (req, res) => {
         req.session.sessionFlash = {
             type: 'error',
             message: 'Email tidak boleh kosong'
+        }
+        res.redirect("/login");
+    }
+})
+
+/** Route for reset password */
+Router.get('/resetpassword/:id', async (req, res) => {
+    var idpeserta = req.params.id;
+
+    if(idpeserta){
+        res.render('resetpass', {
+            idpeserta
+        })
+    } else {
+        /** Field kosong */
+        req.session.sessionFlash = {
+            type: 'error',
+            message: 'id tidak boleh kosong'
         }
         res.redirect("/login");
     }
