@@ -2148,8 +2148,9 @@ Router.get('/vidcall/:id', (req, res) => {
                     const peserta = res.data.cek_peserta;
                     const idpeserta = res.data.cek_peserta[0].id;
                     const emailpeserta = res.data.cek_peserta[0].email;
-                    const urlroom = res.data.urlroom[0].url_room.substr(8);
-                    var urlroom2 = res.data.urlroom;
+                    const urlroom = res.data.urlroom[0].url_room;
+                    var urlroom2 = res.data.real_urlroom;
+                    console.log(urlroom2)
                     res1.render('test3', {
                         idu, username, nama, tipe,
                         urlroom2
@@ -2162,7 +2163,7 @@ Router.get('/vidcall/:id', (req, res) => {
                         subject: 'i-care Video Call Link',
                         // text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/qiera.daily.co/new-prebuilt-test '
                         /** for live prod */
-                        text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/${urlroom}`,
+                        text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: ${urlroom}`,
                         /** end for live prod */
                         /** for testing on localhost */
                         // text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: http://localhost:5024/videocallicare/${urlroom}`

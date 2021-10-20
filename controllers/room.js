@@ -17,6 +17,11 @@ exports.Create = async (req, res, dataputs) => {
           let data = {
             "name": nama,
             // "properties" : {"eject_after_elapsed":1200}
+            "properties" : 
+            {
+                "max_participants":2, 
+                "enable_chat":true,
+            }
           }
         /** send data to API daily */
         let res1 = res;

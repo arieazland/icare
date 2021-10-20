@@ -121,7 +121,7 @@
                                         {{!-- <h5 class="m-t-30">Single select2</h5> --}}
                                         <select class="select2" id="selectpeserta" name="selectpeserta" style="width: 100%" required>
                                             {{#each datapeserta}}
-                                                <option value="{{ idpeserta }}" {{#if ../selectpeserta}}{{#compare idpeserta ../selectpeserta operator="=="}}selected{{/compare}}{{/if}}>{{ namapeserta }}</option>
+                                                <option value="{{ idpeserta }}" {{#if ../selectpeserta}}{{#compare idpeserta ../selectpeserta operator="=="}}selected{{/compare}}{{/if}}>{{ idpeserta }} - {{ namapeserta }}</option>
                                             {{/each}}
                                         </select>
                                         <input type="hidden" id="selectkonsul" name="selectkonsul" value="{{ selectkonsul }}">
