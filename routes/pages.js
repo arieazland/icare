@@ -2274,6 +2274,64 @@ Router.get('/ratingpsikolog', async (req, res) => {
     }
 })
 
+/** Route for lupa password */
+Router.post('/lupapassword', async (req, res) => {
+    const { emailfrgtpass } = req.body;
+
+    if(emailfrgtpass){
+        /** get data user berdasarkan email yang di input */
+        params = {
+            email: emailfrgtpass,
+        }
+        let res1 = res;
+        url =  process.env.MAIN_URL + '/lupapassword';
+        var dataputs = await axios.post(url, params)
+        .then(function (res) {
+            email = res.data.results[0].email;
+            peserta = res.data.results[0].id;
+            /** sent email ke peserta */
+            let mailOptions = {
+                from: 'arieazland23@gmail.com',
+                to: email,
+                subject: 'icare reset Password',
+                html: '<p>Hi, untuk mereset password anda, silahkan klik <a href="'+process.env.URL+'/resetpassword/'+peserta+'">disni</a> </p>'
+            };
+            
+            transporter.sendMail(mailOptions, function(err, data) {
+                if (err) {
+                    console.log("Error " + err);
+                } else {
+                    console.log("Email sent successfully");
+                }
+            });
+            /** end sent email ke peserta */
+
+
+            req.session.sessionFlash2 = {
+                type: 'success',
+                message: 'Jika email yang digunakan terdaftar, silahkan cek email anda dan ikuti instruksinya'
+            }
+            res1.redirect("/login");
+        })
+        .catch(function (err) {
+            console.log(err.response)
+            var message = err.response.data.message;
+            req.session.sessionFlash = {
+                type: 'error',
+                message: message
+            }
+            res1.redirect("/login");
+        })
+    } else {
+        /** Field kosong */
+        req.session.sessionFlash = {
+            type: 'error',
+            message: 'Email tidak boleh kosong'
+        }
+        res.redirect("/login");
+    }
+})
+
 /** Router for logout */
 Router.get('/logout', (req, res) =>{
     req.session.destroy((err) => {
