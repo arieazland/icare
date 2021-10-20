@@ -2150,7 +2150,6 @@ Router.get('/vidcall/:id', (req, res) => {
                     const emailpeserta = res.data.cek_peserta[0].email;
                     const urlroom = res.data.urlroom[0].url_room;
                     var urlroom2 = res.data.real_urlroom;
-                    console.log(urlroom2)
                     res1.render('test3', {
                         idu, username, nama, tipe,
                         urlroom2
