@@ -1335,14 +1335,16 @@ Router.get('/kesimpulanassessmentkarir', async (req, res) => {
         tipe = req.session.type
         tipekonsultasi = 1
         if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan'){
-            if(req.session.idpesertainput != null){
+            if(req.session.idpesertainput != null && req.session.idsesiinput != null){
+                /** redirect after edit kesimpulan */
                 /** konsultasi karir */
                 /** get data konsul berdasarkan id yang di pilih */
                 params = {
                     selectpeserta: req.session.idpesertainput,
+                    selectsesi: req.session.idsesiinput,
                 }
                 let res1 = res;
-                url =  process.env.MAIN_URL + '/kesimpulanassessmentkarir';
+                url =  process.env.MAIN_URL + '/kesimpulanassessmentkarirpeserta';
                 var dataputs = await axios.post(url, params)
                 .then(function (res) {
                     var jawaban = res.data.results;
@@ -1350,14 +1352,20 @@ Router.get('/kesimpulanassessmentkarir', async (req, res) => {
                     var datapeserta = res.data.peserta;
                     var selectpeserta = res.data.selectpeserta;
                     var biodata = res.data.biodata;
+                    var selectsesi = res.data.selectsesi;
+                    var datasesi = res.data.sesi;
                     res1.render('kesimpulanassessmentkarir', {
                         idu, username, nama, tipe, tipekonsultasi,
                         jawaban: jawaban,
                         datapeserta: datapeserta,
                         selectpeserta: selectpeserta,
                         datakesimpulan: datakesimpulan,
-                        biodata: biodata
+                        biodata: biodata,
+                        selectsesi,
+                        datasesi
                     })
+                    req.session.idpesertainput = null;
+                    req.session.idsesiinput = null
                 })
                 .catch(function (err) {
                     // console.log(err.response.data)
@@ -1367,8 +1375,43 @@ Router.get('/kesimpulanassessmentkarir', async (req, res) => {
                         message: message,
                         idu, username, nama, tipe, tipekonsultasi,
                     }
-                    res1.redirect("/");
+                    res1.redirect("/kesimpulanassessmentkarir");
+                    req.session.idpesertainput = null;
+                    req.session.idsesiinput = null
                 })
+            } else if(req.session.idsesiinput != null) {
+                /** redirect after delete kesimpulan */
+                /** konsultasi karir */
+                /** get data konsul berdasarkan id yang di pilih */
+                params = {
+                    selectsesi: req.session.idsesiinput,
+                }
+                let res1 = res;
+                url =  process.env.MAIN_URL + '/kesimpulanassessmentkarirsesi';
+            var dataputs = await axios.post(url, params)
+            .then(function (res) {
+                var datapeserta = res.data.cekkesimpulan;
+                var selectsesi = res.data.selectsesi;
+                var datasesi = res.data.sesi;
+                res1.render('kesimpulanassessmentkarir', {
+                    idu, username, nama, tipe, tipekonsultasi,
+                    datapeserta,
+                    selectsesi,
+                    datasesi
+                })
+                req.session.idsesiinput = null;
+            })
+            .catch(function (err) {
+                // console.log(err.response.data)
+                var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message,
+                    idu, username, nama, tipe, tipekonsultasi,
+                }
+                res1.redirect("/kesimpulanassessmentkarir");
+                req.session.idsesiinput = null;
+            })
             } else {
                 let res1 = res;
                 url =  process.env.MAIN_URL + '/kesimpulanassessmentkarir';

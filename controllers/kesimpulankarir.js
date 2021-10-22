@@ -46,13 +46,14 @@ exports.input = async (req, res, dataputs) => {
 
 exports.edit = async (req, res, dataputs) => {
     try{
-        const { modalidkesimpulan, modalkesimpulan, modalidpsikologkesimpulan, modalidpesertakesimpulan } = req.body;
+        const { modalidkesimpulan, modalkesimpulan, modalidpsikologkesimpulan, modalidpesertakesimpulan, modalidsesikesimpulan} = req.body;
 
-        if(modalidkesimpulan && modalkesimpulan && modalidpsikologkesimpulan && modalidpesertakesimpulan){
+        if(modalidkesimpulan && modalkesimpulan && modalidpsikologkesimpulan && modalidpesertakesimpulan && modalidsesikesimpulan){
             params = {
                 idkesimpulan: modalidkesimpulan, 
                 selectpeserta: modalidpesertakesimpulan, 
-                idpsikolog: modalidpsikologkesimpulan, 
+                idpsikolog: modalidpsikologkesimpulan,
+                selectsesi: modalidsesikesimpulan, 
                 kesimpulan: modalkesimpulan
             }
             var res1 = res;
@@ -60,6 +61,7 @@ exports.edit = async (req, res, dataputs) => {
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 req.session.idpesertainput = res.data.selectpeserta;
+                req.session.idsesiinput = res.data.selectsesi;
                 var message = res.data.message;
                 req.session.sessionFlash2 = {
                     type: 'success',
@@ -96,19 +98,21 @@ exports.edit = async (req, res, dataputs) => {
 
 exports.delete = async (req, res, dataputs) => {
     try{
-        const { modalidkesimpulanhapus, modalidpsikologkesimpulan, modalidpesertakesimpulan } = req.body;
+        const { modalidkesimpulanhapus, modalidpsikologkesimpulan, modalidpesertakesimpulan, modalidsesikesimpulan } = req.body;
 
-        if(modalidkesimpulanhapus  && modalidpsikologkesimpulan && modalidpesertakesimpulan){
+        if(modalidkesimpulanhapus  && modalidpsikologkesimpulan && modalidpesertakesimpulan && modalidsesikesimpulan){
             params = {
                 idkesimpulan: modalidkesimpulanhapus, 
                 selectpeserta: modalidpesertakesimpulan, 
-                idpsikolog: modalidpsikologkesimpulan
+                idpsikolog: modalidpsikologkesimpulan,
+                selectsesi: modalidsesikesimpulan
             }
             var res1 = res;
             url =  process.env.MAIN_URL + '/kesimpulankarir/deletekesimpulan';
             var dataputs = await axios.put(url, params)
             .then(function (res) {
                 var message = res.data.message;
+                req.session.idsesiinput = res.data.selectsesi;
                 req.session.sessionFlash2 = {
                     type: 'success',
                     message: message
