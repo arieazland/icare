@@ -319,9 +319,24 @@
                             <div class="card-block">
                                 <div class="alert alert-success">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
-                                    <h3 class="text-success"><i class="fa fa-check-circle"></i> Success</h3> Anda Sudah Menyelesaikan Assessment Awal Konsultasi Karir, Silahkan Cek Terus Email Anda, Link Video Call akan Dikirimkan ke Email Anda, Terima Kasih Atas Partisipasinya.
+                                    <h3 class="text-success"><i class="fa fa-check-circle"></i> Success</h3> Terima kasih telah menjawab pertanyaan assessment awal, harap senantiasa memeriksa notifikasi email pada saat sesi anda berlangsung.
+                                    {{#if selectsesi}}
+                                        {{#compare selectsesi '1' operator="=="}}
+                                            Demi kenyamanan silakan bergabung dengan grup whatsapp berikut : <a href="https://chat.whatsapp.com/KKvSIJWaRzXJLwmYiZJ9mx">Klik Disni</a>
+                                        {{/compare}}
+                                        {{#compare selectsesi '2' operator="=="}}
+                                            Demi kenyamanan silakan bergabung dengan grup whatsapp berikut : <a href="https://chat.whatsapp.com/BsNDOtp0bmvAS6rf3BL92J">Klik Disni</a>
+                                        {{/compare}}
+                                        {{#compare selectsesi '3' operator="=="}}
+                                            Demi kenyamanan silakan bergabung dengan grup whatsapp berikut : <a href="https://chat.whatsapp.com/EQLq6rjKe6j7N3pEta4jjo">Klik Disni</a>
+                                        {{/compare}}
+                                        {{#compare selectsesi '4' operator="=="}}
+                                            Demi kenyamanan silakan bergabung dengan grup whatsapp berikut : <a href="https://chat.whatsapp.com/EUwvGDlcwln8xTewvQjHbG">Klik Disni</a>
+                                        {{/compare}}
+                                    {{/if}}
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>

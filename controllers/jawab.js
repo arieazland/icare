@@ -26,11 +26,13 @@ exports.partSatu = async (req, res, dataputs) => {
         var dataputs = await axios.post(url, params)
         .then(function (res) {
             var message = res.data.message;
+            var selectsesi = res.data.selectsesi;
             req.session.sessionFlash2 = {
                 type: 'success',
-                message: message
+                message: message,
+                selectsesi
             }
-            var users = res.data;
+            
             res1.redirect('/assessmentuserkarir');
         })
         .catch(function (err) {

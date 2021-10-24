@@ -5,6 +5,7 @@ const Moment = require("moment");
 const nodemailer = require('nodemailer');
 const Dotenv = require("dotenv");
 Dotenv.config({ path: './.env' });
+useragent = require('express-useragent');
 // process.env.MAIN_URL
 
 require("moment/locale/id");  // without this line it didn't work
@@ -470,20 +471,45 @@ Router.get('/assessmentuserkarir', async (req, res) => {
             var dataputs = await axios.post(url, params)
             .then(function (res) {
                 var datapart = res.data.datapart;
-                res1.render('assessmentuserkarir', {
-                    idu, username, nama, tipe, tipekonsultasi,
-                    datapart: datapart
-                })
-            })
-            .catch(function (err) {
-                // console.log(err.response.data)
-                var message = err.response.data.message;
-                req.session.sessionFlash = {
-                    type: 'error',
-                    message: message,
-                    idu, username, nama, tipe
+                if(res.data.selectsesi){
+                    var selectsesi = res.data.selectsesi[0].id_sesi;
+                    res1.render('assessmentuserkarir', {
+                        idu, username, nama, tipe, tipekonsultasi,
+                        selectsesi
+                    })
+                } else {
+                    res1.render('assessmentuserkarir', {
+                        idu, username, nama, tipe, tipekonsultasi,
+                        datapart: datapart
+                    })
                 }
-                res1.redirect('/');
+            })
+            .catch(function (error) {
+                if(error.response){
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message,
+                        idu, username, nama, tipe
+                    } 
+                    res1.redirect('/');
+                } else if(error.request){
+                    var message = err.request;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message,
+                        idu, username, nama, tipe
+                    }
+                    res1.redirect('/');
+                } else {
+                    var message = error.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message,
+                        idu, username, nama, tipe
+                    }
+                    res1.redirect('/');
+                }
             })
         } else {
             req.session.sessionFlash = {

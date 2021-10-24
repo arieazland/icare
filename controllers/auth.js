@@ -9,11 +9,22 @@ Dotenv.config({ path: './.env' });
 exports.login = async (req, res, dataputs) => {
     try {
         const { email, password } = req.body;
+        /** start of get user activity */
+        var source = req.headers['user-agent'],
+        ua = useragent.parse(source);
+        namabrowser = ua.browser;
+        namaos = ua.os;
+        namaplatform = ua.platform;
+        /** end of get user activity */
+
 
         if(email && password){
             params = {
                 email: email,
-                password: password
+                password: password,
+                namabrowser: namabrowser,
+                namaos: namaos,
+                namaplatform: namaplatform
               }
             var res1 = res;
             url = process.env.MAIN_URL + '/auth/login';
