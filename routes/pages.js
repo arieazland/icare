@@ -2419,8 +2419,37 @@ Router.get('/resetpassword/:id', async (req, res) => {
 
 /** Router for logout */
 Router.get('/logout', (req, res) =>{
-    req.session.destroy((err) => {
-        res.redirect("/login");
+    idu = req.session.iduser
+    /** start of get user activity */
+    var source = req.headers['user-agent'],
+    ua = useragent.parse(source);
+    namabrowser = ua.browser;
+    namaos = ua.os;
+    namaplatform = ua.platform;
+    /** end of get user activity */
+
+    params = {
+        idu: idu,
+        namabrowser: namabrowser,
+        namaos: namaos,
+        namaplatform: namaplatform
+    }
+    let res1 = res;
+    url =  process.env.MAIN_URL + '/logout';
+    axios.post(url, params)
+    .then(function (res) {
+        req.session.destroy((err) => {
+            res1.redirect("/login");
+        })
+    })
+    .catch(function (err) {
+        var message = err.response.data.message;
+        req.session.sessionFlash = {
+            type: 'error',
+            message: message
+        }
+        console.log(message)
+        res1.redirect("/");
     })
 })
 
