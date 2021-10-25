@@ -120,27 +120,36 @@ Router.get('/users', async (req, res) => {
         username = req.session.username
         nama = req.session.nama
         tipe = req.session.type
-        let res1 = res;
-        url = process.env.MAIN_URL + '/userlist';
-        // url =  MAIN_URL + '/userlist';
-        axios.get(url)
-        .then(function (res) {
-            var users = res.data;
-            res1.render('users', {
-                idu, username, nama, tipe,
-                data: users.data
+        if(tipe === 'admin'){
+            let res1 = res;
+            url = process.env.MAIN_URL + '/userlist';
+            // url =  MAIN_URL + '/userlist';
+            axios.get(url)
+            .then(function (res) {
+                var users = res.data;
+                res1.render('users', {
+                    idu, username, nama, tipe,
+                    data: users.data
+                })
             })
-        })
-        .catch(function (err) {
-            // console.log(err);
-            var message = err.response.data.message;
+            .catch(function (err) {
+                // console.log(err);
+                var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message,
+                    idu, username, nama, tipe,
+                }
+                res1.redirect("/users");
+            })
+        } else {
             req.session.sessionFlash = {
                 type: 'error',
-                message: message,
-                idu, username, nama, tipe,
+                message: 'Not Authorized',
+                idu, username, nama, tipe
             }
-            res1.redirect("/users");
-        })
+            res.redirect('/login');  
+        }
     } else {
         res.redirect('/login');
     }
@@ -2229,13 +2238,7 @@ Router.get('/vidcall/:id', (req, res) => {
                         // to: 'qurhanul.rizqie@gmail.com',
                         to: emailpeserta, //'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
                         subject: 'i-care Video Call Link',
-                        // text: 'Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: https://care.imeet.id/videocallicare/qiera.daily.co/new-prebuilt-test '
-                        /** for live prod */
-                        text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: ${urlroom}`,
-                        /** end for live prod */
-                        /** for testing on localhost */
-                        // text: `Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: http://localhost:5024/videocallicare/${urlroom}`
-                        /** end for testing on localhost */
+                        html: `<p>Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: <a href="${urlroom}">Klik Disni</a> </p>`
                     };
                     
                     transporter.sendMail(mailOptions, function(err, data) {
@@ -2414,6 +2417,47 @@ Router.get('/resetpassword/:id', async (req, res) => {
             message: 'id tidak boleh kosong'
         }
         res.redirect("/login");
+    }
+})
+
+/** Route for log activity */
+Router.get('/logactivity', async (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        if(tipe === 'admin'){
+            let res1 = res;
+            url = process.env.MAIN_URL + '/logactivity';
+            axios.get(url)
+            .then(function (res) {
+                var data = res.data.data_log;
+                res1.render('log', {
+                    idu, username, nama, tipe,
+                    data
+                })
+            })
+            .catch(function (err) {
+                // console.log(err);
+                var message = err.response.data.message;
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: message,
+                    idu, username, nama, tipe,
+                }
+                res1.redirect("/");
+            })
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized',
+                idu, username, nama, tipe
+            }
+            res.redirect('/login');  
+        }
+    } else {
+        res.redirect('/login');
     }
 })
 
