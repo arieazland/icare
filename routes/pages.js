@@ -2428,26 +2428,67 @@ Router.get('/logactivity', async (req, res) => {
         nama = req.session.nama
         tipe = req.session.type
         if(tipe === 'admin'){
-            let res1 = res;
-            url = process.env.MAIN_URL + '/logactivity';
-            axios.get(url)
-            .then(function (res) {
-                var data = res.data.data_log;
-                res1.render('log', {
-                    idu, username, nama, tipe,
-                    data
-                })
+            res.render('log', {
+                idu, username, nama, tipe
             })
-            .catch(function (err) {
-                // console.log(err);
-                var message = err.response.data.message;
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized',
+                idu, username, nama, tipe
+            }
+            res.redirect('/login');  
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
+
+Router.post('/logactivity', async (req, res) => {
+    const { datestart, dateend } = req.body;
+
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        if(tipe === 'admin'){
+            if(datestart && dateend){
+                params = {
+                    datestart: datestart,
+                    dateend: dateend
+                }
+                let res1 = res;
+                url = process.env.MAIN_URL + '/logactivity';
+                axios.post(url, params)
+                .then(function (res) {
+                    var data = res.data.data_log;
+                    var count = res.data.data_count;
+                    var data_datestart = res.data.datestart;
+                    var data_dateend = res.data.dateend;
+                    res1.render('log', {
+                        idu, username, nama, tipe,
+                        data, count, data_datestart, data_dateend
+                    })
+                })
+                .catch(function (err) {
+                    // console.log(err);
+                    var message = err.response.data.message;
+                    req.session.sessionFlash = {
+                        type: 'error',
+                        message: message,
+                        idu, username, nama, tipe,
+                    }
+                    res1.redirect("/");
+                })
+            } else {
+                /** Field kosong */
                 req.session.sessionFlash = {
                     type: 'error',
-                    message: message,
-                    idu, username, nama, tipe,
+                    message: 'Field tidak boleh kosong'
                 }
-                res1.redirect("/");
-            })
+                res.redirect("/login");
+            }
         } else {
             req.session.sessionFlash = {
                 type: 'error',

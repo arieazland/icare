@@ -69,8 +69,6 @@
                     </div>
                 {{/if}}
                 {{!-- End of Notifikasi --}}
-                
-                
                 {{!-- start of row --}}
                 <div class="row">
                     <div class="col-lg-12">
@@ -79,6 +77,63 @@
                                 <h4 class="m-b-0 text-white">Form Log</h4>
                             </div>
                             <div class="card-block">
+                                {{!-- start of form pilih tanggal --}}
+                                <form action="/logactivity" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Date Range</h4>
+                                        <h6 class="card-subtitle">Pilih range tanggal untuk menampilkan data log activity</h6>
+                                        <div class="input-daterange input-group" id="date-range">
+                                            <input type="text" class="form-control" name="datestart" value="{{#if data_datestart}}{{ data_datestart }}{{/if}}" />
+                                            <span class="input-group-addon bg-info b-0 text-white">to</span>
+                                            <input type="text" class="form-control" name="dateend" value="{{#if data_dateend}}{{ data_dateend }}{{/if}}" />
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih tanggal --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- start of row --}}
+                {{#if data}}
+                
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Log</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- start of identitas peserta --}}
+                                <div class="form-body">
+                                    <h4 class="card-title">Login Count</h4>
+                                    <h6 class="card-subtitle">Total login activity</h6>
+                                    <hr>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-nowrap" colspan="2">Login Count</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap"> <b>Count</b> </td>
+                                                        <td>{{#each count}} {{count}} {{/each}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
                                 {{!-- Start of tabel list users --}}
                                 <h4 class="card-title">List Log Activity User</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
@@ -133,6 +188,7 @@
                         </div>
                     </div>
                 </div>
+                {{/if}}
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
@@ -168,6 +224,23 @@
     <!-- ============================================================== -->
     {{> plugins}}
     <script src="/js/client/datatable/logactivity.js"></script>
+    <script>
+        // Date Picker
+        jQuery('.mydatepicker, #datepicker').datepicker();
+        jQuery('#date-range').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+        jQuery('#date-range').datepicker({
+            toggleActive: true
+        });
+        jQuery('#datepicker-inline').datepicker({
+            todayHighlight: true
+        });
+    </script>
 </body>
 
 </html>
