@@ -10,6 +10,7 @@ exports.login = async (req, res, dataputs) => {
     try {
         const { email, password } = req.body;
         /** start of get user activity */
+        var ipadd = (req.headers['x-forwarded-for'] || req.socket.remoteAddress).substr(7)
         var source = req.headers['user-agent'],
         ua = useragent.parse(source);
         namabrowser = ua.browser;
@@ -24,7 +25,8 @@ exports.login = async (req, res, dataputs) => {
                 password: password,
                 namabrowser: namabrowser,
                 namaos: namaos,
-                namaplatform: namaplatform
+                namaplatform: namaplatform,
+                ipadd: ipadd
               }
             var res1 = res;
             url = process.env.MAIN_URL + '/auth/login';
