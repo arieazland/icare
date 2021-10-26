@@ -6,6 +6,10 @@
     overflow: visible hidden !important;
 } */
 
+img > .greyscale {
+    filter: grayscale(100%);
+}
+
 .checked {
     color: orange;
 }
