@@ -2238,7 +2238,7 @@ Router.get('/vidcall/:id', (req, res) => {
                         // to: 'qurhanul.rizqie@gmail.com',
                         to: emailpeserta, //'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
                         subject: 'i-care Video Call Link',
-                        html: `<p>Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: <a href="${urlroom}">Klik Disni</a> </p>`
+                        html: `<p>Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: <a href="${urlroom}">Mulai Konsultasi</a> </p>`
                     };
                     
                     transporter.sendMail(mailOptions, function(err, data) {
@@ -2379,7 +2379,7 @@ Router.post('/lupapassword', async (req, res) => {
             /** end sent email ke peserta */
             req.session.sessionFlash2 = {
                 type: 'success',
-                message: 'Jika email yang digunakan terdaftar, silahkan cek email anda dan ikuti instruksinya'
+                message: 'Jika email yang digunakan terdaftar, silahkan cek inbox atau spam pada email anda dan ikuti instruksinya'
             }
             res1.redirect("/login");
         })
