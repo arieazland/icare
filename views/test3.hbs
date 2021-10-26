@@ -17,7 +17,94 @@
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-        {{> topbarvidcall}}
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-toggleable-sm navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <!-- Logo icon -->
+                        <b>
+                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                            <!-- Dark Logo icon -->
+                            <img src="/images/icareicon.png" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo icon -->
+                            <img src="/images/icareicon.png" alt="homepage" class="light-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span>
+                            <!-- dark Logo text -->
+                            <img src="/images/icaretext.png" alt="homepage" class="dark-logo" />
+                            <!-- Light Logo text -->    
+                            <img src="/images/icaretext.png" class="light-logo" alt="homepage" /></span> </a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto mt-md-0 ">
+                        <!-- This is  -->
+                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                        <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="icon-arrow-left-circle"></i></a> </li>
+                        <!-- ============================================================== -->
+                        <!-- Comment -->
+                        <!-- ============================================================== -->
+                        
+                        <!-- ============================================================== -->
+                        <!-- End Comment -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- Messages -->
+                        <!-- ============================================================== -->
+                        
+                        <!-- ============================================================== -->
+                        <!-- End Messages -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- Messages -->
+                        <!-- ============================================================== -->
+                        
+                        <!-- ============================================================== -->
+                        <!-- End Messages -->
+                        <!-- ============================================================== -->
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <li class="nav-item hidden-sm-down">
+                            <form class="app-search">
+                                <div>Registration closes in <span id="time">05:00</span> minutes!</div>
+                                <div>Consultation closes in <span id="time2">30:00</span> minutes!</div>
+                            </form>
+                        </li>
+                            {{!-- <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b><i class="fa fa-angle-double-down"></i></b></a>
+                                <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                                    <ul class="dropdown-user">
+                                        <li>
+                                            <div class="dw-user-box">
+                                                <div class="u-text">
+                                                    <h4>{{ nama }}</h4>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="/accountsetting"><i class="ti-settings"></i> Account Setting</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="/logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                                    </ul>
+                                </div>
+                            </li> --}}
+                    </ul>
+                </div>
+            </nav>
+        </header>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
@@ -107,6 +194,59 @@
         showLeaveButton: true,
     });
     callFrame.join({ url: {{#each urlroom2}} '{{real_url_room}}' {{/each}} });
+    </script>
+    <script>
+    function startTimer(duration, display) {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10)
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                timer = duration;
+            }
+        }, 1000);
+    }
+
+    window.onload = function () {
+        var fiveMinutes = 60 * 5,
+            display = document.querySelector('#time');
+        startTimer(fiveMinutes, display);
+
+        var thirtyMinutes = 60 * 30,
+            display = document.querySelector('#time2');
+        startTimer(thirtyMinutes, display);
+    };
+    </script>
+    <script>
+    /*
+    function startTimer2(duration2, display2) {
+        var timer2 = duration2, minutes2, seconds2;
+        setInterval(function () {
+            minutes2 = parseInt(timer2 / 60, 10)
+            seconds2 = parseInt(timer2 % 60, 10);
+
+            minutes2 = minutes2 < 10 ? "0" + minutes2 : minutes2;
+            seconds2 = seconds2 < 10 ? "0" + seconds2 : seconds2;
+
+            display2.textContent = minutes2 + ":" + seconds2;
+
+            if (--timer2 < 0) {
+                timer2 = duration2;
+            }
+        }, 1000);
+    }
+
+    window.onload = function () {
+        var thirtyMinutes = 60 * 30,
+            display2 = document.querySelector('#time2');
+        startTimer2(thirtyMinutes, display2);
+    };
     </script>
 </body>
 

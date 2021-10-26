@@ -15,12 +15,12 @@ exports.Create = async (req, res, dataputs) => {
             'Content-Type': 'application/json'
           }
           let data = {
-            "name": nama,
-            // "properties" : {"eject_after_elapsed":1200}
+            // "name": nama,
+            // "properties" : {"eject_after_elapsed":1200, "exp":1200, "eject_at_room_exp":}
             "properties" : 
             {
                 "max_participants":2, 
-                "enable_chat":true,
+                "enable_chat":true
             }
           }
         /** send data to API daily */

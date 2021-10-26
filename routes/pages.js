@@ -2207,70 +2207,235 @@ Router.get('/vidcall/:id', (req, res) => {
         /** vidcall = "true" **/
         if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan' ){
             if(idpeserta) {
-                /** 1.get data peserta (terutama email) */
-                /** 2.get konfigurasi kirim email */
-                /** 3.kirim email link video call daily.co */
-                /** 4.render page test.hbs untuk video caall psikolog atau admin */
-                /**res.render("test",{
-                    username, nama, idu, tipe, vidcall
-                })**/
+                /** cek total url psikolog yang aktif */
                 params = {
-                    idpeserta: idpeserta,
-                    idpsikolog: idu
+                    psikolog: idu, 
                 }
                 let res1 = res;
-                url = process.env.MAIN_URL + '/getpesertavidcall';
-                // url =  MAIN_URL + '/userlist';
-                axios.post(url, params)
+                url2 = process.env.MAIN_URL + '/cekroom';
+                axios.post(url2, params)
                 .then(function (res) {
-                    const peserta = res.data.cek_peserta;
-                    const idpeserta = res.data.cek_peserta[0].id;
-                    const emailpeserta = res.data.cek_peserta[0].email;
-                    const urlroom = res.data.urlroom[0].url_room;
-                    var urlroom2 = res.data.real_urlroom;
-                    res1.render('test3', {
-                        idu, username, nama, tipe,
-                        urlroom2
-                    })
-                    /** sent email ke peserta */
-                    let mailOptions = {
-                        from: 'arieazlandfirly@gmail.com',
-                        // to: 'qurhanul.rizqie@gmail.com',
-                        to: emailpeserta, //'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
-                        subject: 'i-care Video Call Link',
-                        html: `<p>Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: <a href="${urlroom}">Mulai Konsultasi</a> </p>`
-                    };
-                    
-                    transporter.sendMail(mailOptions, function(err, data) {
-                        if (err) {
-                            console.log("Error " + err);
-                            // var message = err;
-                            // req.session.sessionFlash = {
-                            //     type: 'error',
-                            //     message: message,
-                            //     idu, username, nama, tipe,
-                            // }
-                            // res1.redirect("/");
-                        } else {
-                            console.log("Email sent successfully");
+                    /** create room daily.co */
+                    const Headers = {
+                        'Authorization': 'Bearer ' + process.env.DAILY_TOKEN,
+                        'Content-Type': 'application/json'
+                    }
+                    let data = {
+                        // "name": nama,
+                        // "properties" : {"eject_after_elapsed":1200, "exp":1200, "eject_at_room_exp":}
+                        "properties" : 
+                        {
+                            "max_participants":2, 
+                            "enable_chat":true
                         }
-                    });
-                    /** end sent email ke peserta */
+                    }
+                    /** send data to API daily */
+                    let res2 = res;
+                    url = process.env.DAILY_URL;
+                    axios.post(url, data, {headers: Headers})
+                    .then(function (res) {
+                        /** send data to API icare */
+                        const urlroom = res.data.url;
+                        const nama = res.data.name;
+                        const psikolog = idu
+
+                        if( nama && psikolog && urlroom){
+                            params = {
+                                namaroom: nama,
+                                urlroom: urlroom, 
+                                psikolog: idu, 
+                            }
+                            let res2 = res;
+                            url2 = process.env.MAIN_URL + '/room/registerroom';
+                            axios.post(url2, params)
+                            .then(function (res) {
+                                /** proses kirim email ke peserta dengan mengambil data url terlebih dahulu */
+                                /** 1.get data peserta (terutama email) */
+                                /** 2.get konfigurasi kirim email */
+                                /** 3.kirim email link video call daily.co */
+                                /** 4.render page test.hbs untuk video caall psikolog atau admin */
+                                const idpsikolog = idu
+                                params = {
+                                    idpeserta: idpeserta,
+                                    idpsikolog: idpsikolog
+                                }
+                                let res2 = res;
+                                url = process.env.MAIN_URL + '/getpesertavidcall';
+                                // url =  MAIN_URL + '/userlist';
+                                axios.post(url, params)
+                                .then(function (res) {
+                                    const peserta = res.data.cek_peserta;
+                                    const idpeserta = res.data.cek_peserta[0].id;
+                                    const emailpeserta = res.data.cek_peserta[0].email;
+                                    const urlroom = res.data.urlroom[0].url_room;
+                                    var urlroom2 = res.data.real_urlroom;
+
+                                    res1.render('test3', {
+                                        idu, username, nama, tipe,
+                                        urlroom2
+                                    })
+                                    /** sent email ke peserta */
+                                    let mailOptions = {
+                                        from: 'arieazlandfirly@gmail.com',
+                                        // to: 'qurhanul.rizqie@gmail.com',
+                                        to: emailpeserta, //'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
+                                        subject: 'i-care Video Call Link',
+                                        html: `<p>Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: <a href="${urlroom}">Mulai Konsultasi</a> </p>`
+                                    };
+                                    
+                                    transporter.sendMail(mailOptions, function(err, data) {
+                                        if (err) {
+                                            // console.log("Error " + err);
+                                            req.session.sessionFlash = {
+                                                type: 'error',
+                                                message: err,
+                                                idu, username, nama, tipe,
+                                            }
+                                            res1.redirect("/");
+                                        } else {
+                                            console.log("Email sent successfully");
+                                        }
+                                    });
+                                    /** end sent email ke peserta */
+                                })
+                                .catch(function (err) {
+                                    // var message = err.response.data.message;
+                                    // req.session.sessionFlash = {
+                                    //     type: 'error',
+                                    //     message: message,
+                                    //     idu, username, nama, tipe,
+                                    // }
+                                    // res1.redirect("/");
+                                    if(err.response){
+                                        var message = err.response.data.message;
+                                        req.session.sessionFlash = {
+                                            type: 'error',
+                                            message: message,
+                                            idu, username, nama, tipe
+                                        } 
+                                        res1.redirect('/');
+                                    } else if(err.request){
+                                        var message = err.request;
+                                        req.session.sessionFlash = {
+                                            type: 'error',
+                                            message: message,
+                                            idu, username, nama, tipe
+                                        }
+                                        res1.redirect('/');
+                                    } else {
+                                        var message = err.message;
+                                        req.session.sessionFlash = {
+                                            type: 'error',
+                                            message: message,
+                                            idu, username, nama, tipe
+                                        }
+                                        res1.redirect('/');
+                                    }
+                                })
+
+
+                                
+
+                            })
+                            .catch(function (err) {
+                                if(err.response){
+                                    var message = err.response.data.message;
+                                    req.session.sessionFlash = {
+                                        type: 'error',
+                                        message: message,
+                                        idu, username, nama, tipe
+                                    } 
+                                    res1.redirect('/');
+                                } else if(err.request){
+                                    var message = err.request;
+                                    req.session.sessionFlash = {
+                                        type: 'error',
+                                        message: message,
+                                        idu, username, nama, tipe
+                                    }
+                                    res1.redirect('/');
+                                } else {
+                                    var message = err.message;
+                                    req.session.sessionFlash = {
+                                        type: 'error',
+                                        message: message,
+                                        idu, username, nama, tipe
+                                    }
+                                    res1.redirect('/');
+                                }
+                            })
+                        } else {
+                            req.session.sessionFlash = {
+                                type: 'error',
+                                message: 'Field tidak boleh kosong'
+                            }
+                            res1.redirect("/");
+                        }
+                    })
+                    .catch(function (err) {
+                        if(err.response){
+                            var message = err.response.data.message;
+                            req.session.sessionFlash = {
+                                type: 'error',
+                                message: message,
+                                idu, username, nama, tipe
+                            } 
+                            res1.redirect('/');
+                        } else if(err.request){
+                            var message = err.request;
+                            req.session.sessionFlash = {
+                                type: 'error',
+                                message: message,
+                                idu, username, nama, tipe
+                            }
+                            res1.redirect('/');
+                        } else {
+                            var message = err.message;
+                            req.session.sessionFlash = {
+                                type: 'error',
+                                message: message,
+                                idu, username, nama, tipe
+                            }
+                            res1.redirect('/');
+                        }
+                    })
                 })
                 .catch(function (err) {
-                    // console.log(err);
-                    // var error = err.response.data;
-                    // console.log(error)
-                    var message = err.response.data.message;
-                    req.session.sessionFlash = {
-                        type: 'error',
-                        message: message,
-                        idu, username, nama, tipe,
+                    if(err.response){
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe
+                        } 
+                        res1.redirect('/');
+                    } else if(err.request){
+                        var message = err.request;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe
+                        }
+                        res1.redirect('/');
+                    } else {
+                        var message = err.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe
+                        }
+                        res1.redirect('/');
                     }
-                    res1.redirect("/");
                 })
+
+                
+
             } else {
-                /** redirect ke page kesimpulan dengan membawa data tipe konsultasi dan peserta terpilih */
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Field Tidak Boleh Kosong!'
+                }
+                res.redirect('/');
             }
         } else {
             req.session.sessionFlash = {
