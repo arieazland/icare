@@ -2276,10 +2276,10 @@ Router.get('/vidcall/:id', (req, res) => {
                                     })
                                     /** sent email ke peserta */
                                     let mailOptions = {
-                                        from: 'arieazlandfirly@gmail.com',
+                                        from: 'icareprodigies@gmail.com',
                                         // to: 'qurhanul.rizqie@gmail.com',
                                         to: emailpeserta, //'arieazland@gmail.com, qurhanul.rizqie@gmail.com, pacu89@gmail.com',
-                                        subject: 'i-care Video Call Link',
+                                        subject: 'icare Video Call',
                                         html: `<p>Hi, berikut link yang bisa kalian akses untuk video call dengan psikolog kami: <a href="${urlroom}">Mulai Konsultasi</a> </p>`
                                     };
                                     
@@ -2332,10 +2332,6 @@ Router.get('/vidcall/:id', (req, res) => {
                                         res1.redirect('/');
                                     }
                                 })
-
-
-                                
-
                             })
                             .catch(function (err) {
                                 if(err.response){
@@ -2427,9 +2423,6 @@ Router.get('/vidcall/:id', (req, res) => {
                         res1.redirect('/');
                     }
                 })
-
-                
-
             } else {
                 req.session.sessionFlash = {
                     type: 'error',
@@ -2445,10 +2438,6 @@ Router.get('/vidcall/:id', (req, res) => {
             res.redirect('/login');
         }
     } else {
-        // req.session.sessionFlash = {
-        //     type: 'error',
-        //     message: 'Silahkan login terlebih dahulu!'
-        // }
         res.redirect('/login');
     }
 })
