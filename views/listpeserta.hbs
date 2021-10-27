@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{{> header}}
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    {{> preloader}}
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {{> topbar}}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {{> navbarkarir}}
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-6 col-8 align-self-center">
+                        <h3 class="text-themecolor m-b-0 m-t-0">List Peserta</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Assessment Karir</a></li>
+                            <li class="breadcrumb-item active">List Peserta</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Start Page Content -->
+                <!-- ============================================================== -->
+                <!-- Row -->
+                {{!-- Start of Notifikasi --}}
+                {{#if sessionFlash.message}}
+                    <div class="alert alert-danger"> 
+                        {{sessionFlash.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{#if sessionFlash2.message}}
+                    <div class="alert alert-success"> 
+                        {{sessionFlash2.message}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                    </div>
+                {{/if}}
+                {{!-- End of Notifikasi --}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            <div class="card-header">
+                                <h4 class="m-b-0 text-white">Kategori List</h4>
+                            </div>
+                            <div class="card-block">
+                                {{!-- start of form pilih part --}}
+                                <form action="/listpeserta" method="POST">
+                                    <div class="form-body">
+                                        <h4 class="card-title">Pilih Kategori List</h4>
+                                        <h6 class="card-subtitle"> Pilih kategori berikut yang sesuai dengan kebutuhan anda</h6>
+                                        <hr>
+                                        <select class="select2" id="selectkategorilist" name="selectkategorilist" style="width: 100%" required>
+                                            <option value="1" {{#if kategorilist}}{{#compare kategorilist "1" operator="=="}}selected{{/compare}}{{/if}}>Tampil Semua Peserta pada Semua Sesi</option>
+                                            <option value="2" {{#if kategorilist}}{{#compare kategorilist "2" operator="=="}}selected{{/compare}}{{/if}}>Tampil Semua Peserta pada Sesi 1</option>
+                                            <option value="3" {{#if kategorilist}}{{#compare kategorilist "3" operator="=="}}selected{{/compare}}{{/if}}>Tampil Semua Peserta pada Sesi 2</option>
+                                            <option value="4" {{#if kategorilist}}{{#compare kategorilist "4" operator="=="}}selected{{/compare}}{{/if}}>Tampil Semua Peserta pada Sesi 3</option>
+                                            <option value="5" {{#if kategorilist}}{{#compare kategorilist "5" operator="=="}}selected{{/compare}}{{/if}}>Tampil Semua Peserta pada Sesi 4</option>
+                                            <option value="6" {{#if kategorilist}}{{#compare kategorilist "6" operator="=="}}selected{{/compare}}{{/if}}>Tampil Semua Peserta dengan Kategori Pernah Bekerja</option>
+                                            <option value="7" {{#if kategorilist}}{{#compare kategorilist "7" operator="=="}}selected{{/compare}}{{/if}}>Tampil Semua Peserta dengan Kategori Gagal dalam Seleksi</option>
+                                            <option value="8" {{#if kategorilist}}{{#compare kategorilist "8" operator="=="}}selected{{/compare}}{{/if}}>Tampil Semua Peserta dengan Kategori Tanpa Pengalaman Bekerja</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <hr>
+                                    <div class="form-actions text-right">
+                                        <button type="submit" class="btn btn-block btn-outline-success"> <i class="fa fa-check"></i> Pilih</button>
+                                        <button type="reset" class="btn btn-block btn-outline-warning">Batal</button>
+                                    </div>
+                                </form>
+                                {{!-- end of form pilih part --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#if data}}
+                {{!-- start of row --}}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-outline-info">
+                            {{!-- <div class="card-header">
+                                <h4 class="m-b-0 text-white">Form Sesi</h4>
+                            </div> --}}
+                            <div class="card-block">
+                                {{!-- Start of tabel list users --}}
+                                <h4 class="card-title">List Peserta {{#if judul}}{{judul}}{{/if}}</h4>
+                                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                                <hr>
+                                <div class="table-responsive m-t-40">
+                                    <table id="listpeserta" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-center">ID</th>
+                                                <th class="text-center">Nama</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Sesi</th>
+                                                <th class="text-center">Kategori</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="text-center">No.</th>
+                                                <th class="text-center">ID</th>
+                                                <th class="text-center">Nama</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Sesi</th>
+                                                <th class="text-center">Kategori</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                            {{#each data}}
+                                            <tr>
+                                                <td>{{counter @index}}</td>
+                                                <td>{{ id_peserta }}</td>
+                                                <td>{{ nama_peserta }}</td>
+                                                <td>{{ email_peserta }}</td>
+                                                <td>{{ sesi }}</td>
+                                                <td>{{ kategori }}</td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {{!-- end of tabel list peserta 1 --}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- end of row --}}
+                {{/if}}
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Right sidebar -->
+                <!-- ============================================================== -->
+                <!-- .right-sidebar -->
+                
+                <!-- ============================================================== -->
+                <!-- End Right sidebar -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            {{> footer}}
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    {{> plugins}}
+    <script src="/js/client/datatable/listpeserta.js"></script>
+</body>
+
+</html>

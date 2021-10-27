@@ -2500,6 +2500,107 @@ Router.get('/ratingpsikolog', async (req, res) => {
     }
 })
 
+/** Route for list peserta */
+Router.get('/listpeserta', async (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        email = req.session.email
+        if(tipe === 'admin'){
+            res.render('listpeserta',{
+                idu, username, nama, tipe, email
+            });
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
+
+/** Route for list peserta */
+Router.post('/listpeserta', async (req, res) => {
+    if(req.session.loggedIn){
+        idu = req.session.iduser
+        username = req.session.username
+        nama = req.session.nama
+        tipe = req.session.type
+        email = req.session.email
+        if(tipe === 'admin'){
+            const { selectkategorilist } = req.body
+
+            if(selectkategorilist){
+                params = {
+                    kategorilist: selectkategorilist
+                }
+                let res1 = res;
+                url =  process.env.MAIN_URL + '/kategorilist';
+                axios.post(url, params)
+                .then(function (res) {
+                    var data = res.data.data;
+                    var kategorilist = res.data.kategorilist;
+                    var judul = res.data.judul;
+                    // req.session.sessionFlash2 = {
+                    //     type: 'success',
+                    //     message: message
+                    // }
+                    res1.render('listpeserta',{
+                        idu, username, nama, tipe, email, 
+                        data, kategorilist, judul
+                    });
+                })
+                .catch(function (err) {
+                    if(err.response){
+                        var message = err.response.data.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe
+                        } 
+                        res1.redirect('/listpeserta');
+                    } else if(err.request){
+                        var message = err.request;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe
+                        }
+                        res1.redirect('/listpeserta');
+                    } else {
+                        var message = err.message;
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: message,
+                            idu, username, nama, tipe
+                        }
+                        res1.redirect('/listpeserta');
+                    }
+                })
+            } else {
+                req.session.sessionFlash = {
+                    type: 'error',
+                    message: 'Harap pilih kategori list terlebih dahulu'
+                }
+                res.redirect('/listpeserta');
+            }
+        } else {
+            req.session.sessionFlash = {
+                type: 'error',
+                message: 'Not Authorized'
+            }
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
+})
+
 /** Route for lupa password */
 Router.post('/lupapassword', async (req, res) => {
     const { emailfrgtpass } = req.body;
