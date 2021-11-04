@@ -2198,13 +2198,12 @@ Router.get('/vidcall/:id', (req, res) => {
     if(req.session.loggedIn){
 
         // const { idperserta } = req.body;
-        var idpeserta = req.params.id;
+        const idpeserta = req.params.id;
 
         idu = req.session.iduser
         username = req.session.username
         nama = req.session.nama
         tipe = req.session.type
-        /** vidcall = "true" **/
         if(tipe === 'admin' || tipe === 'psikologis' || tipe === 'konsultan' ){
             if(idpeserta) {
                 /** cek total url psikolog yang aktif */
@@ -2243,13 +2242,15 @@ Router.get('/vidcall/:id', (req, res) => {
                             /** send data to API icare */
                             const urlroom = res.data.url;
                             const nama = res.data.name;
-                            const psikolog = idu
+                            const psikolog = idu;
+                            const idpeserta = req.params.id;
 
                             if( nama && psikolog && urlroom){
                                 params = {
                                     namaroom: nama,
                                     urlroom: urlroom, 
-                                    psikolog: idu, 
+                                    psikolog: psikolog, 
+                                    peserta: idpeserta
                                 }
                                 let res2 = res;
                                 url2 = process.env.MAIN_URL + '/room/registerroom';
@@ -2291,13 +2292,13 @@ Router.get('/vidcall/:id', (req, res) => {
                                         
                                         transporter.sendMail(mailOptions, function(err, data) {
                                             if (err) {
-                                                // console.log("Error " + err);
-                                                req.session.sessionFlash = {
-                                                    type: 'error',
-                                                    message: err,
-                                                    idu, username, nama, tipe,
-                                                }
-                                                res1.redirect("/");
+                                                console.log("Error " + err);
+                                                // req.session.sessionFlash = {
+                                                //     type: 'error',
+                                                //     message: err,
+                                                //     idu, username, nama, tipe,
+                                                // }
+                                                // res1.redirect("/");
                                             } else {
                                                 console.log("Email sent successfully");
                                             }
@@ -2439,7 +2440,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                             // "properties" : {"eject_after_elapsed":1200, "exp":1200, "eject_at_room_exp":}
                                             "properties" : 
                                             {
-                                                "max_participants":2, 
+                                                "max_participants":2,
                                                 "enable_chat":true
                                             }
                                         }
@@ -2451,12 +2452,14 @@ Router.get('/vidcall/:id', (req, res) => {
                                             /** send data to API icare */
                                             const urlroom = res.data.url;
                                             const nama = res.data.name;
-                                            const psikolog = idu
+                                            const peserta = req.params.id;
+                                            const psikolog = idu;
 
-                                            if( nama && psikolog && urlroom){
+                                            if( nama && psikolog && urlroom && peserta){
                                                 params = {
                                                     namaroom: nama,
                                                     urlroom: urlroom, 
+                                                    peserta: peserta,
                                                     psikolog: psikolog, 
                                                 }
                                                 let res2 = res;
@@ -2468,7 +2471,12 @@ Router.get('/vidcall/:id', (req, res) => {
                                                     /** 2.get konfigurasi kirim email */
                                                     /** 3.kirim email link video call daily.co */
                                                     /** 4.render page test.hbs untuk video caall psikolog atau admin */
-                                                    const idpsikolog = idu
+                                                    const idpsikolog = idu;
+                                                    const idpeserta = req.params.id;
+
+                                                    console.log(idpsikolog)
+                                                    console.log(idpeserta)
+
                                                     params = {
                                                         idpeserta: idpeserta,
                                                         idpsikolog: idpsikolog
@@ -2499,13 +2507,13 @@ Router.get('/vidcall/:id', (req, res) => {
                                                         
                                                         transporter.sendMail(mailOptions, function(err, data) {
                                                             if (err) {
-                                                                // console.log("Error " + err);
-                                                                req.session.sessionFlash = {
-                                                                    type: 'error',
-                                                                    message: err,
-                                                                    idu, username, nama, tipe,
-                                                                }
-                                                                res1.redirect("/");
+                                                                console.log("Error " + err);
+                                                                // req.session.sessionFlash = {
+                                                                //     type: 'error',
+                                                                //     message: err,
+                                                                //     idu, username, nama, tipe,
+                                                                // }
+                                                                // res1.redirect("/");
                                                             } else {
                                                                 console.log("Email sent successfully");
                                                             }
