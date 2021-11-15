@@ -25,9 +25,18 @@ let transporter = nodemailer.createTransport({
 });
 
 /** Route for Login */
+Router.get('/', (req, res) => {
+    if(req.session.loggedIn){
+        res.redirect('/home');
+    } else {
+        res.render("login2");
+    }
+});
+
+/** Route for Login */
 Router.get('/login', (req, res) => {
     if(req.session.loggedIn){
-        res.redirect('/');
+        res.redirect('/home');
     } else {
         res.render("login");
     }
@@ -39,7 +48,7 @@ Router.get('/register', (req, res) => {
 });
 
 /** Route for Home */
-Router.get('/', (req, res) => {
+Router.get('/home', (req, res) => {
     if(req.session.loggedIn){
         idu = req.session.iduser
         username = req.session.username
@@ -501,7 +510,7 @@ Router.get('/assessmentuserkarir', async (req, res) => {
                         message: message,
                         idu, username, nama, tipe
                     } 
-                    res1.redirect('/');
+                    res1.redirect('/home');
                 } else if(error.request){
                     var message = err.request;
                     req.session.sessionFlash = {
@@ -509,7 +518,7 @@ Router.get('/assessmentuserkarir', async (req, res) => {
                         message: message,
                         idu, username, nama, tipe
                     }
-                    res1.redirect('/');
+                    res1.redirect('/home');
                 } else {
                     var message = error.message;
                     req.session.sessionFlash = {
@@ -517,7 +526,7 @@ Router.get('/assessmentuserkarir', async (req, res) => {
                         message: message,
                         idu, username, nama, tipe
                     }
-                    res1.redirect('/');
+                    res1.redirect('/home');
                 }
             })
         } else {
@@ -642,7 +651,7 @@ Router.get('/assessmentuserkepribadian', async (req, res) => {
                     message: message,
                     idu, username, nama, tipe
                 }
-                res1.redirect('/');
+                res1.redirect('/home');
             })
         } else {
             req.session.sessionFlash = {
@@ -2149,7 +2158,7 @@ Router.get('/videocall', async (req, res) => {
 //         'Content-Type': 'application/json'
 //       }
 //     let res1 = res;
-//     url = process.env.DAILY_URL + '/' + namaroom;
+//     url = process.env.DAILY_URL + '/home' + namaroom;
 //     axios.delete(url, {headers: Headers})
 //     .then(function (res) {
 //         var name = res.data.name;
@@ -2320,7 +2329,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                 message: message,
                                                 idu, username, nama, tipe
                                             } 
-                                            res1.redirect('/');
+                                            res1.redirect('/home');
                                         } else if(err.request){
                                             var message = err.request;
                                             req.session.sessionFlash = {
@@ -2328,7 +2337,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                 message: message,
                                                 idu, username, nama, tipe
                                             }
-                                            res1.redirect('/');
+                                            res1.redirect('/home');
                                         } else {
                                             var message = err.message;
                                             req.session.sessionFlash = {
@@ -2336,7 +2345,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                 message: message,
                                                 idu, username, nama, tipe
                                             }
-                                            res1.redirect('/');
+                                            res1.redirect('/home');
                                         }
                                     })
                                 })
@@ -2348,7 +2357,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                             message: message,
                                             idu, username, nama, tipe
                                         } 
-                                        res1.redirect('/');
+                                        res1.redirect('/home');
                                     } else if(err.request){
                                         var message = err.request;
                                         req.session.sessionFlash = {
@@ -2356,7 +2365,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                             message: message,
                                             idu, username, nama, tipe
                                         }
-                                        res1.redirect('/');
+                                        res1.redirect('/home');
                                     } else {
                                         var message = err.message;
                                         req.session.sessionFlash = {
@@ -2364,7 +2373,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                             message: message,
                                             idu, username, nama, tipe
                                         }
-                                        res1.redirect('/');
+                                        res1.redirect('/home');
                                     }
                                 })
                             } else {
@@ -2383,7 +2392,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                     message: message,
                                     idu, username, nama, tipe
                                 } 
-                                res1.redirect('/');
+                                res1.redirect('/home');
                             } else if(err.request){
                                 var message = err.request;
                                 req.session.sessionFlash = {
@@ -2391,7 +2400,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                     message: message,
                                     idu, username, nama, tipe
                                 }
-                                res1.redirect('/');
+                                res1.redirect('/home');
                             } else {
                                 var message = err.message;
                                 req.session.sessionFlash = {
@@ -2399,7 +2408,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                     message: message,
                                     idu, username, nama, tipe
                                 }
-                                res1.redirect('/');
+                                res1.redirect('/home');
                             }
                         })
 
@@ -2417,7 +2426,7 @@ Router.get('/vidcall/:id', (req, res) => {
                               }
                             let res2 = res;
                             /** send data to API daily */
-                            url = process.env.DAILY_URL + '/' + dataroomTersedia_namaroom;
+                            url = process.env.DAILY_URL + '/home' + dataroomTersedia_namaroom;
                             axios.delete(url, {headers: Headers})
                             .then(function (res) {
                                 //const deleted = res.data.deleted;
@@ -2535,7 +2544,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                                 message: message,
                                                                 idu, username, nama, tipe
                                                             } 
-                                                            res1.redirect('/');
+                                                            res1.redirect('/home');
                                                         } else if(err.request){
                                                             var message = err.request;
                                                             req.session.sessionFlash = {
@@ -2543,7 +2552,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                                 message: message,
                                                                 idu, username, nama, tipe
                                                             }
-                                                            res1.redirect('/');
+                                                            res1.redirect('/home');
                                                         } else {
                                                             var message = err.message;
                                                             req.session.sessionFlash = {
@@ -2551,7 +2560,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                                 message: message,
                                                                 idu, username, nama, tipe
                                                             }
-                                                            res1.redirect('/');
+                                                            res1.redirect('/home');
                                                         }
                                                     })
                                                 })
@@ -2563,7 +2572,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                             message: message,
                                                             idu, username, nama, tipe
                                                         } 
-                                                        res1.redirect('/');
+                                                        res1.redirect('/home');
                                                     } else if(err.request){
                                                         var message = err.request;
                                                         req.session.sessionFlash = {
@@ -2571,7 +2580,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                             message: message,
                                                             idu, username, nama, tipe
                                                         }
-                                                        res1.redirect('/');
+                                                        res1.redirect('/home');
                                                     } else {
                                                         var message = err.message;
                                                         req.session.sessionFlash = {
@@ -2579,7 +2588,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                             message: message,
                                                             idu, username, nama, tipe
                                                         }
-                                                        res1.redirect('/');
+                                                        res1.redirect('/home');
                                                     }
                                                 })
                                             } else {
@@ -2598,7 +2607,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                     message: message,
                                                     idu, username, nama, tipe
                                                 } 
-                                                res1.redirect('/');
+                                                res1.redirect('/home');
                                             } else if(err.request){
                                                 var message = err.request;
                                                 req.session.sessionFlash = {
@@ -2606,7 +2615,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                     message: message,
                                                     idu, username, nama, tipe
                                                 }
-                                                res1.redirect('/');
+                                                res1.redirect('/home');
                                             } else {
                                                 var message = err.message;
                                                 req.session.sessionFlash = {
@@ -2614,7 +2623,7 @@ Router.get('/vidcall/:id', (req, res) => {
                                                     message: message,
                                                     idu, username, nama, tipe
                                                 }
-                                                res1.redirect('/');
+                                                res1.redirect('/home');
                                             }
                                         })
 
@@ -2672,7 +2681,7 @@ Router.get('/vidcall/:id', (req, res) => {
                             message: message,
                             idu, username, nama, tipe
                         } 
-                        res1.redirect('/');
+                        res1.redirect('/home');
                     } else if(err.request){
                         var message = err.request;
                         req.session.sessionFlash = {
@@ -2680,7 +2689,7 @@ Router.get('/vidcall/:id', (req, res) => {
                             message: message,
                             idu, username, nama, tipe
                         }
-                        res1.redirect('/');
+                        res1.redirect('/home');
                     } else {
                         var message = err.message;
                         req.session.sessionFlash = {
@@ -2688,7 +2697,7 @@ Router.get('/vidcall/:id', (req, res) => {
                             message: message,
                             idu, username, nama, tipe
                         }
-                        res1.redirect('/');
+                        res1.redirect('/home');
                     }
                 })
             } else {
@@ -2696,7 +2705,7 @@ Router.get('/vidcall/:id', (req, res) => {
                     type: 'error',
                     message: 'Field Tidak Boleh Kosong!'
                 }
-                res.redirect('/');
+                res.redirect('/home');
             }
         } else {
             req.session.sessionFlash = {
